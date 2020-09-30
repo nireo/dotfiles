@@ -98,29 +98,26 @@
 # Font configuration
 font:
   normal:
-    family: Dejavu Sans Mono
+    family: Meslo LG S Nerd Font
     style: Regular
-
+    
   bold:
-    family: Dejavu Sans Mono
+    family: Meslo LG S Nerd Font
     style: Bold
 
   italic:
-    family: Dejavu Sans Mono
+    family: Meslo LG S Nerd Font
     style: Italic
 
   bold_italic:
-    family: Dejavu Sans Mono
+    family: Meslo LG S Nerd Font
     style: Bold Italic
 
   # Point size
-  size: 13.0 
+  size: 11.0 
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as mdifying the letter spacing.
-  #offset:
-  #  x: 0
-  #  y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
@@ -129,49 +126,66 @@ font:
   #  x: 0
   #  y: 0
 
-  # Thin stroke font rendering (macOS only)
-  #
-  # Thin strokes are suitable for retina displays, but for non-retina screens
-  # it is recommended to set `use_thin_strokes` to `false`.
-  #use_thin_strokes: true
-
 draw_bold_text_with_bright_colors: true
+
+# Colors (Gruvbox Material Dark Medium)
+#colors:
+#  primary:
+#    background: '0x282828'
+#    foreground: '0xdfbf8e'
+
+#  normal:
+#    black:   '0x665c54'
+#    red:     '0xea6962'
+#    green:   '0xa9b665'
+#    yellow:  '0xe78a4e'
+#    blue:    '0x7daea3'
+#    magenta: '0xd3869b'
+#    cyan:    '0x89b482'
+#    white:   '0xdfbf8e'
+
+#  bright:
+#    black:   '0x928374'
+#    red:     '0xea6962'
+#    green:   '0xa9b665'
+#    yellow:  '0xe3a84e'
+#    blue:    '0x7daea3'
+#    magenta: '0xd3869b'
+#    cyan:    '0x89b482'
+#    white:   '0xdfbf8e'
 
 colors:
   # Default colors
   primary:
-    background: '0x151515'
-    foreground: '0xd0d0d0'
+    background: '#1d1f21'
+    foreground: '#c5c8c6'
+
+  # Colors the cursor will use if `custom_cursor_colors` is true
+  cursor:
+    text: '#1d1f21'
+    cursor: '#ffffff'
 
   # Normal colors
   normal:
-    black:   '0x151515'
-    red:     '0xac4142'
-    green:   '0x90a959'
-    yellow:  '0xf4bf75'
-    blue:    '0x6a9fb5'
-    magenta: '0xaa759f'
-    cyan:    '0x75b5aa'
-    white:   '0xd0d0d0'
+    black:   '#1d1f21'
+    red:     '#cc6666'
+    green:   '#b5bd68'
+    yellow:  '#e6c547'
+    blue:    '#81a2be'
+    magenta: '#b294bb'
+    cyan:    '#70c0ba'
+    white:   '#373b41'
 
   # Bright colors
   bright:
-    black:   '0x505050'
-    red:     '0xac4142'
-    green:   '0x90a959'
-    yellow:  '0xf4bf75'
-    blue:    '0x6a9fb5'
-    magenta: '0xaa759f'
-    cyan:    '0x75b5aa'
-    white:   '0xf5f5f5'
-
-
-# Colors (Tomorrow Night)
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
-#background_opacity: 1.0
+    black:   '#666666'
+    red:     '#ff3334'
+    green:   '#9ec400'
+    yellow:  '#f0c674'
+    blue:    '#81a2be'
+    magenta: '#b77ee0'
+    cyan:    '#54ced6'
+    white:   '#282a2e'
 
 #selection:
   # This string contains all characters that are used as separators for "semantic words" in Alacritty.
@@ -187,7 +201,7 @@ cursor:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
-  style: Beam
+  # style: Beam
 
   # Vi mode cursor style
   #
