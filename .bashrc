@@ -63,5 +63,8 @@ alias push-m="git push -u origin master"
 alias clone="git clone"
 alias untar="tar xvf"
 
+alias g='g++ -std=c++11 -O2 -Wall'
+
 PS1='\u (\W): '
+
 
