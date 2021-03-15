@@ -1,0 +1,79 @@
+! Apprentice colorscheme
+! special
+!*.foreground:   #bcbcbc
+!*.background:   #262626
+!*.cursorColor:  #bcbcbc
+
+! black
+!*.color0:       #1c1c1c
+!*.color8:       #444444
+
+! red
+!*.color1:       #af5f5f
+!*.color9:       #ff8700
+
+! green
+!*.color2:       #5f875f
+!*.color10:      #87af87
+
+! yellow
+!*.color3:       #87875f
+!*.color11:      #ffffaf
+
+! blue
+!*.color4:       #5f87af
+!*.color12:      #8fafd7
+
+! magenta
+!*.color5:       #5f5f87
+!*.color13:      #8787af
+
+! cyan
+!*.color6:       #5f8787
+!*.color14:      #5fafaf
+
+! white
+!*.color7:       #6c6c6c
+!*.color15:      #ffffff
+
+! special
+*.foreground:   #d7d0c7
+*.background:   #151515
+*.cursorColor:  #d7d0c7
+
+! black
+*.color0:       #101010
+*.color8:       #404040
+
+! red
+*.color1:       #e84f4f
+*.color9:       #d23d3d
+
+! green
+*.color2:       #b8d68c
+*.color10:      #a0cf5d
+
+! yellow
+*.color3:       #e1aa5d
+! *.color11:      #f39d21
+*.color11:      #9b64fb
+
+! blue
+*.color4:       #7dc1cf
+*.color12:      #4e9fb1
+
+! magenta
+*.color5:       #9b64fb
+*.color13:      #8542ff
+
+! cyan
+*.color6:       #6d878d
+*.color14:      #42717b
+
+! white
+*.color7:       #dddddd
+*.color15:      #dddddd
+
+Xcursor.size: 20
+
+*.alpha: 1
