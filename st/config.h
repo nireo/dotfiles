@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "mono:pixelsize=17:antialias=true:autohint=true";
-static char *font2[] = {"JoyPixels:pixelsize=10:antialias=true:autohint=true"};
+static char *font = "mono:pixelsize=16:antialias=true:autohint=true";
+static char *font2[] = {"JoyPixels:pixelsize=14:antialias=true:autohint=true"};
 static int borderpx = 2;
 
 /*
@@ -138,7 +138,7 @@ unsigned int defaultrcs = 257;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 4;
+static unsigned int cursorshape = 2;
 
 /*
  * Default columns and rows numbers

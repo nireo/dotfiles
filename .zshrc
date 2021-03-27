@@ -1,8 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-neofetch
-
 # Path to your oh-my-zsh installation.
 export ZSH="/home/eemil/.oh-my-zsh"
 
@@ -10,7 +8,12 @@ export ZSH="/home/eemil/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="afowler"
+
+# Ease of navigation to the my go projects folder
+export GO_PROJ="$HOME/go/src/github.com/nireo"
+export PATH=$PATH:~/.local/bin
+
+ZSH_THEME="sammy"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -41,7 +44,7 @@ ZSH_THEME="afowler"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -82,11 +85,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='vim'
+else
+   export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -108,8 +111,12 @@ alias delete="sudo pacman -Rs"
 alias save-a="git add ."
 alias save="git add"
 alias commit="git commit -m"
-alias push-m="git push -u origin master"
+alias push-m="git push -u origin main"
 alias clone="git clone"
 alias untar="tar xvf"
-
 alias g='g++ -std=c++17 -O2 -Wall'
+
+alias vi=nvim
+alias dwsong="youtube-dl --extract-audio --audio-format mp3"
+
+source /home/eemil/.tmc-autocomplete.sh || true

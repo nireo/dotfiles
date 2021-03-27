@@ -38,7 +38,7 @@
 
 ! special
 *.foreground:   #d7d0c7
-*.background:   #151515
+*.background:   #222222
 *.cursorColor:  #d7d0c7
 
 ! black
@@ -55,11 +55,10 @@
 
 ! yellow
 *.color3:       #e1aa5d
-! *.color11:      #f39d21
-*.color11:      #9b64fb
+*.color11:      #d79921
 
 ! blue
-*.color4:       #7dc1cf
+*.color4:       #d3839b
 *.color12:      #4e9fb1
 
 ! magenta
@@ -75,5 +74,5 @@
 *.color15:      #dddddd
 
 Xcursor.size: 20
-
 *.alpha: 1
+xterm*font:     *-fixed-*-*-*-18-*

@@ -9,9 +9,9 @@ static const unsigned int gappoh = 10;  /* horiz outer gap between windows and s
 static const unsigned int gappov = 10;  /* vert outer gap between windows and screen edge */
 static const int smartgaps = 0;         /* 1 means no outer gap when there is only one window */
 static const int showbar = 1;           /* 0 means no bar */
-static const int topbar = 0;            /* 0 means bottom bar */
-static const char *fonts[] = {"Go Mono Nerd Font:size=9"};
-static const char dmenufont[] = "Go Mono Nerd Font:size=9";
+static const int topbar = 1;            /* 0 means bottom bar */
+static const char *fonts[] = {"Hack Nerd Font:size=9"};
+static const char dmenufont[] = "Hack Nerd Font:size=9";
 static const char col_gray1[] = "#282828";
 static const char col_gray2[] = "#444444";
 static const char col_gray3[] = "#bbbbbb";
@@ -20,9 +20,6 @@ static const char col_barbg[] = "#111111";
 static const char col_barfg[] = "#fbf1c7";
 static const char col_border1[] = "#717171";
 static const char col_border2[] = "#111111";
-// static const char col_cyan[] = "#005577";
-static const char col_cyan[] = "#282828";
-static const char col_trans[] = "#0000FF";
 static const char *colors[][3] = {
     /*               fg         bg         border   */
     [SchemeNorm] = {col_barfg, col_barbg, col_border2},
@@ -30,7 +27,7 @@ static const char *colors[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7"};
+static const char *tags[] = {"www", "term", "book", "music", "misc1", "misc2"};
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -43,7 +40,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact = 0.55;  /* factor of master area size [0.05..0.95] */
+static const float mfact = 0.50;  /* factor of master area size [0.05..0.95] */
 static const int nmaster = 1;     /* number of clients in master area */
 static const int resizehints = 1; /* 1 means respect size hints in tiled resizals */
 
@@ -70,8 +67,8 @@ static const Layout layouts[] = {
     }
 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {"dmenu_run", "-m",      dmenumon, "-fn",    dmenufont, "-nb",     col_gray1,
-                                 "-nf",       col_gray3, "-sb",    col_cyan, "-sf",     col_gray4, NULL};
+static const char *dmenucmd[] = {"dmenu_run", "-m",      dmenumon, "-fn",     dmenufont, "-nb",     col_gray1,
+                                 "-nf",       col_gray3, "-sb",    col_gray1, "-sf",     col_gray4, NULL};
 static const char *termcmd[] = {"st", NULL};
 static const char *web[] = {"firefox-developer-edition", NULL};
 
