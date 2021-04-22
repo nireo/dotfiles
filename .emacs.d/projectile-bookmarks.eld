@@ -1,1 +1,1 @@
-("~/go/src/github.com/nireo/kantadb/")
+("~/dev/c++/kantaplus/" "~/go/src/github.com/nireo/kantadb/")

@@ -1,16 +1,27 @@
+;; Enable the package manager
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
 ;; and `package-pinned-packages`. Most users will not need or want to do this.
-;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
+;; ----  Evil mode settings
 (require 'evil)
 (evil-mode 1)
+;; Set the leader in normal mode to space
+(evil-set-leader 'normal (kbd "SPC"))
+(evil-define-key 'normal 'global (kbd "<leader>wj") 'evil-window-bottom)
+(evil-define-key 'normal 'global (kbd "<leader>wh") 'evil-window-left)
+(evil-define-key 'normal 'global (kbd "<leader>wl") 'evil-window-right)
+(evil-define-key 'normal 'global (kbd "<leader>wk") 'evil-window-up)
+(evil-define-key 'normal 'global (kbd "<leader>fs") 'save-buffer)
+
+;; ----
 
 (use-package helm
   :ensure t
@@ -22,6 +33,7 @@
   (define-key helm-map (kbd "S-SPC") 'helm-toggle-visible-mark)
   (define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level))
 
+;; helm-projectile configuration
 (use-package helm-projectile
   :bind (("C-S-P" . helm-projectile-switch-project)
          :map evil-normal-state-map
@@ -50,13 +62,16 @@
 (setq inhibit-startup-message t)
 (set-fringe-mode 10)
 
+;; Set font
 (set-face-attribute 'default nil :font "JetBrains Mono" :height 135)
 
+;; Projectile configuration
 (require 'projectile)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
+;; Company configuration
 (use-package company
   :ensure t
   :config
@@ -69,6 +84,9 @@
 
 (require 'lsp-mode)
 (add-hook 'go-mode-hook #'lsp-deferred)
+
+;; Since clangd in quite fast
+(setq lsp-idle-delay 0.1)
 
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
@@ -88,29 +106,27 @@
                 lsp-ui-imenu-enable nil
                 lsp-ui-sideline-ignore-duplicate t))
 
+
+;; Configuration for Go LSP support
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-book #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
 (add-hook 'go-mode-hook #'lsp-deferred)
 
-;; Save all tempfiles in $TMPDIR/emacs$UID/                                                        
-(defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
-(setq backup-directory-alist
-  `((".*" . ,emacs-tmp-dir)))
-(setq auto-save-file-name-transforms
-  `((".*" ,emacs-tmp-dir t)))
-(setq auto-save-list-file-prefix
-   emacs-tmp-dir)
+;; For C++ LSP support
+(which-key-mode)
+(add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
 
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-      backup-by-copying      t  ; Don't de-link hard links
-      version-control        t  ; Use version numbers on backups
-      delete-old-versions    t  ; Automatically delete excess backups:
-      kept-new-versions      20 ; how many of the newest versions to keep
-      kept-old-versions      5) ; and how many of the old
 
+;; Stop saving backups since they're quite useless
+(setq make-backup-files nil)
+
+;; Stop auto saving files, since they're not needed
+(setq auto-save-default nil)
+
+;; Add a simpler and cleaner bar compared to the default one
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1)
@@ -122,7 +138,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(doom-themes doom-modeline helm-projectile projectile company lsp-ui lsp-mode go-mode use-package evil)))
+   '(which-key doom-themes doom-modeline helm-projectile projectile company lsp-ui lsp-mode go-mode use-package evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
