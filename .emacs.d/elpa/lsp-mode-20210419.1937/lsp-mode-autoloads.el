@@ -63,17 +63,18 @@ Explain a clang-tidy ERROR by scraping documentation from llvm.org.
 (define-obsolete-variable-alias 'lsp-enable-completion-at-point 'lsp-completion-enable "lsp-mode 7.0.1")
 
 (autoload 'lsp-completion-at-point "lsp-completion" "\
-Get lsp completions.
-
-\(fn)" nil nil)
+Get lsp completions." nil nil)
 
 (autoload 'lsp-completion--enable "lsp-completion" "\
-Enable LSP completion support.
-
-\(fn)" nil nil)
+Enable LSP completion support." nil nil)
 
 (autoload 'lsp-completion-mode "lsp-completion" "\
 Toggle LSP completion support.
+
+If called interactively, enable Lsp-Completion mode if ARG is
+positive, and disable it if ARG is zero or negative.  If called
+from Lisp, also enable the mode if ARG is omitted or nil, and
+toggle it if ARG is `toggle'; disable the mode otherwise.
 
 \(fn &optional ARG)" t nil)
 
@@ -113,12 +114,15 @@ Toggle LSP completion support.
 (define-obsolete-variable-alias 'lsp-flycheck-default-level 'lsp-diagnostics-flycheck-default-level "lsp-mode 7.0.1")
 
 (autoload 'lsp-diagnostics--enable "lsp-diagnostics" "\
-Enable LSP checker support.
-
-\(fn)" nil nil)
+Enable LSP checker support." nil nil)
 
 (autoload 'lsp-diagnostics-mode "lsp-diagnostics" "\
 Toggle LSP diagnostics integration.
+
+If called interactively, enable Lsp-Diagnostics mode if ARG is
+positive, and disable it if ARG is zero or negative.  If called
+from Lisp, also enable the mode if ARG is omitted or nil, and
+toggle it if ARG is `toggle'; disable the mode otherwise.
 
 \(fn &optional ARG)" t nil)
 
@@ -143,6 +147,11 @@ or call the function `lsp-dired-mode'.")
 
 (autoload 'lsp-dired-mode "lsp-dired" "\
 Display `lsp-mode' icons for each file in a dired buffer.
+
+If called interactively, enable Lsp-Dired mode if ARG is
+positive, and disable it if ARG is zero or negative.  If called
+from Lisp, also enable the mode if ARG is omitted or nil, and
+toggle it if ARG is `toggle'; disable the mode otherwise.
 
 \(fn &optional ARG)" t nil)
 
@@ -247,6 +256,11 @@ Load all of the provided PROJECTS.
 (autoload 'lsp-headerline-breadcrumb-mode "lsp-headerline" "\
 Toggle breadcrumb on headerline.
 
+If called interactively, enable Lsp-Headerline-Breadcrumb mode if
+ARG is positive, and disable it if ARG is zero or negative.  If
+called from Lisp, also enable the mode if ARG is omitted or nil,
+and toggle it if ARG is `toggle'; disable the mode otherwise.
+
 \(fn &optional ARG)" t nil)
 
 (autoload 'lsp-breadcrumb-go-to-symbol "lsp-headerline" "\
@@ -298,18 +312,14 @@ Start an `iedit' operation on the documentHighlights at point.
 This can be used as a primitive `lsp-rename' replacement if the
 language server doesn't support renaming.
 
-See also `lsp-enable-symbol-highlighting'.
-
-\(fn)" t nil)
+See also `lsp-enable-symbol-highlighting'." t nil)
 
 (autoload 'lsp-evil-multiedit-highlights "lsp-iedit" "\
 Start an `evil-multiedit' operation on the documentHighlights at point.
 This can be used as a primitive `lsp-rename' replacement if the
 language server doesn't support renaming.
 
-See also `lsp-enable-symbol-highlighting'.
-
-\(fn)" t nil)
+See also `lsp-enable-symbol-highlighting'." t nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-iedit" '("lsp-iedit--on-ranges")))
 
@@ -341,29 +351,26 @@ See also `lsp-enable-symbol-highlighting'.
 ;;; Generated autoloads from lsp-lens.el
 
 (autoload 'lsp-lens--enable "lsp-lens" "\
-Enable lens mode.
-
-\(fn)" nil nil)
+Enable lens mode." nil nil)
 
 (autoload 'lsp-lens-show "lsp-lens" "\
-Display lenses in the buffer.
-
-\(fn)" t nil)
+Display lenses in the buffer." t nil)
 
 (autoload 'lsp-lens-hide "lsp-lens" "\
-Delete all lenses.
-
-\(fn)" t nil)
+Delete all lenses." t nil)
 
 (autoload 'lsp-lens-mode "lsp-lens" "\
 Toggle code-lens overlays.
 
+If called interactively, enable Lsp-Lens mode if ARG is positive,
+and disable it if ARG is zero or negative.  If called from Lisp,
+also enable the mode if ARG is omitted or nil, and toggle it if
+ARG is `toggle'; disable the mode otherwise.
+
 \(fn &optional ARG)" t nil)
 
 (autoload 'lsp-avy-lens "lsp-lens" "\
-Click lsp lens using `avy' package.
-
-\(fn)" t nil)
+Click lsp lens using `avy' package." t nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-lens" '("lsp-lens-")))
 
@@ -401,11 +408,9 @@ argument ask the user to select which language server to start.
 (autoload 'lsp-deferred "lsp-mode" "\
 Entry point that defers server startup until buffer is visible.
 `lsp-deferred' will wait until the buffer is visible before invoking `lsp'.
-This avoids overloading the server with many files when starting Emacs.
+This avoids overloading the server with many files when starting Emacs." nil nil)
 
-\(fn)" nil nil)
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode" '("lsp-" "make-lsp-client" "with-lsp-workspace" "when-lsp-workspace")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-mode" '("lsp-" "make-lsp-client" "when-lsp-workspace" "with-lsp-workspace")))
 
 ;;;***
 
@@ -417,6 +422,11 @@ This avoids overloading the server with many files when starting Emacs.
 (autoload 'lsp-modeline-code-actions-mode "lsp-modeline" "\
 Toggle code actions on modeline.
 
+If called interactively, enable Lsp-Modeline-Code-Actions mode if
+ARG is positive, and disable it if ARG is zero or negative.  If
+called from Lisp, also enable the mode if ARG is omitted or nil,
+and toggle it if ARG is `toggle'; disable the mode otherwise.
+
 \(fn &optional ARG)" t nil)
 
 (define-obsolete-function-alias 'lsp-diagnostics-modeline-mode 'lsp-modeline-diagnostics-mode "lsp-mode 7.0.1")
@@ -424,10 +434,21 @@ Toggle code actions on modeline.
 (autoload 'lsp-modeline-diagnostics-mode "lsp-modeline" "\
 Toggle diagnostics modeline.
 
+If called interactively, enable Lsp-Modeline-Diagnostics mode if
+ARG is positive, and disable it if ARG is zero or negative.  If
+called from Lisp, also enable the mode if ARG is omitted or nil,
+and toggle it if ARG is `toggle'; disable the mode otherwise.
+
 \(fn &optional ARG)" t nil)
 
 (autoload 'lsp-modeline-workspace-status-mode "lsp-modeline" "\
 Toggle workspace status on modeline.
+
+If called interactively, enable Lsp-Modeline-Workspace-Status
+mode if ARG is positive, and disable it if ARG is zero or
+negative.  If called from Lisp, also enable the mode if ARG is
+omitted or nil, and toggle it if ARG is `toggle'; disable the
+mode otherwise.
 
 \(fn &optional ARG)" t nil)
 
@@ -473,7 +494,7 @@ Toggle workspace status on modeline.
 ;;;### (autoloads nil "lsp-protocol" "lsp-protocol.el" (0 0 0 0))
 ;;; Generated autoloads from lsp-protocol.el
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-protocol" '("lsp" "dash-expand:&RangeToPoint")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-protocol" '("dash-expand:&RangeToPoint" "lsp")))
 
 ;;;***
 
@@ -516,7 +537,7 @@ Toggle workspace status on modeline.
 ;;;### (autoloads nil "lsp-rf" "lsp-rf.el" (0 0 0 0))
 ;;; Generated autoloads from lsp-rf.el
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-rf" '("parse-rf-language-server-" "expand-start-command" "lsp-rf-language-server-")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-rf" '("expand-start-command" "lsp-rf-language-server-" "parse-rf-language-server-")))
 
 ;;;***
 
@@ -543,17 +564,18 @@ Initialize semantic tokens for WORKSPACE.
 \(fn WORKSPACE)" nil nil)
 
 (autoload 'lsp-semantic-tokens--warn-about-deprecated-setting "lsp-semantic-tokens" "\
-Warn about deprecated semantic highlighting variable.
-
-\(fn)" nil nil)
+Warn about deprecated semantic highlighting variable." nil nil)
 
 (autoload 'lsp-semantic-tokens--enable "lsp-semantic-tokens" "\
-Enable semantic tokens mode.
-
-\(fn)" nil nil)
+Enable semantic tokens mode." nil nil)
 
 (autoload 'lsp-semantic-tokens-mode "lsp-semantic-tokens" "\
 Toggle semantic-tokens support.
+
+If called interactively, enable Lsp-Semantic-Tokens mode if ARG
+is positive, and disable it if ARG is zero or negative.  If
+called from Lisp, also enable the mode if ARG is omitted or nil,
+and toggle it if ARG is `toggle'; disable the mode otherwise.
 
 \(fn &optional ARG)" t nil)
 
@@ -635,7 +657,7 @@ Toggle semantic-tokens support.
 ;;;### (autoloads nil "lsp-vhdl" "lsp-vhdl.el" (0 0 0 0))
 ;;; Generated autoloads from lsp-vhdl.el
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-vhdl" '("lsp-vhdl-" "ghdl-ls-bin-name" "vhdl-" "hdl-checker-bin-name")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "lsp-vhdl" '("ghdl-ls-bin-name" "hdl-checker-bin-name" "lsp-vhdl-" "vhdl-")))
 
 ;;;***
 

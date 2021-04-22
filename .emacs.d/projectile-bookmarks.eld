@@ -1,0 +1,1 @@
+("~/go/src/github.com/nireo/kantadb/")

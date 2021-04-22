@@ -12,6 +12,11 @@
 (autoload 'dash-fontify-mode "dash" "\
 Toggle fontification of Dash special variables.
 
+If called interactively, enable Dash-Fontify mode if ARG is
+positive, and disable it if ARG is zero or negative.  If called
+from Lisp, also enable the mode if ARG is omitted or nil, and
+toggle it if ARG is `toggle'; disable the mode otherwise.
+
 Dash-Fontify mode is a buffer-local minor mode intended for Emacs
 Lisp buffers.  Enabling it causes the special variables bound in
 anaphoric Dash macros to be fontified.  These anaphoras include
@@ -23,6 +28,8 @@ See also `dash-fontify-mode-lighter' and
 `global-dash-fontify-mode'.
 
 \(fn &optional ARG)" t nil)
+
+(put 'global-dash-fontify-mode 'globalized-minor-mode t)
 
 (defvar global-dash-fontify-mode nil "\
 Non-nil if Global Dash-Fontify mode is enabled.
@@ -48,11 +55,9 @@ See `dash-fontify-mode' for more information on Dash-Fontify mode.
 
 (autoload 'dash-register-info-lookup "dash" "\
 Register the Dash Info manual with `info-lookup-symbol'.
-This allows Dash symbols to be looked up with \\[info-lookup-symbol].
+This allows Dash symbols to be looked up with \\[info-lookup-symbol]." t nil)
 
-\(fn)" t nil)
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "dash" '("dash-" "-keep" "-butlast" "-zip" "-e" "->" "-gr" "-when-let" "-d" "-l" "-s" "-m" "-u" "-value-to-list" "-t" "--" "-r" "-juxt" "-no" "-o" "-a" "-i" "-c" "-f" "-p" "!cons" "!cdr")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "dash" '("!cdr" "!cons" "--" "->" "-a" "-butlast" "-c" "-d" "-e" "-f" "-gr" "-i" "-juxt" "-keep" "-l" "-m" "-no" "-o" "-p" "-r" "-s" "-t" "-u" "-value-to-list" "-when-let" "-zip" "dash-")))
 
 ;;;***
 
