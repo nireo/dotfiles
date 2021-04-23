@@ -19,9 +19,29 @@
 (evil-define-key 'normal 'global (kbd "<leader>wh") 'evil-window-left)
 (evil-define-key 'normal 'global (kbd "<leader>wl") 'evil-window-right)
 (evil-define-key 'normal 'global (kbd "<leader>wk") 'evil-window-up)
-(evil-define-key 'normal 'global (kbd "<leader>fs") 'save-buffer)
+(evil-define-key 'normal 'global (kbd "<leader>s") 'save-buffer)
+(evil-define-key 'insert 'global (kbd "C-j") 'evil-force-normal-state)
+(evil-define-key 'insert 'global (kbd "C-k") 'evil-force-normal-state)
 
 ;; ----
+
+;; Improve performance
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+;; Change indentation
+(setq-default tab-width 4)
+(setq-default standard-indent 4)
+(setq c-basic-offset tab-width)
+(setq-default electric-indent-inhibit t)
+(setq-default indent-tabs-mode t)
+(setq backward-delete-char-untabify-method 'nil)
+
+;; Show matching parenthesies
+(show-paren-mode 1)
+
+;; Use UTF-8
+(set-language-environment "UTF-8")
 
 (use-package helm
   :ensure t
@@ -47,23 +67,30 @@
 
 ;; Make emacs look more minimal
 (menu-bar-mode -1)
-(toggle-scroll-bar -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1) ; no toolbar
+(tooltip-mode -1) ; no toopl tips
+(global-hl-line-mode 1) ; highlight current line
+
+;; y or n instead of yes-or-no
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Use a custom theme
-(load-theme 'doom-sourcerer t)
+(load-theme 'doom-wilmersdorf t)
 
 ;; Add line number display
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
+
+;; Add line wrapping
+(global-visual-line-mode 1)
 
 ;; Remove the startup message
 (setq inhibit-startup-message t)
 (set-fringe-mode 10)
 
 ;; Set font
-(set-face-attribute 'default nil :font "JetBrains Mono" :height 135)
+(set-face-attribute 'default nil :font "Meslo LG S" :height 120)
 
 ;; Projectile configuration
 (require 'projectile)
@@ -119,7 +146,6 @@
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
-
 ;; Stop saving backups since they're quite useless
 (setq make-backup-files nil)
 
@@ -132,13 +158,23 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
+;; Git integration
+(use-package magit
+  :ensure t)
+
+;; So I don't have to type many things twice
+(use-package smartparens
+  :ensure t
+  :init
+  (smartparens-global-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(which-key doom-themes doom-modeline helm-projectile projectile company lsp-ui lsp-mode go-mode use-package evil)))
+   '(smartparens magit which-key doom-themes doom-modeline helm-projectile projectile company lsp-ui lsp-mode go-mode use-package evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

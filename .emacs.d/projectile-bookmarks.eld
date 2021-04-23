@@ -1,1 +1,1 @@
-("~/dev/c++/kantaplus/" "~/go/src/github.com/nireo/kantadb/")
+("~/dev/misc/competitive-programming/" "~/dev/c++/kantaplus/" "~/.config/dotfiles/" "~/go/src/github.com/nireo/kantadb/")
