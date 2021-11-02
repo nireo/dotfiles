@@ -1,0 +1,27 @@
+[spotify]
+command=~/.config/dotfiles/dwmblocks/scripts/spotify
+interval=10
+
+[uptime]
+command=~/.config/dotfiles/dwmblocks/scripts/upt
+interval=60
+
+[temp]
+command=~/.config/dotfiles/dwmblocks/scripts/get_cpu_temp
+interval=10
+
+[storage]
+command=~/.config/dotfiles/dwmblocks/scripts/get_storage
+interval=60
+
+[storage]
+command=~/.config/dotfiles/dwmblocks/scripts/mem
+interval=10
+
+[ip]
+command=hostname -i | awk '{ print "IP: " $1 }'
+interval=once
+
+[time]
+command=date '+%d-%m-%Y %H:%M:%S'
+interval=1
