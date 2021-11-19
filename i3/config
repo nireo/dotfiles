@@ -13,7 +13,7 @@ set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 9
+font pango:DejaVu Sans Mono Nerd Font 9
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -177,9 +177,53 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+for_window [class="^.*"] border pixel 5
+
+# set color variables
+# optional theme colorscheme
+set $grey                #212121
+set $valencia            #e64a19
+set $magenta             #a673a6
+set $blue                #7182A8
+set $cyan                #6da3a1
+set $black               #000000
+set $white               #b7bbbd
+set $yellow              #27c282
+set $red                 #aa0e50
+set $green               #1dcc9f
+
+# theme colors
+set $bg-color            #212121
+set $inactive-bg-color   #212121
+set $text-color          #ffffff
+set $inactive-text-color #212121
+set $urgent-bg-color     #e64a19
+
+# set window colors
+# class                 border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $white               $bg-color
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color $bg-color
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color $bg-color
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $bg-color
+client.background       $bg-color
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3blocks
+        status_command i3status
+        position top
+
+    colors {
+        # whole color settings
+        background   $black
+        statusline   $white
+        separator    $grey
+
+        # type             border      backgr.     font
+        focused_workspace  $grey       $white      $black
+        active_workspace   $grey       $white      $black
+        inactive_workspace $grey       $black      $white
+        urgent_workspace   $valencia   $valencia   $black
+    }
+
 }
