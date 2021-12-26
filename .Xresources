@@ -1,78 +1,39 @@
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Apprentice colorscheme
-! special
-!*.foreground:   #bcbcbc
-!*.background:   #151515
-!*.cursorColor:  #bcbcbc
-
-! black
-!*.color0:       #1c1c1c
-!*.color8:       #444444
-
-! red
-!*.color1:       #af5f5f
-!*.color9:       #ff8700
-
-! green
-!*.color2:       #5f875f
-!*.color10:      #87af87
-
-! yellow
-!*.color3:       #87875f
-!*.color11:      #ffffaf
-
-! blue
-!*.color4:       #5f87af
-!*.color12:      #8fafd7
-
-! magenta
-!*.color5:       #5f5f87
-!*.color13:      #8787af
-
-! cyan
-!*.color6:       #5f8787
-!*.color14:      #5fafaf
-
-! white
-!*.color7:       #6c6c6c
-!*.color15:      #ffffff
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CUSTOM THEME
-! special
-! *.foreground:   #d7d0c7
-! *.background:   #181818
-! *.cursorColor:  #d7d0c7
+!*.foreground:   #d7d0c7
+!*.background:   #181818
+!*.cursorColor:  #d7d0c7
 
 ! ! black
-! *.color0:       #101010
-! *.color8:       #404040
+!*.color0:       #101010
+!*.color8:       #404040
 
 ! ! red
-! *.color1:       #e84f4f
-! *.color9:       #d23d3d
+!*.color1:       #e84f4f
+!*.color9:       #d23d3d
 
 ! ! green
-! *.color2:       #b8d68c
-! *.color10:      #a0cf5d
+!*.color2:       #b8d68c
+!*.color10:      #a0cf5d
 
 ! ! yellow
-! *.color3:       #e1aa5d
-! *.color11:      #d79921
+!*.color3:       #e1aa5d
+!*.color11:      #d79921
 
 ! ! blue
-! *.color4:       #d3839b
-! *.color12:      #4e9fb1
+!*.color4:       #d3839b
+!*.color12:      #4e9fb1
 
 ! ! magenta
-! *.color5:       #9b64fb
-! *.color13:      #8542ff
+!*.color5:       #9b64fb
+!*.color13:      #8542ff
 
 ! ! cyan
-! *.color6:       #6d878d
-! *.color14:      #42717b
+!*.color6:       #6d878d
+!*.color14:      #42717b
 
 ! ! white
-! *.color7:       #dddddd
-! *.color15:      #dddddd
+!*.color7:       #dddddd
+!*.color15:      #dddddd
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ZENBURN
 ! *.foreground:   #DCDCCC
@@ -111,33 +72,71 @@
 ! *.color7:       #DCDCCC
 ! *.color15:      #FFFFEF
 
-*background: #282828
-! soft contrast: *background: #32302f
-*foreground: #ebdbb2
-! Black + DarkGrey
-*color0:  #282828
-*color8:  #928374
-! DarkRed + Red
-*color1:  #cc241d
-*color9:  #fb4934
-! DarkGreen + Green
-*color2:  #98971a
-*color10: #b8bb26
-! DarkYellow + Yellow
-*color3:  #d79921
-*color11: #fabd2f
-! DarkBlue + Blue
-*color4:  #458588
-*color12: #83a598
-! DarkMagenta + Magenta
-*color5:  #b16286
-*color13: #d3869b
-! DarkCyan + Cyan
-*color6:  #689d6a
-*color14: #8ec07c
-! LightGrey + White
-*color7:  #a89984
-*color15: #ebdbb2
+! *background: #282828
+! ! soft contrast: *background: #32302f
+! *foreground: #ebdbb2
+! ! Black + DarkGrey
+! *color0:  #282828
+! *color8:  #928374
+! ! DarkRed + Red
+! *color1:  #cc241d
+! *color9:  #fb4934
+! ! DarkGreen + Green
+! *color2:  #98971a
+! *color10: #b8bb26
+! ! DarkYellow + Yellow
+! *color3:  #d79921
+! *color11: #fabd2f
+! ! DarkBlue + Blue
+! *color4:  #458588
+! *color12: #83a598
+! ! DarkMagenta + Magenta
+! *color5:  #b16286
+! *color13: #d3869b
+! ! DarkCyan + Cyan
+! *color6:  #689d6a
+! *color14: #8ec07c
+! ! LightGrey + White
+! *color7:  #a89984
+! *color15: #ebdbb2
+! special
+! special
 
-Xcursor.size: 20
+*.foreground:   #c0c0c0
+*.background:   #121212
+*.cursorColor:  #c0c0c0
+
+! black
+*.color0:       #080808
+*.color8:       #36393f
+
+! red
+*.color1:       #515978
+*.color9:       #778099
+
+! green
+*.color2:       #3ea28d
+*.color10:      #71c4ba
+
+! yellow
+*.color3:       #4dc5ce
+*.color11:      #5e767f
+
+! blue
+*.color4:       #6ea2a5
+*.color12:      #6abdc1
+
+! magenta
+*.color5:       #a8a8a8
+*.color13:      #4e4d80
+
+! cyan
+*.color6:       #558188
+*.color14:      #4fc8ce
+
+! white
+*.color7:       #c0c0c0
+*.color15:      #a6a8aa
+
+Xcursor.size: 16
 *.alpha: 1
