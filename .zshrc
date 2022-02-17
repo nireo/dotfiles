@@ -1,19 +1,37 @@
-# If you come from bash you might have to change your $PATH.
+#If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/eemil/.oh-my-zsh"
+export PERSONAL_TOKEN="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"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# ZSH_THEME="alanpeabody"
+# local ret_status="%(?:%{$fg_bold[magenta]%}λ :%{$fg_bold[red]%} λ )"
+#PROMPT=' ${ret_status}%{$fg[cyan]%}%c %{$fg[white]%}> %{$reset_color%}'
+#RPROMPT='$(git_prompt_info) %{$reset_color%}'
 
-# Ease of navigation to the my go projects folder
+export ML_PATH="$HOME/dev/ml"
 export GO_PROJ="$HOME/go/src/github.com/nireo"
+
+#PROMPT=' ${ret_status}%{$fg[gray]%}%c %{$fg[white]%}➤ %{$reset_color%}'
+
+#ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[grey]%}git:(%{$fg[cyan]%}"
+#ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+#ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[grey]%}) %{$fg[yellow]%}✗"
+#ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[grey]%})"
 export PATH=$PATH:~/.local/bin
 
-ZSH_THEME="sammy"
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOPATH
+export PATH=$PATH:$GOBIN
+
+# lambda good theme
+ZSH_THEME="alanpeabody"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -44,7 +62,7 @@ ZSH_THEME="sammy"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-DISABLE_AUTO_TITLE="true"
+# DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -98,9 +116,6 @@ fi
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-alias nvimconf="nvim ~/.config/nvim/init.vim"
-alias goprojects="cd ~/go/src/github.com/nireo"
 
 # Package
 alias install="sudo pacman -S"
@@ -111,12 +126,9 @@ alias delete="sudo pacman -Rs"
 alias save-a="git add ."
 alias save="git add"
 alias commit="git commit -m"
-alias push-m="git push -u origin main"
+alias push-m="git push -u origin master"
 alias clone="git clone"
 alias untar="tar xvf"
-alias g='g++ -std=c++17 -O2 -Wall'
-
-alias vi=nvim
-alias dwsong="youtube-dl --extract-audio --audio-format mp3"
-
-source /home/eemil/.tmc-autocomplete.sh || true
+alias cf='g++ -std=c++17 -O2 -Wall -o out'
+alias c='g++ -std=c++17 -Wshadow -Wall -o a -g -fsanitize=address -fsanitize=undefined -D_GLOBCXX_DEBUG'
+alias cmus="cmus add -l /home/eemil/media/music"

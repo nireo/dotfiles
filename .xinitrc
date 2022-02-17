@@ -8,11 +8,8 @@ fi
 # portion the screen corrently
 sh /home/eemil/.screenlayout/preset.sh &
 
-# dwm bar configuration
-sh /home/eemil/projects/dwm-bar/dwm_bar.sh &
-
 # set wallpaper
-feh --bg-scale ~/pictures/wallpapers/1594786252519.jpg &
+feh --bg-scale ~/media/wallhaven-g87v93.png
 
 # fix the jetbrains ides
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -20,5 +17,12 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # Change caps to an additional control key
 setxkbmap -option "caps:ctrl_modifier" &
 
-exec dwm
+# Load different visual settings for xorg.
+xrdb ~/.Xresources &
 
+# start the status bar
+dwmblocks &
+
+# exec dwm
+# exec cinnamon-session
+exec i3

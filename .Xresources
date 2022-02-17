@@ -138,5 +138,32 @@
 *.color7:       #c0c0c0
 *.color15:      #a6a8aa
 
-Xcursor.size: 16
+! *.foreground: #e4e4ef
+! *.background: #181818
+! *.color0:  #2E3436
+! *.color1:  #a40000
+! *.color2:  #4E9A06
+! *.color3:  #C4A000
+! *.color4:  #3465A4
+! *.color5:  #75507B
+! *.color6:  #ce5c00
+! *.color7:  #babdb9
+! *.color8:  #555753
+! *.color9:  #EF2929
+! *.color10: #8AE234
+! *.color11: #FCE94F
+! *.color12: #729FCF
+! *.color13: #AD7FA8
+! *.color14: #fcaf3e
+! *.color15: #EEEEEC
+
+
+Xcursor.size: 12
 *.alpha: 1
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.rgba: rgb
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
+xterm*font:-dosemu-vga-Medium-R-Normal--32-320-75-75-C-80-IBM-CP437
