@@ -102,41 +102,41 @@
 ! special
 ! special
 
-*.foreground:   #c0c0c0
-*.background:   #121212
-*.cursorColor:  #c0c0c0
+! *.foreground:   #c0c0c0
+! *.background:   #121212
+! *.cursorColor:  #c0c0c0
 
-! black
-*.color0:       #080808
-*.color8:       #36393f
+! ! black
+! *.color0:       #080808
+! *.color8:       #36393f
 
-! red
-*.color1:       #515978
-*.color9:       #778099
+! ! red
+! *.color1:       #515978
+! *.color9:       #778099
 
-! green
-*.color2:       #3ea28d
-*.color10:      #71c4ba
+! ! green
+! *.color2:       #3ea28d
+! *.color10:      #71c4ba
 
-! yellow
-*.color3:       #4dc5ce
-*.color11:      #5e767f
+! ! yellow
+! *.color3:       #4dc5ce
+! *.color11:      #5e767f
 
-! blue
-*.color4:       #6ea2a5
-*.color12:      #6abdc1
+! ! blue
+! *.color4:       #6ea2a5
+! *.color12:      #6abdc1
 
-! magenta
-*.color5:       #a8a8a8
-*.color13:      #4e4d80
+! ! magenta
+! *.color5:       #a8a8a8
+! *.color13:      #4e4d80
 
-! cyan
-*.color6:       #558188
-*.color14:      #4fc8ce
+! ! cyan
+! *.color6:       #558188
+! *.color14:      #4fc8ce
 
-! white
-*.color7:       #c0c0c0
-*.color15:      #a6a8aa
+! ! white
+! *.color7:       #c0c0c0
+! *.color15:      #a6a8aa
 
 ! *.foreground: #e4e4ef
 ! *.background: #181818
@@ -155,7 +155,46 @@
 ! *.color12: #729FCF
 ! *.color13: #AD7FA8
 ! *.color14: #fcaf3e
+
+
 ! *.color15: #EEEEEC
+! special
+*.foreground:   #ffffff
+*.background:   #000000
+*.cursorColor:  #ffffff
+
+! black
+*.color0:       #202020
+*.color8:       #505050
+
+! red
+*.color1:       #a07070
+*.color9:       #d07070
+
+! green
+*.color2:       #70a070
+*.color10:      #70d070
+
+! yellow
+*.color3:       #a0a070
+*.color11:      #d0d070
+
+! blue
+*.color4:       #7070a0
+*.color12:      #7070d0
+
+! magenta
+*.color5:       #a070a0
+*.color13:      #d070d0
+
+! cyan
+*.color6:       #70a0a0
+*.color14:      #70d0d0
+
+! white
+*.color7:       #a0a0a0
+*.color15:      #f0f0f0
+
 
 
 Xcursor.size: 12
@@ -165,5 +204,3 @@ Xft.hinting: 1
 Xft.rgba: rgb
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
-
-xterm*font:-dosemu-vga-Medium-R-Normal--32-320-75-75-C-80-IBM-CP437

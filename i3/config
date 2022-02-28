@@ -13,7 +13,7 @@ set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango: Iosevka 10
+font pango: Iosevka 9
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -51,8 +51,8 @@ bindsym $mod+Shift+Return exec st
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+Shift+p exec --no-startup-id dmenu_run
-bindsym $mod+p exec --no-startup-id "rofi -modi drun, run -show drun
+bindsym $mod+p exec --no-startup-id dmenu_run
+# bindsym $mod+p exec --no-startup-id "rofi -modi drun, run -show drun
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -192,6 +192,7 @@ set $white               #b7bbbd
 set $yellow              #27c282
 set $red                 #aa0e50
 set $green               #1dcc9f
+set $magenta2            #a070a0
 
 # theme colors
 set $bg-color            #212121
@@ -227,7 +228,7 @@ bar {
         separator    $grey
 
         # type             border      backgr.     font
-        focused_workspace  $grey       $white      $black
+        focused_workspace  $grey       $magenta2   $black
         active_workspace   $grey       $white      $black
         inactive_workspace $grey       $black      $white
         urgent_workspace   $valencia   $valencia   $black
