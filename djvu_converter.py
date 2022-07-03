@@ -14,7 +14,7 @@ def changeExtension(path):
 def convertFile(path):
     print(f"[+] converting file {path}...")
     new_path = changeExtension(path)
-    cmd = f"pdf2djvu {path} -o {new_path}"
+    cmd = f"pdf2djvu {path} --jobs=2 --no-metadata -q -o {new_path}"
     os.system(cmd)
     print(f"[+] converted file {new_path}")
     return
@@ -35,6 +35,8 @@ def convertDirectory(dir_path):
 def main():
     if len(sys.argv) != 3:
         print("usage: djvu_converter.py -[dir/file] path")
+        return
+
     is_dir = sys.argv[1] == "-dir"
     path = sys.argv[2]
 
