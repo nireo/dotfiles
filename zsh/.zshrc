@@ -2,8 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/eemil/.oh-my-zsh"
-export PERSONAL_TOKEN="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"
+export ZSH="/home/lain/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -14,24 +13,24 @@ export PERSONAL_TOKEN="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"
 #PROMPT=' ${ret_status}%{$fg[cyan]%}%c %{$fg[white]%}> %{$reset_color%}'
 #RPROMPT='$(git_prompt_info) %{$reset_color%}'
 
-export ML_PATH="$HOME/dev/ml"
 export GO_PROJ="$HOME/go/src/github.com/nireo"
 
-#PROMPT=' ${ret_status}%{$fg[gray]%}%c %{$fg[white]%}➤ %{$reset_color%}'
+PROMPT=' ${ret_status}%{$fg[gray]%}%c %{$fg[white]%}➤ %{$reset_color%}'
 
-#ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[grey]%}git:(%{$fg[cyan]%}"
-#ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
-#ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[grey]%}) %{$fg[yellow]%}✗"
-#ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[grey]%})"
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[grey]%}git:(%{$fg[cyan]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[grey]%}) %{$fg[yellow]%}✗"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[grey]%})"
 export PATH=$PATH:~/.local/bin
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOPATH
 export PATH=$PATH:$GOBIN
+export PATH=$PATH:/home/lain/ide/GoLand-2022.2/bin
 
 # lambda good theme
-ZSH_THEME="alanpeabody"
+ZSH_THEME="lambda"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -132,3 +131,4 @@ alias untar="tar xvf"
 alias cf='g++ -std=c++17 -O2 -Wall -o out'
 alias c='g++ -std=c++17 -Wshadow -Wall -o a -g -fsanitize=address -fsanitize=undefined -D_GLOBCXX_DEBUG'
 alias cmus="cmus add -l /home/eemil/media/music"
+alias julia="/home/lain/net/julia-1.7.2/bin/julia"
