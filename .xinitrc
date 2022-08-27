@@ -1,15 +1,15 @@
-if [ -d /etc/X11/xinit/xinitrc.d ]; then
-  for f in /etc/X11/xinit/xinitrc.d/*; do
-    [ -x "$f" ] && . "$f"
-  done
-  unset f
-fi
+#if [ -d /etc/X11/xinit/xinitrc.d ]; then
+#  for f in /etc/X11/xinit/xinitrc.d/*; do
+#    [ -x "$f" ] && . "$f"
+#  done
+#  unset f
+#fi
 
 # portion the screen corrently
-sh /home/eemil/.screenlayout/preset.sh &
+sh /home/lain/.screenlayout/preset.sh
 
 # set wallpaper
-feh --bg-scale ~/media/wallhaven-g87v93.png
+# feh --bg-scale ~/media/wallpapers/1602417424949.jpg
 
 # fix the jetbrains ides
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -21,8 +21,10 @@ setxkbmap -option "caps:ctrl_modifier" &
 xrdb ~/.Xresources &
 
 # start the status bar
-dwmblocks &
+# dwmblocks &
+# picom -b
 
-# exec dwm
-# exec cinnamon-session
+xset r rate 400 33
+
 exec i3
+# exec startlxqt
