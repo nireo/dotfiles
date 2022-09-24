@@ -13,7 +13,7 @@ set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango: Iosevka Comfy 9
+font pango: InconsolataGo Nerd Font 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -51,13 +51,7 @@ bindsym $mod+Shift+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+p exec --no-startup-id dmenu_run
-# bindsym $mod+p exec --no-startup-id "rofi -modi drun, run -show drun
-# A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+p exec "dmenu_run -nf '#BBBBBB' -nb '#222222' -sb '#333333' -sf '#EEEEEE' -fn 'monospace-11' -p 'dmenu >'
 
 # change focus
 bindsym $mod+j focus left
@@ -111,11 +105,11 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
+set $ws1 "1:www"
+set $ws2 "2:emacs"
+set $ws3 "3:chat"
+set $ws4 "4:term"
+set $ws5 "5:books"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
@@ -171,8 +165,8 @@ mode "resize" {
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
+          # back to normal: Enter or Escape or $mod+r
+          bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
 }
@@ -202,14 +196,14 @@ set $urgent-bg-color     #e64a19
 
 # set window colors
 # class                 border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $white               $bg-color
-client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color $bg-color
-client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color $bg-color
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $bg-color
-client.background       $bg-color
+# client.focused          $bg-color           $bg-color          $white               $bg-color
+# client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color $bg-color
+# client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color $bg-color
+# client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $bg-color
+# client.background       $bg-color
 
-gaps inner 8
-gaps outer 5
+gaps inner 0
+gaps outer 0
 
 bindsym $mod+z		gaps outer current plus 5
 bindsym $mod+Shift+z	gaps outer current minus 5
@@ -219,6 +213,16 @@ bindsym $mod+Shift+z	gaps outer current minus 5
 bar {
        status_command i3status
        position top
-}
 
-# exec_always --no-startup-id picom --experimental-backends &.
+       colors {
+              background #000000
+              statusline #FFFFFF
+              separator  #666666
+
+              focused_workspace  #FFFFFF #333333 #FFFFFF
+              active_workspace   #333333 #222222 #FFFFFF
+              inactive_workspace #333333 #222222 #888888
+              urgent_workspace   #2F343A #900000 #FFFFFF
+              binding_mode       #2F343A #900000 #FFFFFF
+       }
+}
