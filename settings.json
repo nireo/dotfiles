@@ -1,0 +1,73 @@
+{
+    "editor.lineHeight": 1.3,
+    "editor.fontSize": 16,
+    "editor.wordWrap": "on",
+    "gopls": {
+        "ui.semanticTokens": true,
+    },
+    "[go]": {
+        "editor.formatOnSave": true,
+    },
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--fast"
+    ],
+    "editor.minimap.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "vim.leader": "<space>",
+    "vim.visualModeKeyBindings": [
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        },
+    ],
+    "vim.useSystemClipboard": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "<C-j>"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        },
+        {
+            "before": [
+                "<C-f>"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "editor.action.showHover"
+            ],
+        }
+    ],
+    "editor.hover.delay": 150,
+    "editor.lineNumbers": "relative",
+    "editor.cursorBlinking": "solid",
+    "editor.formatOnSave": true,
+    "explorer.confirmDelete": false,
+    "editor.tabSize": 2,
+    "C_Cpp.clang_format_fallbackStyle": "Google"
+}
