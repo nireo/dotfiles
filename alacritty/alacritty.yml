@@ -154,10 +154,10 @@ font:
     family: MesloLGS Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    style: Bold
+    style: LiterationMono Nerd Font
 
   # Point size
-  size: 10 
+  size: 9.5
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -183,35 +183,58 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 colors:
-  # Default colors
   primary:
-    background: '0x002b36'
-    foreground: '0x839496'
-
-  # Normal colors
+    background: "#232923"
+    foreground: "#ffffff"
+  search:
+    matches:
+      foreground: CellBackground
+      background: '#ee5396'
+    footer_bar:
+      background: '#262626'
+      foreground: '#ffffff'
   normal:
-    black:   '0x073642'
-    red:     '0xdc322f'
-    green:   '0x859900'
-    yellow:  '0xb58900'
-    blue:    '0x268bd2'
-    magenta: '0xd33682'
-    cyan:    '0x2aa198'
-    white:   '0xeee8d5'
+    black: "#1c1e1b"
+    magenta: "#aaaaff"
+    green: "#8fb573"
+    yellow: "#dbb671"
+    blue: "#ae93e0"
+    red: "#e75a7c"
+    cyan: "#aaaaff"
+    white: "#fff8f0"
 
-  # Bright colors
-  bright:
-    black:   '0x002b36'
-    red:     '0xcb4b16'
-    green:   '0x586e75'
-    yellow:  '0x657b83'
-    blue:    '0x839496'
-    magenta: '0x6c71c4'
-    cyan:    '0x93a1a1'
-    white:   '0xfdf6e3'
+# [colors]
+# ansi = [
+#     "#171f17",
+#     "#dc4f62",
+#     "#81af58",
+#     "#cebe69",
+#     "#5692c4",
+#     "#ae93e0",
+#     "#71ada2",
+#     "#ece1c0",
+# ]
+# background = "#232923"
+# brights = [
+#     "#5a5e5a",
+#     "#dc4f62",
+#     "#81af58",
+#     "#cebe69",
+#     "#5692c4",
+#     "#ae93e0",
+#     "#71ada2",
+#     "#ece1c0",
+# ]
+# cursor_bg = "#fff8f0"
+# cursor_border = "#fff8f0"
+# cursor_fg = "#0f0800"
+# foreground = "#ece1c0"
+# scrollbar_thumb = "#171f17"
+# selection_bg = "#5a5e5a"
+# selection_fg = "#ece1c0"
+# split = "#383d37"
+# visual_bell = "#363b35"
 
-draw_bold_text_with_bright_colors: false
-# Colors (Tomorrow Night)
 #colors:
   # Default colors
   #primary:
@@ -409,7 +432,7 @@ draw_bold_text_with_bright_colors: false
   # When set to `true`, selected text will be copied to the primary clipboard.
   #save_to_clipboard: false
 
-#cursor:
+cursor:
   # Cursor style
   #style:
     # Cursor shape
@@ -418,7 +441,7 @@ draw_bold_text_with_bright_colors: false
     #   - ▇ Block
     #   - _ Underline
     #   - | Beam
-    #shape: Block
+    shape: Underline
 
     # Cursor blinking state
     #
