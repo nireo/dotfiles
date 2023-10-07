@@ -1,32 +1,45 @@
-set default-bg                  "#262626"
-set default-fg                  "#303030"
+set notification-error-bg       "#232923"
+set notification-error-fg       "#fb4934"
+set notification-warning-bg     "#232923"
+set notification-warning-fg     "#fabd2f"
+set notification-bg             "#232923"
+set notification-fg             "#b8bb26"
 
-set statusbar-fg                "#787878"
-set statusbar-bg                "#333333"
+set completion-bg               "#1c1e1b"
+set completion-fg               "#f1e9d2"
+set completion-group-bg         "#3c3836"
+set completion-group-fg         "#928374"
+set completion-highlight-bg     "#aaaaff"
+set completion-highlight-fg     "#1c1e1b"
 
-set inputbar-bg                 "#262626"
-set inputbar-fg                 "#FFFFFF"
+# Define the color in index mode
+set index-bg                    "#1c1e1b"
+set index-fg                    "#ebdbb2"
+set index-active-bg             "#83a598"
+set index-active-fg             "#1c1e1b"
 
-set notification-bg             "#262626"
-set notification-fg             "#FFFFFF"
+set inputbar-bg                 "#232923"
+set inputbar-fg                 "#ebdbb2"
 
-set notification-error-bg       "#262626"
-set notification-error-fg       "#5F8787"
+set statusbar-bg                "#1c1e1b"
+set statusbar-fg                "#f1e9d2"
 
-set notification-warning-bg     "#262626"
-set notification-warning-fg     "#5F8787"
+set highlight-color             "#ae93e0"
+set highlight-active-color      "#aaaaff"
 
-set highlight-color             "#5F8787"
-set highlight-active-color      "#FFFFAF"
+set default-bg                  "#232923"
+set default-fg                  "#f1e9d2"
+set render-loading              true
+set render-loading-bg           "#232923"
+set render-loading-fg           "#f1e9d2"
 
-set completion-bg               "#303030"
-set completion-fg               "#FFFFAF"
+# Recolor book content's color
+set recolor-lightcolor          "#232923"
+set recolor-darkcolor           "#f1e9d2"
+set recolor                     "true"
+# set recolor-keephue             true      # keep original color
 
-set completion-highlight-fg     "#FFFFFF"
-set completion-highlight-bg     "#FFFFAF"
+set adjust-open "best-fit"
+set font "MesloLGS Nerd Font Bold 8"
 
-set recolor-lightcolor          "#262626"
-set recolor-darkcolor           "#C9C9C9"
-
-set recolor                     "false"
-set recolor-keephue             "false"
+set sandbox strict
