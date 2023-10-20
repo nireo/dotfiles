@@ -1,45 +1,44 @@
-set notification-error-bg       "#232923"
-set notification-error-fg       "#fb4934"
-set notification-warning-bg     "#232923"
-set notification-warning-fg     "#fabd2f"
-set notification-bg             "#232923"
-set notification-fg             "#b8bb26"
+set notification-error-bg       "#1c1917"
+set notification-error-fg       "#de6e7c"
+set notification-warning-bg     "#1c1917"
+set notification-warning-fg     "#d68c67"
+set notification-bg             "#1c1917"
+set notification-fg             "#819b69"
 
-set completion-bg               "#1c1e1b"
-set completion-fg               "#f1e9d2"
-set completion-group-bg         "#3c3836"
+set completion-bg               "#1c1917"
+set completion-fg               "#b4bdc3"
+set completion-group-bg         "#403833"
 set completion-group-fg         "#928374"
 set completion-highlight-bg     "#aaaaff"
-set completion-highlight-fg     "#1c1e1b"
+set completion-highlight-fg     "#1c1917"
 
 # Define the color in index mode
-set index-bg                    "#1c1e1b"
+set index-bg                    "#1c1917"
 set index-fg                    "#ebdbb2"
 set index-active-bg             "#83a598"
-set index-active-fg             "#1c1e1b"
+set index-active-fg             "#1c1917"
 
-set inputbar-bg                 "#232923"
+set inputbar-bg                 "#1c1917"
 set inputbar-fg                 "#ebdbb2"
 
-set statusbar-bg                "#1c1e1b"
-set statusbar-fg                "#f1e9d2"
+set statusbar-bg                "#403833"
+set statusbar-fg                "#b4bdc3"
 
-set highlight-color             "#ae93e0"
-set highlight-active-color      "#aaaaff"
+set highlight-color             "#b279a7"
+set highlight-active-color      "#cf96c1"
 
-set default-bg                  "#232923"
-set default-fg                  "#f1e9d2"
+set default-bg                  "#1c1917"
+set default-fg                  "#b4bdc3"
 set render-loading              true
-set render-loading-bg           "#232923"
-set render-loading-fg           "#f1e9d2"
+set render-loading-bg           "#1c1917"
+set render-loading-fg           "#b4bdc3"
 
 # Recolor book content's color
-set recolor-lightcolor          "#232923"
-set recolor-darkcolor           "#f1e9d2"
+set recolor-lightcolor          "#1c1917"
+set recolor-darkcolor           "#b4bdc3"
 set recolor                     "true"
-# set recolor-keephue             true      # keep original color
 
 set adjust-open "best-fit"
-set font "MesloLGS Nerd Font Bold 8"
+set font "InconsolataGo Nerd Font Bold 11"
 
 set sandbox strict
