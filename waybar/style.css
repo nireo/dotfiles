@@ -1,0 +1,36 @@
+* {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Liga SFMono Nerd Font";
+}
+
+window#waybar {
+  background: #111111;
+  color: #fdf6e3;
+}
+
+#tags button {
+  padding: 0 2px;
+  color: #fdf6e3;
+}
+#tags button.focused {
+  color: #268bd2;
+}
+#tags button:hover {
+  box-shadow: inherit;
+  text-shadow: inherit;
+}
+#tags button:hover {
+  background: #1a1a1a;
+  border: #1a1a1a;
+  padding: 0 3px;
+}
+
+#clock,
+#pulseaudio,
+#memory,
+#cpu,
+#battery,
+#disk {
+  padding: 0 10px;
+}
