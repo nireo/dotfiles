@@ -1,36 +1,38 @@
 * {
-  font-size: 14px;
-  font-weight: 700;
-  font-family: "Liga SFMono Nerd Font";
+  border: none;
+  font-size: 12px;
+  font-family: "MesloLGS Nerd Font Mono";
 }
 
 window#waybar {
-  background: #111111;
-  color: #fdf6e3;
+  background: rgba(0, 0, 0, 0);
+  color: #81a2be;
 }
 
 #tags button {
-  padding: 0 2px;
-  color: #fdf6e3;
-}
-#tags button.focused {
-  color: #268bd2;
-}
-#tags button:hover {
-  box-shadow: inherit;
-  text-shadow: inherit;
-}
-#tags button:hover {
-  background: #1a1a1a;
-  border: #1a1a1a;
-  padding: 0 3px;
+  padding: 0 0px;
+  background: transparent;
+  color: #81a2be;
+  border-bottom: 3px solid transparent;
 }
 
+#tags button.focused {
+  border-bottom: 3px solid #ffffff;
+}
+
+#tags button.urgent {
+  border-bottom: 3px solid #cc6666;
+}
+
+#tags button:hover {
+  background: #373b41;
+}
+
+#mode,
 #clock,
 #pulseaudio,
-#memory,
 #cpu,
-#battery,
-#disk {
+#clock,
+#memory {
   padding: 0 10px;
 }

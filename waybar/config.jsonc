@@ -5,30 +5,21 @@
 	"modules-left": [
 		"river/tags"
 	],
-	"modules-center": [
-		"clock"
-	],
 	"modules-right": [
-		"pulseaudio",
-		"memory",
-		"cpu",
-		"disk"
+		"clock"
 	],
 	"river/tags": {
 		"num-tags": 4,
 		"tag-labels": [
-			"one",
-			"two",
-			"three",
-			"four"
+			"1",
+			"2",
+			"3",
+			"4"
 		]
 	},
-
-    "clock": {
-        "format": "{:%H:%M %p %d/%m/%Y}"
-    },
-
-
+	"clock": {
+		"format": "{:%a, %b %d  %I:%M %p}"
+	},
 	"pulseaudio": {
 		"format": "{icon} {volume:2}%",
 		"format-bluetooth": "{icon}  {volume}%",
@@ -51,10 +42,5 @@
 	"cpu": {
 		"interval": 5,
 		"format": "cpu {usage:2}%"
-	},
-	"disk": {
-		"interval": 5,
-		"format": "disk {percentage_used:2}%",
-		"path": "/"
 	}
 }
