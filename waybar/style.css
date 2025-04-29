@@ -1,38 +1,40 @@
 * {
-  border: none;
   font-size: 12px;
-  font-family: "MesloLGS Nerd Font Mono";
+  font-family: monospace;
 }
 
 window#waybar {
-  background: rgba(0, 0, 0, 0);
-  color: #81a2be;
+  background: #0d0d0d;
+  color: #fdf6e3;
+}
+
+#tags,
+#clock.1,
+#clock.2,
+#clock.3,
+#pulseaudio,
+#memory,
+#cpu,
+#battery,
+#disk,
+#tray {
+  background: #0d0d0d;
+  min-width: 0px;
 }
 
 #tags button {
-  padding: 0 0px;
-  background: transparent;
-  color: #81a2be;
-  border-bottom: 3px solid transparent;
+  padding: 0 0;
+  min-width: 16px;
+  color: #fdf6e3;
 }
-
 #tags button.focused {
-  border-bottom: 3px solid #ffffff;
+  color: #268bd2;
 }
-
-#tags button.urgent {
-  border-bottom: 3px solid #cc6666;
-}
-
 #tags button:hover {
-  background: #373b41;
+  box-shadow: inherit;
+  text-shadow: inherit;
 }
-
-#mode,
-#clock,
-#pulseaudio,
-#cpu,
-#clock,
-#memory {
-  padding: 0 10px;
+#tags button:hover {
+  background: #1a1a1a;
+  border: #1a1a1a;
 }
