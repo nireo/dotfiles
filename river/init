@@ -178,7 +178,4 @@ font_name="$(grep 'gtk-font-name' "$config" | sed 's/.*\s*=\s*//')"
 gsettings set "$gnome_schema" gtk-theme "$gtk_theme"
 gsettings set "$gnome_schema" icon-theme "$icon_theme"
 gsettings set "$gnome_schema" font-name "$font_name"
-gsettings set "$gnome_schema" cursor-theme "$cursor_theme"
 swaybg --image /home/lain/net/albertbierstadt-1743958993947-8964.jpg --mode fill
-
-riverctl xcursor-theme 'DMZ-White' 48
