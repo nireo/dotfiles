@@ -17,12 +17,6 @@ set notification-error-fg      "#191919"
 set notification-warning-bg    "#75A0A0" 
 set notification-warning-fg    "#191919"
 
-# Tab colors
-set tabbar-bg                  "#0F0F0F"
-set tabbar-fg                  "#B0B0B0"
-set tabbar-focus-bg            "#2F2F2F"
-set tabbar-focus-fg            "#8AA3C1"
-
 # Completion menu
 set completion-bg              "#121212"
 set completion-fg              "#B0B0B0"
@@ -48,15 +42,11 @@ set recolor-darkcolor          "#B0B0B0"  # Text when recolored
 set recolor-reverse-video      true
 set recolor-keephue            true
 
-# Additional settings for better integration
-set selection-clipboard        clipboard
 set adjust-open                best-fit
 set pages-per-row              1
 set scroll-page-aware          true
 set scroll-full-overlap        0.01
 set scroll-step                50
-set zoom-min                   10
-set guioptions                 none
 
 set font "MesloLGS Nerd Font Mono 9"
 set sandbox strict
