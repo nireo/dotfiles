@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Count dependencies listed in package info
+pacman -Qe | while read pkg _; do
+    count=$(pacman -Qi "$pkg" | grep "Depends On" | sed 's/Depends On.*: //' | tr ' ' '\n' | grep -v "^$" | grep -v "None" | wc -l)
+    echo "$pkg: $count"
+done
+
