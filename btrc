@@ -1,0 +1,42 @@
+#!/bin/bash
+BOOKMARKS="$HOME/.config/btrc"
+touch "$BOOKMARKS"
+
+save_bookmark() {
+    local pdf="$1" page="$2"
+    [ ! -f "$pdf" ] && { echo "error: '$pdf' not found"; exit 1; }
+    
+    local hash=$(sha256sum "$pdf" | cut -d' ' -f1)
+    grep -v "^$hash:" "$BOOKMARKS" > "$BOOKMARKS.tmp" 2>/dev/null || true
+    echo "$hash:$page:$(basename "$pdf")" >> "$BOOKMARKS.tmp"
+    mv "$BOOKMARKS.tmp" "$BOOKMARKS"
+    echo "saved page $page for '$(basename "$pdf")'"
+}
+
+open_pdf() {
+    local pdf="$1"
+    [ ! -f "$pdf" ] && { echo "error: '$pdf' not found"; exit 1; }
+    
+    local hash=$(sha256sum "$pdf" | cut -d' ' -f1)
+    local page=$(grep "^$hash:" "$BOOKMARKS" 2>/dev/null | cut -d':' -f2)
+    page=${page:-1}
+    
+    echo "opening '$(basename "$pdf")' at page $page"
+    zathura-sandbox "$pdf" -P "$page"
+}
+
+case "$1" in
+    save)
+        [ $# -ne 3 ] && { echo "usage: $0 save <book> <page>"; exit 1; }
+        save_bookmark "$2" "$3"
+        ;;
+    *)
+        [ $# -ne 1 ] && {
+            echo "usage:"
+            echo "  $0 <pdf_file>              # Open PDF at saved page"
+            echo "  $0 save <pdf_file> <page>  # Save current page"
+            exit 1
+        }
+        open_pdf "$1"
+        ;;
+esac
