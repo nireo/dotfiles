@@ -1,0 +1,55 @@
+set default-bg                "#090909"
+set default-fg                "#B0B0B0"
+
+# Status bar
+set statusbar-bg               "#101010"
+set statusbar-fg               "#B0B0B0"
+
+# Input bar
+set inputbar-bg                "#121212"
+set inputbar-fg                "#B0B0B0"
+
+# Notification colors
+set notification-bg            "#121212"
+set notification-fg            "#B0B0B0"
+set notification-error-bg      "#7A8A9A"
+set notification-error-fg      "#090909"
+set notification-warning-bg    "#88AF7A"
+set notification-warning-fg    "#090909"
+
+# Completion menu
+set completion-bg              "#090909"
+set completion-fg              "#B0B0B0"
+set completion-group-bg        "#121212"
+set completion-group-fg        "#6A7A6A"
+set completion-highlight-bg    "#1D1D1D"
+set completion-highlight-fg    "#8AC18A"
+
+# Index mode (table of contents)
+set index-bg                   "#090909"
+set index-fg                   "#B0B0B0"
+set index-active-bg            "#1D1D1D"
+set index-active-fg            "#9BBB94"
+
+# Highlight colors for search results
+set highlight-color            "#88AAB5"
+set highlight-active-color     "#88AF7A"
+
+# Recolor mode (for better readability)
+set recolor                    true
+set recolor-lightcolor         "#090909"  # Background when recolored
+set recolor-darkcolor          "#B0B0B0"  # Text when recolored
+set recolor-reverse-video      true
+set recolor-keephue            true
+
+set adjust-open                best-fit
+set pages-per-row              1
+set scroll-page-aware          true
+set scroll-full-overlap        0.01
+set scroll-step                50
+
+set font "MesloLGS Nerd Font Mono 9"
+set sandbox strict
+
+
+

@@ -1,0 +1,17 @@
+{
+	"layer": "top",
+	"position": "bottom",
+	"modules-left": [
+		"hyprland/workspaces"
+	],
+	"modules-right": [
+		"clock"
+	],
+
+	"clock": {
+		"format": "{:%a, %b %d  %H:%M}"
+	},
+
+	"hyprland/workspaces": {
+	}
+}
