@@ -1,0 +1,177 @@
+# Sway configuration matching Hyprland style
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+set $mod Mod1
+set $super Mod4
+set $term foot
+set $menu bemenu-run
+set $fileManager dolphin
+
+### Output configuration
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+### Autostart
+exec mako
+
+font pango:JetBrainsMono Nerd Font Mono Medium 9
+
+### Input configuration
+input type:keyboard {
+    xkb_layout us,fi
+    xkb_options grp:ctrl_space_toggle,ctrl:nocaps
+    repeat_delay 200
+    repeat_rate 50
+}
+
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll disabled
+    middle_emulation enabled
+}
+
+### Look and Feel
+gaps inner 4
+gaps outer 6
+default_border normal 2
+default_floating_border normal 2
+
+### Keybindings
+
+# Terminal and launcher
+bindsym $super+Return exec $term
+bindsym $mod+p exec $menu
+bindsym $super+d exec $menu
+
+# Close window
+bindsym $mod+Shift+q kill
+bindsym $super+q kill
+
+# Exit sway
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+
+# File manager
+bindsym $super+e exec $fileManager
+
+# Window focus (J/K for next/previous)
+bindsym $mod+j focus next
+bindsym $mod+k focus prev
+bindsym $super+j focus next
+bindsym $super+k focus prev
+
+# Focus last window
+bindsym $super+Tab focus prev
+
+# Float toggle
+bindsym $mod+Space floating toggle
+bindsym $super+Space floating toggle
+
+# Fullscreen toggle
+bindsym $mod+f fullscreen
+bindsym $super+f fullscreen
+
+# Screenshot
+bindsym $mod+Shift+s exec grim -g "$(slurp -d)" - | wl-copy && notify-send -t 2000 'Screenshot taken'
+bindsym $super+t exec notify-send -t 2000 "$(date '+%A, %B %d, %Y')" "$(date '+%H:%M:%S')"
+
+# Layout ratio adjustment
+bindsym $mod+h resize shrink width 5 px or 5 ppt
+bindsym $mod+l resize grow width 5 px or 5 ppt
+bindsym $super+h resize shrink width 5 px or 5 ppt
+bindsym $super+l resize grow width 5 px or 5 ppt
+
+# Swap windows
+bindsym $mod+Shift+j swap next
+bindsym $mod+Shift+k swap prev
+
+# Move focus with arrow keys
+bindsym $super+Left focus left
+bindsym $super+Right focus right
+bindsym $super+Up focus up
+bindsym $super+Down focus down
+
+# Split containers
+bindsym $super+b splith
+bindsym $super+v splitv
+
+# Layout modes
+bindsym $super+s layout stacking
+bindsym $super+w layout tabbed
+# bindsym $super+e layout toggle split
+
+# Reload configuration
+bindsym $super+Shift+c reload
+
+# Switch workspaces with ALT + [0-9] and SUPER + [0-9]
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+bindsym $super+1 workspace number 1
+bindsym $super+2 workspace number 2
+bindsym $super+3 workspace number 3
+bindsym $super+4 workspace number 4
+bindsym $super+5 workspace number 5
+bindsym $super+6 workspace number 6
+bindsym $super+7 workspace number 7
+bindsym $super+8 workspace number 8
+bindsym $super+9 workspace number 9
+bindsym $super+0 workspace number 10
+
+# Move active window to workspace with ALT+SHIFT + [0-9] and SUPER+SHIFT + [0-9]
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+bindsym $super+Shift+1 move container to workspace number 1
+bindsym $super+Shift+2 move container to workspace number 2
+bindsym $super+Shift+3 move container to workspace number 3
+bindsym $super+Shift+4 move container to workspace number 4
+bindsym $super+Shift+5 move container to workspace number 5
+bindsym $super+Shift+6 move container to workspace number 6
+bindsym $super+Shift+7 move container to workspace number 7
+bindsym $super+Shift+8 move container to workspace number 8
+bindsym $super+Shift+9 move container to workspace number 9
+bindsym $super+Shift+0 move container to workspace number 10
+
+floating_modifier $mod normal
+
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym --locked XF86MonBrightnessUp exec brightnessctl s 10%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl s 10%-
+
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPause exec playerctl play-pause
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioPrev exec playerctl previous
+
+bar {
+    position top
+    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+    
+    colors {
+        statusline #ffffff
+        background #323232
+        inactive_workspace #32323200 #32323200 #5c5c5c
+    }
+}
+
+include /etc/sway/config.d/*
