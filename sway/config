@@ -9,12 +9,12 @@ set $menu bemenu-run
 set $fileManager dolphin
 
 ### Output configuration
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg ~/papes/forest.jpg fill
 
 ### Autostart
 exec mako
 
-font pango:JetBrainsMono Nerd Font Mono Medium 9
+font pango:DejaVuSansM Nerd Font Mono Medium 9
 
 ### Input configuration
 input type:keyboard {
@@ -32,8 +32,8 @@ input type:touchpad {
 }
 
 ### Look and Feel
-gaps inner 4
-gaps outer 6
+# gaps inner 4
+# gaps outer 6
 default_border normal 2
 default_floating_border normal 2
 
@@ -163,14 +163,22 @@ bindsym --locked XF86AudioPause exec playerctl play-pause
 bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioPrev exec playerctl previous
 
+
 bar {
     position top
     status_command while date +'%Y-%m-%d %X'; do sleep 1; done
     
     colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        statusline #B0B0B0
+        background #101010
+        separator #2A2A2A
+        
+        # Workspace colors: border, background, text
+        focused_workspace #8AC18A #8AC18A #101010
+        active_workspace #6A7A6A #121212 #B0B0B0
+        inactive_workspace #101010 #101010 #6A7A6A
+        urgent_workspace #9BBB94 #0A0A0A #9BBB94
+        binding_mode #88B588 #0A0A0A #101010
     }
 }
 
