@@ -1,46 +1,40 @@
-set default-bg                "#191919"
-set default-fg                "#B0B0B0"
+set notification-error-bg       "#1B1818"
+set notification-error-fg       "#C07F7A"
+set notification-warning-bg     "#151515"
+set notification-warning-fg     "#FFE591"
+set notification-bg             "#161716"
+set notification-fg             "#D6D6D6"
 
-# Status bar
-set statusbar-bg               "#2F2F2F"
-set statusbar-fg               "#B0B0B0"
+set completion-bg               "#161716"
+set completion-fg               "#D6D6D6"
+set completion-group-bg         "#202020"
+set completion-group-fg         "#C1C1C1"
+set completion-highlight-bg     "#727272"
+set completion-highlight-fg     "#151515"
 
-# Input bar
-set inputbar-bg                "#2F2F2F"
-set inputbar-fg                "#B0B0B0"
+set index-bg                    "#161716"
+set index-fg                    "#D6D6D6"
+set index-active-bg             "#727272"
+set index-active-fg             "#151515"
 
-# Notification colors
-set notification-bg            "#2F2F2F"
-set notification-fg            "#B0B0B0"
-set notification-error-bg      "#B294BB"
-set notification-error-fg      "#191919"
-set notification-warning-bg    "#75A0A0" 
-set notification-warning-fg    "#191919"
+set inputbar-bg                 "#161716"
+set inputbar-fg                 "#E1E1E1"
 
-# Completion menu
-set completion-bg              "#121212"
-set completion-fg              "#B0B0B0"
-set completion-group-bg        "#121212"
-set completion-group-fg        "#708090"
-set completion-highlight-bg    "#1A1A1A"
-set completion-highlight-fg    "#8AA3C1"
+set statusbar-bg                "#202020"
+set statusbar-fg                "#D6D6D6"
 
-# Index mode (table of contents)
-set index-bg                   "#191919"
-set index-fg                   "#B0B0B0"
-set index-active-bg            "#2F2F2F"
-set index-active-fg            "#8AA3C1"
+set highlight-color             "#666538"
+set highlight-active-color      "#3982B7"
 
-# Highlight colors for search results
-set highlight-color            "#75A0A0"
-set highlight-active-color     "#B294BB"
+set default-bg                  "#151515"
+set default-fg                  "#E1E1E1"
 
-# Recolor mode (for better readability)
-set recolor                    true
-set recolor-lightcolor         "#191919"  # Background when recolored
-set recolor-darkcolor          "#B0B0B0"  # Text when recolored
-set recolor-reverse-video      true
-set recolor-keephue            true
+# Recolor settings for dark theme
+set recolor                     true
+set recolor-lightcolor          "#151515"  # Dark background
+set recolor-darkcolor           "#E1E1E1"  # Light text
+set recolor-reverse-video       true
+set recolor-keephue             true
 
 set adjust-open                best-fit
 set pages-per-row              1
@@ -50,6 +44,3 @@ set scroll-step                50
 
 set font "MesloLGS Nerd Font Mono 9"
 set sandbox strict
-
-
-
