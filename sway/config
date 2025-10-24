@@ -6,7 +6,7 @@ set $mod Mod1
 set $super Mod4
 set $term foot
 set $menu bemenu-run
-set $fileManager dolphin
+set $fileManager thunar
 
 ### Output configuration
 output * bg ~/papes/forest.jpg fill
@@ -14,7 +14,7 @@ output * bg ~/papes/forest.jpg fill
 ### Autostart
 exec mako
 
-font pango:DejaVuSansM Nerd Font Mono Medium 9
+font pango:JetBrainsMono Nerd Font Mono Medium 9
 
 ### Input configuration
 input type:keyboard {
@@ -31,10 +31,9 @@ input type:touchpad {
     middle_emulation enabled
 }
 
-### Look and Feel
 # gaps inner 4
 # gaps outer 6
-default_border normal 2
+default_border pixel 2
 default_floating_border normal 2
 
 ### Keybindings
@@ -82,8 +81,10 @@ bindsym $super+h resize shrink width 5 px or 5 ppt
 bindsym $super+l resize grow width 5 px or 5 ppt
 
 # Swap windows
-bindsym $mod+Shift+j swap next
-bindsym $mod+Shift+k swap prev
+bindsym $super+Shift+h swap left
+bindsym $super+Shift+l swap right
+bindsym $super+Shift+k swap up
+bindsym $super+Shift+j swap down
 
 # Move focus with arrow keys
 bindsym $super+Left focus left
@@ -181,5 +182,8 @@ bar {
         binding_mode #88B588 #0A0A0A #101010
     }
 }
+
+exec_always gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+exec_always gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 
 include /etc/sway/config.d/*
