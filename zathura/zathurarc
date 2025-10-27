@@ -26,12 +26,12 @@ set statusbar-fg                "#D6D6D6"
 set highlight-color             "#666538"
 set highlight-active-color      "#3982B7"
 
-set default-bg                  "#151515"
+set default-bg                  "#0E1415"
 set default-fg                  "#E1E1E1"
 
 # Recolor settings for dark theme
 set recolor                     true
-set recolor-lightcolor          "#151515"  # Dark background
+set recolor-lightcolor          "#0E1415"  # Dark background
 set recolor-darkcolor           "#E1E1E1"  # Light text
 set recolor-reverse-video       true
 set recolor-keephue             true
