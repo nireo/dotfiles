@@ -9,12 +9,12 @@ set $menu bemenu-run
 set $fileManager thunar
 
 ### Output configuration
-output * bg ~/papes/forest.jpg fill
+### output * bg ~/papes/forest.jpg fill
 
 ### Autostart
-exec mako
+### exec mako
 
-font pango:JetBrainsMono Nerd Font Mono Medium 9
+font pango:monospace 8
 
 ### Input configuration
 input type:keyboard {
@@ -171,11 +171,11 @@ bar {
     
     colors {
         statusline #B0B0B0
-        background #101010
+        background #0E0E10
         separator #2A2A2A
         
         # Workspace colors: border, background, text
-        focused_workspace #8AC18A #8AC18A #101010
+        focused_workspace #A8B5C0 #A8B5C0 #1b1b1d
         active_workspace #6A7A6A #121212 #B0B0B0
         inactive_workspace #101010 #101010 #6A7A6A
         urgent_workspace #9BBB94 #0A0A0A #9BBB94
@@ -183,7 +183,7 @@ bar {
     }
 }
 
-exec_always gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-exec_always gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+
+seat seat0 xcursor_theme DMZ-White 16
 
 include /etc/sway/config.d/*
