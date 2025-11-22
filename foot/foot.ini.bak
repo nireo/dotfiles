@@ -4,4 +4,4 @@ font-italic=BitstromWera Nerd Font:size=10.5:style=Regular
 font-bold=BitstromWera Nerd Font:size=10.5:style=Regular
 font-bold-italic=BitstromWera Nerd Font:size=10.5:style=Regular
 
-include=/home/lain/.config/foot/modus-light
+include=/home/lain/.config/foot/modus-dark

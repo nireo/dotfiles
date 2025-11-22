@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+from pathlib import Path
+from typing import Optional
+
+HOME = Path.home()
+FOOT_CONFIG = HOME / ".config/foot/foot.ini"
+NVIM_CONFIG = HOME / ".config/nvim/init.lua"
+
+
+def detect_theme_from_foot() -> Optional[str]:
+    if not FOOT_CONFIG.exists():
+        return None
+
+    lines = FOOT_CONFIG.read_text().splitlines()
+    for line in reversed(lines):
+        stripped = line.lstrip()
+        if stripped.startswith("include="):
+            if "modus-dark" in stripped:
+                return "dark"
+            if "modus-light" in stripped:
+                return "light"
+            break
+    return None
+
+
+def detect_theme_from_nvim() -> Optional[str]:
+    if not NVIM_CONFIG.exists():
+        return None
+
+    lines = NVIM_CONFIG.read_text().splitlines()
+    for line in reversed(lines):
+        stripped = line.strip()
+        if "vim.cmd.colorscheme" in stripped and "modus-" in stripped:
+            if "modus-dark" in stripped:
+                return "dark"
+            if "modus-light" in stripped:
+                return "light"
+            break
+    return None
+
+
+def toggle_theme_name(current: Optional[str]) -> str:
+    if current == "dark":
+        return "light"
+    return "dark"
+
+
+def update_foot_config(target_theme: str) -> None:
+    if not FOOT_CONFIG.exists():
+        print(f"[foot] Config not found: {FOOT_CONFIG}")
+        return
+
+    lines = FOOT_CONFIG.read_text().splitlines(keepends=True)
+
+    idx_to_change = None
+    for i in range(len(lines) - 1, -1, -1):
+        stripped = lines[i].lstrip()
+        if stripped.startswith("include="):
+            idx_to_change = i
+            break
+
+    include_path = HOME / ".config/foot" / f"modus-{target_theme}"
+    new_include = f"include={include_path}"
+
+    if idx_to_change is None:
+        new_line = new_include + "\n"
+        lines.append(new_line)
+        print(f"[foot] Appending include line: {new_line.rstrip()}")
+    else:
+        old_line = lines[idx_to_change]
+        stripped = old_line.lstrip()
+        leading_ws = old_line[: len(old_line) - len(stripped)]
+
+        if old_line.endswith("\n"):
+            new_line = leading_ws + new_include + "\n"
+        else:
+            new_line = leading_ws + new_include
+
+        print("[foot] Updating include line:")
+        print("  " + old_line.rstrip())
+        print("->")
+        print("  " + new_line.rstrip())
+
+        lines[idx_to_change] = new_line
+
+    FOOT_CONFIG.write_text("".join(lines))
+    print(f"[foot] Updated {FOOT_CONFIG}")
+
+
+def update_nvim_config(target_theme: str) -> None:
+    if not NVIM_CONFIG.exists():
+        print(f"[nvim] Config not found: {NVIM_CONFIG}")
+        return
+
+    lines = NVIM_CONFIG.read_text().splitlines(keepends=True)
+
+    idx_to_change = None
+    for i in range(len(lines) - 1, -1, -1):
+        stripped = lines[i].strip()
+        if "vim.cmd.colorscheme" in stripped:
+            idx_to_change = i
+            break
+
+    new_call = f'vim.cmd.colorscheme("modus-{target_theme}")'
+
+    if idx_to_change is None:
+        new_line = new_call + "\n"
+        lines.append(new_line)
+        print(f"[nvim] Appending colorscheme line: {new_line.rstrip()}")
+    else:
+        old_line = lines[idx_to_change]
+        stripped = old_line.lstrip()
+        leading_ws = old_line[: len(old_line) - len(stripped)]
+
+        quote_char = '"'
+        if "vim.cmd.colorscheme('" in stripped:
+            quote_char = "'"
+
+        new_call = f"vim.cmd.colorscheme({quote_char}modus-{target_theme}{quote_char})"
+
+        if old_line.endswith("\n"):
+            new_line = leading_ws + new_call + "\n"
+        else:
+            new_line = leading_ws + new_call
+
+        print("[nvim] Updating colorscheme line:")
+        print("  " + old_line.rstrip())
+        print("->")
+        print("  " + new_line.rstrip())
+
+        lines[idx_to_change] = new_line
+
+    NVIM_CONFIG.write_text("".join(lines))
+    print(f"[nvim] Updated {NVIM_CONFIG}")
+
+
+def main():
+    current_theme = detect_theme_from_foot()
+    if current_theme is None:
+        current_theme = detect_theme_from_nvim()
+
+    print("Detected current theme:", current_theme or "unknown")
+    target_theme = toggle_theme_name(current_theme)
+    print("Toggling to:", target_theme)
+
+    update_foot_config(target_theme)
+    update_nvim_config(target_theme)
+
+
+if __name__ == "__main__":
+    main()
