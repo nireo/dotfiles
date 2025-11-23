@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CONFIG_DIR="/etc/wireguard"
+
+if ! command -v fzf >/dev/null 2>&1; then
+    echo "fzf is not installed."
+    exit 1
+fi
+
+active_ifaces=()
+if wg_output=$(wg show interfaces 2>/dev/null); then
+    # Split on spaces
+    read -r -a active_ifaces <<< "$wg_output"
+fi
+
+if ((${#active_ifaces[@]} > 0)); then
+    echo "active WireGuard interfaces detected: ${active_ifaces[*]}"
+    echo "rurning them OFF using 'sudo wg-quick down ...'"
+
+    for iface in "${active_ifaces[@]}"; do
+        echo "↓ bringing DOWN: $iface"
+        sudo wg-quick down "$iface"
+    done
+
+    echo "all active WireGuard interfaces have been brought down."
+    exit 0
+fi
+
+mapfile -t files < <(find "$CONFIG_DIR" -maxdepth 1 -type f -name '*.conf' 2>/dev/null | sort)
+
+if ((${#files[@]} == 0)); then
+    echo "No WireGuard config files found in $CONFIG_DIR"
+    exit 1
+fi
+
+configs=()
+for f in "${files[@]}"; do
+    configs+=( "$(basename "$f" .conf)" )
+done
+
+echo "no active WireGuard interfaces."
+echo "select a config to bring UP:"
+
+selected=$(printf '%s\n' "${configs[@]}" | fzf --prompt="WireGuard config> ")
+
+# If user cancelled fzf
+if [[ -z "$selected" ]]; then
+    echo "no config selected. Exiting."
+    exit 0
+fi
+
+echo "↑ bringing UP: $selected"
+sudo wg-quick up "$selected"
