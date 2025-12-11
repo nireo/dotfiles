@@ -1,13 +1,15 @@
 * {
   font-size: 10px;
-  font-family: monospace;
-  font-weight: 700;
+  font-family: "GoMono Nerd Font Mono";
+  font-weight: 400;
 }
 
 window#waybar {
-  background: #0d0d0d;
-  color: #fdf6e3;
-  min-height: 11px;
+  /* Theme background: e5dfd3 */
+  background: #e5dfd3;
+  /* Theme foreground: 4a5353 */
+  color: #4a5353;
+  min-height: 7px;
 }
 
 #workspaces,
@@ -20,23 +22,66 @@ window#waybar {
 #battery,
 #disk,
 #tray {
-  background: #0d0d0d;
+  /* Matches window background */
+  background: #e5dfd3;
   min-width: 0px;
+  margin-right: 10px;
+  padding-right:10px;
+}
+
+#workspaces {
+  background: #e5dfd3;   /* Theme Background */
+  margin: 0;
+  padding: 0;
 }
 
 #workspaces button {
-  padding: 0 0;
+  padding: 0 5px;
   min-width: 16px;
-  color: #fdf6e3;
+  color: #4a5353;        /* Theme Foreground */
+  background: transparent;
+  transition: all 0.3s ease;
+  border-radius: 0;
+  border: none;          /* Ensure no borders by default */
 }
-#workspaces button.focused {
-  color: #268bd2;
+
+/* --- The Currently Focused Workspace --- */
+#workspaces button.active {
+  background: #6d6d89;   /* Theme regular4 (Blue/Purple) */
+  color: #e5dfd3;        /* Theme Background (Light Beige) */
+  font-weight: 800;
 }
-#workspaces button:hover {
-  box-shadow: inherit;
-  text-shadow: inherit;
+
+/* --- Empty Workspaces (if persistent) --- */
+#workspaces button.empty {
+  color: #896d6d;        /* Theme regular1 (Red-ish) */
+  background: transparent;
 }
-#workspaces button:hover {
-  background: #1a1a1a;
-  border: #1a1a1a;
+
+/* --- Persistent Workspaces (always shown) --- */
+#workspaces button.persistent {
+  color: #4a5353;
+  font-weight: normal;
+}
+
+/* --- Special Workspaces (like scratchpads) --- */
+#workspaces button.special {
+  color: #896d89;        /* Theme regular5 (Magenta-ish) */
+}
+
+/* --- Visible but not focused (multi-monitor setup) --- */
+#workspaces button.visible {
+  background: #b3b5b2;   /* Theme color 16 (Grey) */
+  color: #4a5353;
+}
+
+/* --- Urgent (Application requesting attention) --- */
+#workspaces button.urgent {
+  background: #896d6d;   /* Theme regular1 (Red-ish) */
+  color: #e5dfd3;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }

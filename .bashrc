@@ -113,8 +113,9 @@ export PATH=$PATH:$GOPATH
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:$HOME/.local/bin
 
-alias padd="sudo emerge --ask --quiet"
+alias padd="sudo emerge --ask --verbose --quiet"
 alias pup="sudo emerge --ask --quiet --verbose --update --deep --newuse @world"
+alias pdel="sudo emerge --ask --verbose --depclean"
 alias ob="cd ~/vault/vault/"
 alias pu="git push"
 alias sc="git add . && git commit -m"
