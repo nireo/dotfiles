@@ -1,0 +1,7 @@
+.zshrc : ~/.zshrc
+kitty : ~/.config/kitty
+alacritty : ~/.config/alacritty
+ghostty : ~/.config/ghostty
+hypr : ~/.config/hypr
+.tmux.conf : ~/.tmux.conf
+zathura : ~/.config/zathura

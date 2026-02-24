@@ -1,0 +1,94 @@
+[font]
+size = 11.5
+
+[font.bold]
+family = "Iosevka Nerd Font"
+style = "Light"
+
+[font.bold_italic]
+family = "Iosevka Nerd Font"
+style = "Light"
+
+[font.italic]
+family = "Iosevka Nerd Font"
+style = "Light"
+
+[font.normal]
+family = "Iosevka Nerd Font"
+style = "Light"
+
+[colors.primary]
+background            = "#0E1511"
+foreground            = "#B8C4B3"
+dim_foreground        = "#B8C4B3"
+bright_foreground     = "#B8C4B3"
+
+[colors.cursor]
+text                  = "#0E1511"
+cursor                = "#B8C4B3"
+
+[colors.vi_mode_cursor]
+text                  = "#0E1511"
+cursor                = "#6A7F96"
+
+[colors.search.matches]
+foreground            = "#0E1511"
+background            = "#B8C4B3"
+
+[colors.search.focused_match]
+foreground            = "#0E1511"
+background            = "#86A181"
+
+[colors.hints.start]
+foreground            = "#0E1511"
+background            = "#86A181"
+
+[colors.hints.end]
+foreground            = "#0E1511"
+background            = "#B8C4B3"
+
+[colors.line_indicator]
+#foreground            = "None"
+#background            = "None"
+
+[colors.footer_bar]
+foreground            = "#0E1511"
+background            = "#B8C4B3"
+
+[colors.selection]
+text                  = "#B8C4B3"
+background            = "#243126"
+
+[colors.normal]
+black                 = "#0E1511"
+red                   = "#9A6A6A"
+green                 = "#86A181"
+yellow                = "#9A8562"
+blue                  = "#6A7F96"
+magenta               = "#8C7F95"
+cyan                  = "#6A8A78"
+white                 = "#B8C4B3"
+
+[colors.bright]
+black                 = "#2E3A31"
+red                   = "#B07A7A"
+green                 = "#9BBE93"
+yellow                = "#B39A6E"
+blue                  = "#7F97B0"
+magenta               = "#A090AA"
+cyan                  = "#88A99A"
+white                 = "#DCE4D6"
+
+[colors.dim]
+black                 = "#0E1511"
+red                   = "#9A6A6A"
+green                 = "#86A181"
+yellow                = "#9A8562"
+blue                  = "#6A7F96"
+magenta               = "#8C7F95"
+cyan                  = "#6A8A78"
+white                 = "#B8C4B3"
+
+[colors]
+indexed_colors = []
+draw_bold_text_with_bright_colors = true

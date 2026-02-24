@@ -1,0 +1,46 @@
+set notification-error-bg       "#1B1818"
+set notification-error-fg       "#C07F7A"
+set notification-warning-bg     "#151515"
+set notification-warning-fg     "#FFE591"
+set notification-bg             "#161716"
+set notification-fg             "#D6D6D6"
+
+set completion-bg               "#161716"
+set completion-fg               "#D6D6D6"
+set completion-group-bg         "#202020"
+set completion-group-fg         "#C1C1C1"
+set completion-highlight-bg     "#727272"
+set completion-highlight-fg     "#151515"
+
+set index-bg                    "#161716"
+set index-fg                    "#D6D6D6"
+set index-active-bg             "#727272"
+set index-active-fg             "#151515"
+
+set inputbar-bg                 "#161716"
+set inputbar-fg                 "#E1E1E1"
+
+set statusbar-bg                "#202020"
+set statusbar-fg                "#D6D6D6"
+
+set highlight-color             "#666538"
+set highlight-active-color      "#3982B7"
+
+set default-bg                  "#0E1415"
+set default-fg                  "#E1E1E1"
+
+# Recolor settings for dark theme
+set recolor                     true
+set recolor-lightcolor          "#0E1415"  # Dark background
+set recolor-darkcolor           "#E1E1E1"  # Light text
+set recolor-reverse-video       true
+set recolor-keephue             true
+
+set adjust-open                best-fit
+set pages-per-row              1
+set scroll-page-aware          true
+set scroll-full-overlap        0.01
+set scroll-step                50
+
+set font "MesloLGS Nerd Font Mono 9"
+set sandbox strict
