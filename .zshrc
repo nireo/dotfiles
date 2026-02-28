@@ -36,3 +36,29 @@ if [ -f '/Users/eemil/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/eemil/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/eemil/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+obsync() {
+    cd ~/vault/vault || { echo "Error: ~/vault/vault directory not found"; return 1; }
+
+    if [[ -n $(git status --porcelain) ]]; then
+        echo "changes detected in vault/vault. syncing..."
+        
+        git add -A
+        git commit -m "sync vault"
+        git push
+        
+        echo "vault successfully synced."
+    else
+        echo "no changes to sync."
+    fi
+
+    cd - > /dev/null
+}
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/Users/eemil/.opam/opam-init/init.zsh' ]] || source '/Users/eemil/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
