@@ -5,3 +5,4 @@ ghostty : ~/.config/ghostty
 hypr : ~/.config/hypr
 .tmux.conf : ~/.tmux.conf
 zathura : ~/.config/zathura
+nvim : ~/.config/nvim
