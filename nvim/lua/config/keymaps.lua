@@ -1,3 +1,5 @@
+local yank = require("custom.yank")
+
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -180,3 +182,19 @@ require("quicker").setup({
 		},
 	},
 })
+
+vim.keymap.set("n", "<leader>ya", function()
+	yank.yank_path(yank.get_buffer_absolute(), "absolute")
+end, { desc = "[Y]ank [A]bsolute path to clipboard" })
+
+vim.keymap.set("n", "<leader>yr", function()
+	yank.yank_path(yank.get_buffer_cwd_relative(), "relative")
+end, { desc = "[Y]ank [R]elative path to clipboard" })
+
+vim.keymap.set("v", "<leader>ya", function()
+	yank.yank_visual_with_path(yank.get_buffer_absolute(), "absolute")
+end, { desc = "[Y]ank selection with [A]bsolute path" })
+
+vim.keymap.set("v", "<leader>yr", function()
+	yank.yank_visual_with_path(yank.get_buffer_cwd_relative(), "relative")
+end, { desc = "[Y]ank selection with [R]elative path" })

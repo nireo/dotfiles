@@ -10,9 +10,11 @@ local palette = {
   bg_popup = "#1B1612",
   fg = "#B7AE9F",
   fg_bright = "#E7DAC7",
+  string = "#D3B06B",
   accent = "#7D8F99",
   accent_keyword = "#A2A97E",
   accent_soft = "#9E9484",
+  visual = "#4A3323",
   comment = "#87907A",
   muted = "#60574C",
   muted_dark = "#29231D",
@@ -43,14 +45,15 @@ set_hl(0, "WinSeparator", { fg = palette.muted_dark, bg = palette.bg })
 set_hl(0, "StatusLine", { fg = palette.fg_bright, bg = palette.bg_alt })
 set_hl(0, "StatusLineNC", { fg = palette.muted, bg = palette.bg })
 
-set_hl(0, "Visual", { bg = palette.bg_alt })
+set_hl(0, "Visual", { fg = palette.fg_bright, bg = palette.visual, bold = true })
+set_hl(0, "VisualNOS", { fg = palette.fg_bright, bg = palette.visual, bold = true })
 set_hl(0, "Search", { fg = palette.bg, bg = palette.accent, bold = true })
 set_hl(0, "IncSearch", { fg = palette.bg, bg = palette.fg_bright, bold = true })
 
 -- --- Content ---
 set_hl(0, "Comment", { fg = palette.comment, bg = "NONE", italic = true })
 set_hl(0, "SpecialComment", { fg = palette.comment, bg = "NONE", italic = true })
-set_hl(0, "String", { fg = palette.fg_bright, bg = "NONE" })
+set_hl(0, "String", { fg = palette.string, bg = "NONE" })
 set_hl(0, "Constant", { fg = palette.fg_bright, bg = "NONE" })
 set_hl(0, "Number", { fg = palette.accent_soft, bg = "NONE" })
 set_hl(0, "Boolean", { fg = palette.comment, bg = "NONE" })
