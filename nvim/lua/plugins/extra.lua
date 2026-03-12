@@ -1,10 +1,5 @@
 return {
 	{
-		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
-		opts = {},
-	},
-	{
 		"github/copilot.vim",
 		cmd = "Copilot",
 		keys = {
@@ -53,6 +48,12 @@ return {
 			zen = {
 				enabled = true,
 			},
+			gh = {
+				enabled = true,
+			},
+			lazygit = {
+				enabled = true,
+			},
 			picker = {
 				enabled = true,
 				layout = {
@@ -77,6 +78,41 @@ return {
 			},
 		},
 		keys = {
+			{
+				"<leader>gi",
+				function()
+					Snacks.picker.gh_issue()
+				end,
+				desc = "GitHub Issues (open)",
+			},
+			{
+				"<leader>gI",
+				function()
+					Snacks.picker.gh_issue({ state = "all" })
+				end,
+				desc = "GitHub Issues (all)",
+			},
+			{
+				"<leader>gp",
+				function()
+					Snacks.picker.gh_pr()
+				end,
+				desc = "GitHub Pull Requests (open)",
+			},
+			{
+				"<leader>gg",
+				function()
+					Snacks.lazygit()
+				end,
+				desc = "Lazygit",
+			},
+			{
+				"<leader>gP",
+				function()
+					Snacks.picker.gh_pr({ state = "all" })
+				end,
+				desc = "GitHub Pull Requests (all)",
+			},
 			{
 				"gr",
 				function()
@@ -151,20 +187,57 @@ return {
 				end,
 				desc = "Toggle Zen Mode",
 			},
+
+		{
+			"gr",
+			function()
+				Snacks.picker.lsp_references()
+			end,
+			nowait = true,
+			desc = "References",
 		},
-	},
-	{
-		"obsidian-nvim/obsidian.nvim",
-		version = "*",
-		ft = "markdown",
-		opts = {
-			legacy_commands = false,
-			workspaces = {
-				{
-					name = "personal",
-					path = "~/vault/vault",
-				},
-			},
+		{
+			"gI",
+			function()
+				Snacks.picker.lsp_implementations()
+			end,
+			desc = "Goto Implementation",
+		},
+		{
+			"gy",
+			function()
+				Snacks.picker.lsp_type_definitions()
+			end,
+			desc = "Goto T[y]pe Definition",
+		},
+		{
+			"gai",
+			function()
+				Snacks.picker.lsp_incoming_calls()
+			end,
+			desc = "C[a]lls Incoming",
+		},
+		{
+			"gao",
+			function()
+				Snacks.picker.lsp_outgoing_calls()
+			end,
+			desc = "C[a]lls Outgoing",
+		},
+		{
+			"<leader>ss",
+			function()
+				Snacks.picker.lsp_symbols()
+			end,
+			desc = "LSP Symbols",
+		},
+		{
+			"<leader>sS",
+			function()
+				Snacks.picker.lsp_workspace_symbols()
+			end,
+			desc = "LSP Workspace Symbols",
+		},
 		},
 	},
 	{
