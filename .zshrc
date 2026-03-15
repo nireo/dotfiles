@@ -17,8 +17,8 @@ alias sc="git add . && git commit -m"
 alias pu="git push"
 alias cd="z"
 alias ng="nvim +Neogit"
-alias cat="bat"
 alias ob="cd ~/vault/vault/ && nvim ."
+alias pup="brew update && brew upgrade && brew cleanup"
 
 eval "$(starship init zsh)"
 source <(fzf --zsh)

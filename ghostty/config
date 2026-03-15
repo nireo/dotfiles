@@ -1,8 +1,14 @@
-font-family = "Liga SFMono Nerd Font"
+font-family = "Menlo"
 font-size = 14
+font-style-bold = false
+font-style-italic = false
+font-style-bold-italic = false
 font-thicken = true
 font-thicken-strength = 255
+cursor-style = block
+shell-integration-features = no-cursor
 
-theme = Arthur
+theme = mono
 
 title = "ghostty"
+cursor-style-blink = false
