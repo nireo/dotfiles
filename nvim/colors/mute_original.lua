@@ -5,19 +5,23 @@ end
 
 local set_hl = vim.api.nvim_set_hl
 local palette = {
-  bg = "#14100C",
-  bg_alt = "#1D1712",
-  bg_popup = "#1B1612",
+  bg = "#101010",
+  bg_alt = "#262626",
+  bg_popup = "#222222",
   fg = "#B7AE9F",
   fg_bright = "#E7DAC7",
   string = "#D3B06B",
   accent = "#7D8F99",
   accent_keyword = "#A2A97E",
   accent_soft = "#9E9484",
-  visual = "#4A3323",
+  visual = "#3A3028",
   comment = "#87907A",
   muted = "#60574C",
-  muted_dark = "#29231D",
+  muted_dark = "#3A3A3A",
+  error = "#E7DAC7",
+  warn = "#9E9484",
+  info = "#7D8F99",
+  hint = "#87907A",
 }
 
 vim.g.colors_name = "mute_original"
@@ -37,12 +41,12 @@ set_hl(0, "SoftDirectory", { fg = palette.accent, bg = "NONE" })
 
 set_hl(0, "LineNr", { fg = palette.muted, bg = palette.bg })
 set_hl(0, "CursorLine", { bg = palette.bg_alt })
-set_hl(0, "CursorLineNr", { fg = palette.accent, bg = palette.bg, bold = true })
+set_hl(0, "CursorLineNr", { fg = palette.accent, bg = palette.bg_alt, bold = true })
 set_hl(0, "ColorColumn", { bg = palette.bg_alt })
 set_hl(0, "SignColumn", { bg = palette.bg })
 set_hl(0, "VertSplit", { fg = palette.muted_dark, bg = palette.bg })
 set_hl(0, "WinSeparator", { fg = palette.muted_dark, bg = palette.bg })
-set_hl(0, "StatusLine", { fg = palette.fg_bright, bg = palette.bg_alt })
+set_hl(0, "StatusLine", { fg = palette.fg_bright, bg = palette.bg_popup })
 set_hl(0, "StatusLineNC", { fg = palette.muted, bg = palette.bg })
 
 set_hl(0, "Visual", { fg = palette.fg_bright, bg = palette.visual, bold = true })
@@ -135,11 +139,11 @@ set_hl(0, "@punctuation.bracket", { link = "Delimiter" })
 -- Pop-up Menu
 set_hl(0, "Pmenu", { fg = palette.fg, bg = palette.bg_popup })
 set_hl(0, "PmenuSel", { fg = palette.fg_bright, bg = palette.bg_alt, bold = true })
-set_hl(0, "FloatBorder", { fg = palette.muted_dark, bg = palette.bg })
-set_hl(0, "NormalFloat", { fg = palette.fg, bg = palette.bg })
+set_hl(0, "FloatBorder", { fg = palette.muted_dark, bg = palette.bg_popup })
+set_hl(0, "NormalFloat", { fg = palette.fg, bg = palette.bg_popup })
 
 -- Diagnostics
-set_hl(0, "DiagnosticError", { fg = palette.fg_bright })
-set_hl(0, "DiagnosticWarn", { fg = palette.accent_soft })
-set_hl(0, "DiagnosticInfo", { fg = palette.accent })
-set_hl(0, "DiagnosticHint", { fg = palette.comment })
+set_hl(0, "DiagnosticError", { fg = palette.error })
+set_hl(0, "DiagnosticWarn", { fg = palette.warn })
+set_hl(0, "DiagnosticInfo", { fg = palette.info })
+set_hl(0, "DiagnosticHint", { fg = palette.hint })

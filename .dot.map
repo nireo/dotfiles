@@ -6,3 +6,4 @@ hypr : ~/.config/hypr
 .tmux.conf : ~/.tmux.conf
 zathura : ~/.config/zathura
 nvim : ~/.config/nvim
+aerospace : ~/.config/aerospace
