@@ -7,3 +7,4 @@ hypr : ~/.config/hypr
 zathura : ~/.config/zathura
 nvim : ~/.config/nvim
 aerospace : ~/.config/aerospace
+starship.toml : ~/.config/starship.toml

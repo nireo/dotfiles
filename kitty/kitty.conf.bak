@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 
-macos_thicken_font 0.30
+macos_thicken_font 0.50
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -22,7 +22,7 @@ macos_thicken_font 0.30
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 11.5
+font_size 19.5
 
 #: Font size (in pts).
 
@@ -1461,7 +1461,7 @@ enable_audio_bell no
 #: Color scheme {{{
 
 # foreground #dddddd
-# background #000000
+background #101010
 
 #: The foreground and background colors.
 
@@ -3086,13 +3086,11 @@ map ctrl+w>= layout_action mirror toggle
 # ctrl+w > z : Toggle window zoom (temporarily maximize current pane)
 map ctrl+w>z toggle_layout stack
 
-
-
 # BEGIN_KITTY_FONTS
-font_family      family="BlexMono Nerd Font Mono"
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
+font_family      family="MesloLGS Nerd Font Mono"
+bold_font        family='MesloLGS Nerd Font Mono' style=Regular
+italic_font      family='MesloLGS Nerd Font Mono' style=Regular
+bold_italic_font family='MesloLGS Nerd Font Mono' style=Regular
 # END_KITTY_FONTS
 
 

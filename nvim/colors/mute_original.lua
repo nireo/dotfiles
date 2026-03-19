@@ -1,27 +1,30 @@
 vim.cmd("highlight clear")
 if vim.fn.exists("syntax_on") == 1 then
-  vim.cmd("syntax reset")
+	vim.cmd("syntax reset")
 end
 
 local set_hl = vim.api.nvim_set_hl
 local palette = {
-  bg = "#101010",
-  bg_alt = "#262626",
-  bg_popup = "#222222",
-  fg = "#B7AE9F",
-  fg_bright = "#E7DAC7",
-  string = "#D3B06B",
-  accent = "#7D8F99",
-  accent_keyword = "#A2A97E",
-  accent_soft = "#9E9484",
-  visual = "#3A3028",
-  comment = "#87907A",
-  muted = "#60574C",
-  muted_dark = "#3A3A3A",
-  error = "#E7DAC7",
-  warn = "#9E9484",
-  info = "#7D8F99",
-  hint = "#87907A",
+	bg = "#050505",
+	bg_alt = "#121212",
+	bg_popup = "#0F0F0F",
+	fg = "#D4CDC2",
+	fg_bright = "#F5ECDE",
+	string = "#C78F88",
+	accent = "#95A5AE",
+	accent_keyword = "#B7BF92",
+	accent_soft = "#B4A999",
+	number = "#E4CCAC",
+	boolean = "#D2DBAD",
+	builtin = "#C2CFDB",
+	visual = "#241B15",
+	comment = "#908B86",
+	muted = "#60574C",
+	muted_dark = "#222222",
+	error = "#E7DAC7",
+	warn = "#9E9484",
+	info = "#7D8F99",
+	hint = "#87907A",
 }
 
 vim.g.colors_name = "mute_original"
@@ -59,8 +62,11 @@ set_hl(0, "Comment", { fg = palette.comment, bg = "NONE", italic = true })
 set_hl(0, "SpecialComment", { fg = palette.comment, bg = "NONE", italic = true })
 set_hl(0, "String", { fg = palette.string, bg = "NONE" })
 set_hl(0, "Constant", { fg = palette.fg_bright, bg = "NONE" })
-set_hl(0, "Number", { fg = palette.accent_soft, bg = "NONE" })
-set_hl(0, "Boolean", { fg = palette.comment, bg = "NONE" })
+set_hl(0, "BuiltinConstant", { fg = palette.builtin, bg = "NONE" })
+set_hl(0, "Number", { fg = palette.number, bg = "NONE" })
+set_hl(0, "Boolean", { fg = palette.boolean, bg = "NONE" })
+set_hl(0, "goPredefinedIdentifiers", { link = "BuiltinConstant" })
+set_hl(0, "goBoolean", { link = "Boolean" })
 
 -- --- Links ---
 set_hl(0, "Identifier", { link = "Normal" })
@@ -104,7 +110,8 @@ set_hl(0, "@parameter.reference", { link = "Normal" })
 set_hl(0, "@variable.parameter", { link = "Normal" })
 set_hl(0, "@variable.parameter.builtin", { link = "Normal" })
 set_hl(0, "@constant", { link = "Constant" })
-set_hl(0, "@constant.builtin", { link = "Constant" })
+set_hl(0, "@constant.builtin", { link = "BuiltinConstant" })
+set_hl(0, "@constant.builtin.go", { link = "BuiltinConstant" })
 set_hl(0, "@constant.macro", { link = "DustyPreProc" })
 set_hl(0, "@tag", { link = "SoftSpecial" })
 set_hl(0, "@tag.attribute", { link = "WarmIdentifier" })
@@ -131,6 +138,8 @@ set_hl(0, "@character", { link = "String" })
 set_hl(0, "@comment", { link = "Comment" })
 set_hl(0, "@number", { link = "Number" })
 set_hl(0, "@boolean", { link = "Boolean" })
+set_hl(0, "@number.go", { link = "Number" })
+set_hl(0, "@boolean.go", { link = "Boolean" })
 
 set_hl(0, "@operator", { link = "Operator" })
 set_hl(0, "@punctuation.delimiter", { link = "Delimiter" })

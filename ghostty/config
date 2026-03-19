@@ -1,9 +1,9 @@
-font-family = "Liga SFMono Nerd Font"
+font-family = "Menlo"
 font-size = 12
-font-style = "Semibold"
-font-style-bold = "Semibold"
-font-style-italic = "Semibold"
-font-style-bold-italic = "Semibold"
+font-style = "Regular"
+font-style-bold = "Regular"
+font-style-italic = "Regular"
+font-style-bold-italic = "Regular"
 font-thicken = true
 font-thicken-strength = 255
 cursor-style = block
