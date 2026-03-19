@@ -11,6 +11,11 @@ return {
 		end,
 	},
 	{
+		"Mofiqul/adwaita.nvim",
+		lazy = false,
+		priority = 1000,
+	},
+	{
 		"nickjvandyke/opencode.nvim",
 		version = "*", -- Latest stable release
 		dependencies = {
