@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 
-macos_thicken_font 0.50
+macos_thicken_font 0.40
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -1461,7 +1461,7 @@ enable_audio_bell no
 #: Color scheme {{{
 
 # foreground #dddddd
-background #101010
+# background #101010
 
 #: The foreground and background colors.
 
@@ -3019,11 +3019,10 @@ active_tab_title_template "● {index}: {title[:14]}"
 
 active_tab_font_style   bold
 inactive_tab_font_style bold
-
-active_tab_foreground   #14100c
-active_tab_background   #97b1c4
-inactive_tab_foreground #b7ae9f
-inactive_tab_background #241c16
+# active_tab_foreground   #14100c
+# active_tab_background   #97b1c4
+# inactive_tab_foreground #b7ae9f
+# inactive_tab_background #241c16
 
 # Tab Bar Layout
 # tab_bar_style           slant
@@ -3050,6 +3049,10 @@ enabled_layouts splits,stack
 # -----------------------------------------------------------
 # Splitting Windows
 # -----------------------------------------------------------
+# Direct bindings for the QMK WM layer
+map ctrl+alt+minus launch --location=hsplit
+map ctrl+alt+backslash launch --location=vsplit
+
 # ctrl+- : Split horizontally (top-and-bottom)
 map ctrl+- launch --location=hsplit
 
@@ -3059,6 +3062,12 @@ map ctrl+| launch --location=vsplit
 # -----------------------------------------------------------
 # Moving Focus (Navigation)
 # -----------------------------------------------------------
+# Direct bindings for the QMK WM layer
+map ctrl+alt+h neighboring_window left
+map ctrl+alt+j neighboring_window down
+map ctrl+alt+k neighboring_window up
+map ctrl+alt+l neighboring_window right
+
 # ctrl+w > h/j/k/l : Move focus to the left/down/up/right
 map ctrl+w>h neighboring_window left
 map ctrl+w>j neighboring_window down
@@ -3077,6 +3086,10 @@ map ctrl+w>shift+l move_window right
 # -----------------------------------------------------------
 # Window Management Utilities
 # -----------------------------------------------------------
+# Direct bindings for the QMK WM layer
+map ctrl+alt+q close_window
+map ctrl+alt+equal layout_action mirror toggle
+
 # ctrl+w > q : Close the current window
 map ctrl+w>q close_window
 
@@ -3087,14 +3100,14 @@ map ctrl+w>= layout_action mirror toggle
 map ctrl+w>z toggle_layout stack
 
 # BEGIN_KITTY_FONTS
-font_family      family="MesloLGS Nerd Font Mono"
-bold_font        family='MesloLGS Nerd Font Mono' style=Regular
-italic_font      family='MesloLGS Nerd Font Mono' style=Regular
-bold_italic_font family='MesloLGS Nerd Font Mono' style=Regular
+font_family      family="DroidSansM Nerd Font Mono"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
 # END_KITTY_FONTS
 
 
 # BEGIN_KITTY_THEME
-# Vague
-include mono.conf
+# Adwaita darker
+include current-theme.conf
 # END_KITTY_THEME
