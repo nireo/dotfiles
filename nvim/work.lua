@@ -309,24 +309,77 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-local statusline_group = vim.api.nvim_create_augroup("work-safe-statusline", { clear = true })
-vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-	group = statusline_group,
-	callback = function()
-		_G.MyStatusLine = function()
-			local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-			local warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-			local lsp = (errors > 0 or warnings > 0) and string.format(" [E:%d W:%d]", errors, warnings) or ""
-			local file = vim.fn.expand("%:~:.")
+local winbar_branch_cache = {}
+local uv = vim.uv or vim.loop
 
-			if file == "" or vim.bo.buftype ~= "" then
-				file = vim.fn.expand("%:t")
-			end
+local function winbar_git_branch(bufnr)
+	local name = vim.api.nvim_buf_get_name(bufnr)
+	if name == "" then
+		return ""
+	end
 
-			return file .. " %m %r %w" .. lsp .. " %= %y %l:%c "
+	local git_dir = vim.fs.find(".git", { path = vim.fs.dirname(name), upward = true, limit = 1 })[1]
+	if not git_dir then
+		return ""
+	end
+
+	local git_root = vim.fs.dirname(git_dir)
+	local now = uv.now()
+	local cached = winbar_branch_cache[git_root]
+	if cached and now - cached.at < 5000 then
+		return cached.branch
+	end
+
+	local result = vim.system({ "git", "-C", git_root, "branch", "--show-current" }, { text = true }):wait()
+	local branch = result.code == 0 and vim.trim(result.stdout or "") or ""
+	winbar_branch_cache[git_root] = { branch = branch, at = now }
+
+	return branch
+end
+
+function _G.MyWinBar()
+	local bufnr = vim.api.nvim_get_current_buf()
+	local name = vim.api.nvim_buf_get_name(bufnr)
+	local path = name == "" and "[No Name]" or vim.fn.fnamemodify(name, ":~:.")
+	local diagnostics = {}
+	local severities = vim.diagnostic.severity
+	local errors = #vim.diagnostic.get(bufnr, { severity = severities.ERROR })
+	local warnings = #vim.diagnostic.get(bufnr, { severity = severities.WARN })
+	local info = #vim.diagnostic.get(bufnr, { severity = severities.INFO })
+	local branch = winbar_git_branch(bufnr)
+
+	if branch ~= "" then
+		table.insert(diagnostics, "git:" .. branch)
+	end
+	if errors > 0 then
+		table.insert(diagnostics, "E:" .. errors)
+	end
+	if warnings > 0 then
+		table.insert(diagnostics, "W:" .. warnings)
+	end
+	if info > 0 then
+		table.insert(diagnostics, "I:" .. info)
+	end
+
+	local left = " " .. path .. " %m%r"
+	local right = table.concat(diagnostics, "  ")
+	if right == "" then
+		return left
+	end
+
+	return left .. "%=" .. right .. " "
+end
+
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost", "WinEnter" }, {
+	group = vim.api.nvim_create_augroup("work-safe-filename-winbar", { clear = true }),
+	callback = function(args)
+		local win_config = vim.api.nvim_win_get_config(0)
+		if win_config.relative ~= "" or vim.bo[args.buf].buftype ~= "" then
+			vim.opt_local.winbar = ""
+			return
 		end
 
-		vim.opt_local.statusline = "%!v:lua.MyStatusLine()"
+		vim.opt_local.winbar = "%!v:lua.MyWinBar()"
 	end,
 })
 

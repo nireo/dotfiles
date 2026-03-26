@@ -63,6 +63,7 @@ o.scrolloff = 5
 o.swapfile = false
 o.fileencoding = "utf-8"
 o.showmode = false
+o.laststatus = 0
 o.lazyredraw = true
 vim.wo.wrap = true
 vim.wo.linebreak = true

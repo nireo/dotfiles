@@ -4,4 +4,4 @@ require("core.lsp")
 require("config.keymaps")
 require("config.autocmds")
 
-vim.cmd.colorscheme("darker")
+vim.cmd.colorscheme("mono_plus")

@@ -20,6 +20,10 @@ alias ng="nvim +Neogit"
 alias ob="cd ~/vault/vault/ && nvim ."
 alias pup="brew update && brew upgrade && brew cleanup"
 
+pdel() {
+    brew uninstall "$@" && brew autoremove && brew cleanup
+}
+
 eval "$(starship init zsh)"
 source <(fzf --zsh)
 
