@@ -3100,10 +3100,10 @@ map ctrl+w>= layout_action mirror toggle
 map ctrl+w>z toggle_layout stack
 
 # BEGIN_KITTY_FONTS
-font_family      family="Inconsolata LGC Nerd Font Mono"
-bold_font        family='Inconsolata LGC Nerd Font Mono' style=Regular
-italic_font      family='Inconsolata LGC Nerd Font Mono' style=Regular
-bold_italic_font family='Inconsolata LGC Nerd Font Mono' style=Regular
+font_family      family=Menlo postscript_name=Menlo-Regular
+bold_font        family=Menlo postscript_name=Menlo-Regular
+italic_font      family=Menlo postscript_name=Menlo-Regular
+bold_italic_font family=Menlo postscript_name=Menlo-Regular
 # END_KITTY_FONTS
 
 

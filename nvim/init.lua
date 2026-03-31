@@ -1,7 +1,7 @@
 require("config.options")
-require("core.lazy")
+require("core.plugins").setup()
 require("core.lsp")
 require("config.keymaps")
 require("config.autocmds")
 
-vim.cmd.colorscheme("mono_plus")
+vim.cmd.colorscheme("kanagawa-dragon")

@@ -1,5 +1,5 @@
 font-family = "Menlo"
-font-size = 18
+font-size = 19
 font-style = "Regular"
 font-style-bold = "Regular"
 font-style-italic = "Regular"
@@ -9,7 +9,7 @@ font-thicken-strength = 255
 cursor-style = block
 shell-integration-features = no-cursor
 
-theme = Vesper
+theme = Kanagawa Dragon
 
 title = "ghostty"
 cursor-style-blink = false

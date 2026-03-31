@@ -3,7 +3,6 @@ local yank = require("custom.yank")
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.keymap.set("n", "<leader>o", ":Oil<CR>")
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -28,12 +27,6 @@ vim.keymap.set({ "n", "v" }, "gl", "$")
 vim.keymap.set("n", "<Tab>", "<C-W>w")
 vim.keymap.set("n", "<S-Tab>", "<C-W>W")
 
-vim.keymap.set("n", "<leader>ie", ":GoIfErr<CR>")
-vim.keymap.set("n", "<leader>gotf", ":GoTestFile<CR>")
-vim.keymap.set("n", "<leader>gofn", ":GoTestFunc<CR>")
-vim.keymap.set("n", "<leader>gofs", ":GoFillStruct<CR>")
-vim.keymap.set("n", "<leader>goj", ":GoAddTag json<CR>")
-
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set({ "v", "x" }, "J", ":move '>+1<cr>gv-gv")
@@ -47,9 +40,6 @@ vim.keymap.set("n", "<leader>yb", function()
 
 	print("yanked whole file to system clipboard")
 end)
-
--- open neogit
-vim.keymap.set("n", "<leader>cg", ":Neogit<CR>")
 
 -- center search results
 vim.keymap.set("n", "n", "nzzzv")
@@ -152,36 +142,6 @@ vim.keymap.set("n", "<leader>lc", function()
 end, opts)
 
 vim.keymap.set("n", "<leader>lr", ":copen<CR>", opts)
-vim.keymap.set("n", "<leader>lq", function()
-	require("quicker").toggle()
-end, {
-	desc = "Toggle quickfix",
-})
-
-vim.keymap.set("n", "<leader>ll", function()
-	require("quicker").toggle()
-end, {
-	desc = "Toggle quickfix",
-})
-
-require("quicker").setup({
-	keys = {
-		{
-			">",
-			function()
-				require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
-			end,
-			desc = "Expand quickfix context",
-		},
-		{
-			"<",
-			function()
-				require("quicker").collapse()
-			end,
-			desc = "Collapse quickfix context",
-		},
-	},
-})
 
 vim.keymap.set("n", "<leader>ya", function()
 	yank.yank_path(yank.get_buffer_absolute(), "absolute")

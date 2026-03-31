@@ -8,12 +8,6 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-[[on-window-detected]]
-if.app-id="com.mitchellh.ghostty"
-run= [
-  "layout tiling",
-]
-
 [mode.main.binding]
     alt-enter = '''exec-and-forget osascript -e '
     tell application "Kitty"

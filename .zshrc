@@ -66,3 +66,10 @@ obsync() {
 # This section can be safely removed at any time if needed.
 [[ ! -r '/Users/eemil/.opam/opam-init/init.zsh' ]] || source '/Users/eemil/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 # END opam configuration
+
+# bun completions
+[ -s "/Users/eemil/.bun/_bun" ] && source "/Users/eemil/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
