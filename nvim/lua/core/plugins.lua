@@ -215,10 +215,6 @@ local function setup_main_plugins()
 				end,
 			},
 		},
-		notifier = {
-			enabled = true,
-			timeout = 3000,
-		},
 		input = {},
 	})
 

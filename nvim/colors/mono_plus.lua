@@ -10,7 +10,7 @@ vim.g.colors_name = "mono_plus"
 vim.o.background = "dark"
 
 -- Base colors
-set_hl(0, "Normal", { fg = "#B0B0B0", bg = "#050505" })
+set_hl(0, "Normal", { fg = "#B0B0B0", bg = "#181616" })
 set_hl(0, "BoldKeyword", { fg = "#B0B0B0", bg = "NONE", bold = true })
 set_hl(0, "Muted", { fg = "#666666", bg = "NONE" })
 set_hl(0, "SoftFunction", { fg = "#F2F2F2", bg = "NONE" })
@@ -19,20 +19,20 @@ set_hl(0, "SoftNumber", { fg = "#CFBEA3", bg = "NONE" })
 set_hl(0, "SoftDirectory", { fg = "#9AAEB8", bg = "NONE" })
 
 -- UI Elements
-set_hl(0, "LineNr", { fg = "#444444", bg = "#050505" })
-set_hl(0, "CursorLine", { bg = "#121212" })
-set_hl(0, "CursorLineNr", { fg = "#A0A0A0", bg = "#050505", bold = true })
-set_hl(0, "ColorColumn", { bg = "#050505" })
-set_hl(0, "SignColumn", { bg = "#050505" })
-set_hl(0, "VertSplit", { fg = "#1A1A1A", bg = "#050505" })
-set_hl(0, "WinSeparator", { fg = "#1A1A1A", bg = "#050505" })
-set_hl(0, "StatusLine", { fg = "#909090", bg = "#141414" })
-set_hl(0, "StatusLineNC", { fg = "#444444", bg = "#090909" })
+set_hl(0, "LineNr", { fg = "#444444", bg = "#181616" })
+set_hl(0, "CursorLine", { bg = "#1d1b1b" })
+set_hl(0, "CursorLineNr", { fg = "#A0A0A0", bg = "#181616", bold = true })
+set_hl(0, "ColorColumn", { bg = "#181616" })
+set_hl(0, "SignColumn", { bg = "#181616" })
+set_hl(0, "VertSplit", { fg = "#2a2828", bg = "#181616" })
+set_hl(0, "WinSeparator", { fg = "#2a2828", bg = "#181616" })
+set_hl(0, "StatusLine", { fg = "#909090", bg = "#1e1c1c" })
+set_hl(0, "StatusLineNC", { fg = "#444444", bg = "#121111" })
 
 -- Selection and Search
-set_hl(0, "Visual", { bg = "#262626" })
-set_hl(0, "Search", { fg = "#050505", bg = "#B0B0B0", bold = true })
-set_hl(0, "IncSearch", { fg = "#050505", bg = "#FFFFFF", bold = true })
+set_hl(0, "Visual", { bg = "#2d2a2a" })
+set_hl(0, "Search", { fg = "#181616", bg = "#B0B0B0", bold = true })
+set_hl(0, "IncSearch", { fg = "#181616", bg = "#FFFFFF", bold = true })
 
 -- --- The Only Colored Groups ---
 -- Faint blue-gray for comments
@@ -110,10 +110,10 @@ set_hl(0, "@punctuation.delimiter", { link = "Muted" })
 set_hl(0, "@punctuation.bracket", { link = "Muted" })
 
 -- Pop-up Menu
-set_hl(0, "Pmenu", { fg = "#A0A0A0", bg = "#141414" })
-set_hl(0, "PmenuSel", { fg = "#FFFFFF", bg = "#262626", bold = true })
-set_hl(0, "FloatBorder", { fg = "#303030", bg = "#050505" })
-set_hl(0, "NormalFloat", { fg = "#B0B0B0", bg = "#050505" })
+set_hl(0, "Pmenu", { fg = "#A0A0A0", bg = "#1e1c1c" })
+set_hl(0, "PmenuSel", { fg = "#FFFFFF", bg = "#2d2a2a", bold = true })
+set_hl(0, "FloatBorder", { fg = "#3a3838", bg = "#181616" })
+set_hl(0, "NormalFloat", { fg = "#B0B0B0", bg = "#181616" })
 
 -- Diagnostics
 set_hl(0, "DiagnosticError", { fg = "#805555" })

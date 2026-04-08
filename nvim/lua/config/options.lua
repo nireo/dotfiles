@@ -72,8 +72,8 @@ vim.g.netrw_winsize = 20
 vim.g.netrw_banner = 0
 vim.g.netrw_list_style = 1
 
-o.relativenumber = true
-o.number = true
+-- o.relativenumber = true
+-- o.number = true
 
 o.autoread = true
 
