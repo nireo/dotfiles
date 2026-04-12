@@ -10,44 +10,44 @@ vim.g.colors_name = "mono_light"
 vim.o.background = "light"
 
 -- Base colors
-set_hl(0, "Normal", { fg = "#3A3A3A", bg = "#F5F3ED" })
-set_hl(0, "BoldKeyword", { fg = "#3A3A3A", bg = "NONE", bold = true })
-set_hl(0, "Muted", { fg = "#8A8A8A", bg = "NONE" })
+set_hl(0, "Normal", { fg = "#3F444A", bg = "#DDDCD8" })
+set_hl(0, "BoldKeyword", { fg = "#3F444A", bg = "NONE", bold = true })
+set_hl(0, "Muted", { fg = "#757B83", bg = "NONE" })
 
 -- UI Elements
-set_hl(0, "LineNr", { fg = "#B0AAA1", bg = "#F5F3ED" })
-set_hl(0, "CursorLine", { bg = "#EEE9E0" })
-set_hl(0, "CursorLineNr", { fg = "#5A5A5A", bg = "#F5F3ED", bold = true })
-set_hl(0, "ColorColumn", { bg = "#F0EBE2" })
-set_hl(0, "SignColumn", { bg = "#F5F3ED" })
-set_hl(0, "VertSplit", { fg = "#DDD7CE", bg = "#F5F3ED" })
-set_hl(0, "WinSeparator", { fg = "#DDD7CE", bg = "#F5F3ED" })
-set_hl(0, "StatusLine", { fg = "#5C5C5C", bg = "#EDE7DD" })
-set_hl(0, "StatusLineNC", { fg = "#9C9C9C", bg = "#F5F3ED" })
+set_hl(0, "LineNr", { fg = "#999EA5", bg = "#DDDCD8" })
+set_hl(0, "CursorLine", { bg = "#D6D5D1" })
+set_hl(0, "CursorLineNr", { fg = "#50565D", bg = "#DDDCD8", bold = true })
+set_hl(0, "ColorColumn", { bg = "#D8D7D3" })
+set_hl(0, "SignColumn", { bg = "#DDDCD8" })
+set_hl(0, "VertSplit", { fg = "#C3C4C0", bg = "#DDDCD8" })
+set_hl(0, "WinSeparator", { fg = "#C3C4C0", bg = "#DDDCD8" })
+set_hl(0, "StatusLine", { fg = "#50565D", bg = "#D0CFCC" })
+set_hl(0, "StatusLineNC", { fg = "#82878D", bg = "#DDDCD8" })
 
 -- Selection and Search
-set_hl(0, "Visual", { bg = "#E2DED4" })
-set_hl(0, "Search", { fg = "#F5F3ED", bg = "#6E6E6E", bold = true })
-set_hl(0, "IncSearch", { fg = "#F5F3ED", bg = "#4F4F4F", bold = true })
+set_hl(0, "Visual", { bg = "#CACED3" })
+set_hl(0, "Search", { fg = "#383E45", bg = "#BCC2CA", bold = true })
+set_hl(0, "IncSearch", { fg = "#383E45", bg = "#AFB6C0", bold = true })
 
 -- Diff
-set_hl(0, "DiffAdd", { fg = "#3A3A3A", bg = "#E3EEE3" })
-set_hl(0, "DiffChange", { fg = "#3A3A3A", bg = "#EFE5D6" })
-set_hl(0, "DiffDelete", { fg = "#3E2A2A", bg = "#F2D2D2" })
-set_hl(0, "DiffText", { fg = "#3A3A3A", bg = "#DCCFB8", bold = true })
+set_hl(0, "DiffAdd", { fg = "#3F444A", bg = "#D4DDD5" })
+set_hl(0, "DiffChange", { fg = "#3F444A", bg = "#D5D8DD" })
+set_hl(0, "DiffDelete", { fg = "#6D5B60", bg = "#DACCD0" })
+set_hl(0, "DiffText", { fg = "#3F444A", bg = "#C1C8D1", bold = true })
 
 -- Neogit diff (override plugin palette)
 set_hl(0, "NeogitDiffDelete", { link = "DiffDelete" })
 set_hl(0, "NeogitDiffDeleteHighlight", { link = "DiffDelete" })
 set_hl(0, "NeogitDiffDeleteCursor", { link = "DiffDelete" })
-set_hl(0, "NeogitDiffDeletions", { fg = "#3E2A2A", bg = "NONE" })
+set_hl(0, "NeogitDiffDeletions", { fg = "#6D5B60", bg = "NONE" })
 
 -- --- The Only Colored Groups ---
 -- Muted dusty blue for comments
-set_hl(0, "Comment", { fg = "#6E8798", bg = "NONE", italic = true })
-set_hl(0, "SpecialComment", { fg = "#6E8798", bg = "NONE", italic = true })
+set_hl(0, "Comment", { fg = "#687682", bg = "NONE", italic = true })
+set_hl(0, "SpecialComment", { fg = "#687682", bg = "NONE", italic = true })
 -- Soft sage green for strings
-set_hl(0, "String", { fg = "#6F8A6F", bg = "NONE" })
+set_hl(0, "String", { fg = "#617063", bg = "NONE" })
 
 -- --- Neutralizing Everything Else ---
 set_hl(0, "Identifier", { link = "Normal" })
@@ -118,13 +118,13 @@ set_hl(0, "@punctuation.delimiter", { link = "Muted" })
 set_hl(0, "@punctuation.bracket", { link = "Muted" })
 
 -- Pop-up Menu
-set_hl(0, "Pmenu", { fg = "#5C5C5C", bg = "#EDE7DD" })
-set_hl(0, "PmenuSel", { fg = "#F5F3ED", bg = "#6E6E6E", bold = true })
-set_hl(0, "FloatBorder", { fg = "#CFC8BE", bg = "#F5F3ED" })
-set_hl(0, "NormalFloat", { fg = "#3A3A3A", bg = "#F5F3ED" })
+set_hl(0, "Pmenu", { fg = "#50565D", bg = "#D0CFCC" })
+set_hl(0, "PmenuSel", { fg = "#383E45", bg = "#BCC2CA", bold = true })
+set_hl(0, "FloatBorder", { fg = "#B7B8B4", bg = "#DDDCD8" })
+set_hl(0, "NormalFloat", { fg = "#3F444A", bg = "#DDDCD8" })
 
 -- Diagnostics
-set_hl(0, "DiagnosticError", { fg = "#8E6060" })
-set_hl(0, "DiagnosticWarn", { fg = "#8A7A5A" })
-set_hl(0, "DiagnosticInfo", { fg = "#5E6F86" })
-set_hl(0, "DiagnosticHint", { fg = "#5C7A6A" })
+set_hl(0, "DiagnosticError", { fg = "#8B6D74" })
+set_hl(0, "DiagnosticWarn", { fg = "#8A7F6D" })
+set_hl(0, "DiagnosticInfo", { fg = "#667688" })
+set_hl(0, "DiagnosticHint", { fg = "#66776B" })

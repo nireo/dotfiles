@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 
-macos_thicken_font 0.40
+macos_thicken_font 0.25
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -22,7 +22,7 @@ macos_thicken_font 0.40
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 19.5
+font_size 18
 
 #: Font size (in pts).
 
@@ -3100,14 +3100,14 @@ map ctrl+w>= layout_action mirror toggle
 map ctrl+w>z toggle_layout stack
 
 # BEGIN_KITTY_FONTS
-font_family      family=Menlo postscript_name=Menlo-Regular
-bold_font        family=Menlo postscript_name=Menlo-Regular
-italic_font      family=Menlo postscript_name=Menlo-Regular
-bold_italic_font family=Menlo postscript_name=Menlo-Regular
+font_family      family="Hack Nerd Font Mono"
+bold_font        family='Hack Nerd Font Mono' style=Regular
+italic_font      family='Hack Nerd Font Mono' style=Regular
+bold_italic_font family='Hack Nerd Font Mono' style=Regular
 # END_KITTY_FONTS
 
 
 # BEGIN_KITTY_THEME
-# Adwaita darker
+# Kanagawa_dragon
 include current-theme.conf
 # END_KITTY_THEME

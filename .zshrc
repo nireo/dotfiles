@@ -19,6 +19,7 @@ alias cd="z"
 alias ng="nvim +Neogit"
 alias ob="cd ~/vault/vault/ && nvim ."
 alias pup="brew update && brew upgrade && brew cleanup"
+alias audio="yt-dlp -f bestaudio -x --audio-format best --audio-quality 0 --embed-thumbnail --embed-metadata"
 
 pdel() {
     brew uninstall "$@" && brew autoremove && brew cleanup
@@ -73,3 +74,4 @@ obsync() {
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+eval "$(/Users/eemil/.local/bin/mise activate zsh)"

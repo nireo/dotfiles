@@ -72,6 +72,17 @@ local function setup_main_plugins()
 	local flash = require("flash")
 	local opencode = require("opencode")
 
+	require("obsidian").setup({
+		legacy_commands = false,
+		workspaces = {
+			{
+				name = "personal",
+				path = "~/vault/vault",
+			},
+		},
+	})
+
+	require("render-markdown").setup({})
 	require("Comment").setup({})
 	conform.setup({
 		formatters_by_ft = {
@@ -374,6 +385,7 @@ local main_specs = {
 	gh("ray-x/go.nvim"),
 	gh("stevearc/quicker.nvim"),
 	gh("rebelot/kanagawa.nvim"),
+	gh("yorickpeterse/nvim-grey"),
 	gh("Mofiqul/adwaita.nvim"),
 	gh("folke/snacks.nvim"),
 	gh("nvim-lua/plenary.nvim"),
@@ -383,6 +395,11 @@ local main_specs = {
 	gh("folke/flash.nvim"),
 	gh("NeogitOrg/neogit"),
 	gh("esmuellert/codediff.nvim"),
+	gh("MeanderingProgrammer/render-markdown.nvim"),
+	{
+		src = gh("obsidian-nvim/obsidian.nvim"),
+		version = vim.version.range("*"),
+	},
 	{ src = gh("github/copilot.vim"), version = "release" },
 	{ src = gh("saghen/blink.cmp"), version = vim.version.range("1") },
 	{ src = gh("nvim-treesitter/nvim-treesitter"), version = "main" },
