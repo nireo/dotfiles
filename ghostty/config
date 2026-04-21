@@ -8,8 +8,9 @@ font-thicken = true
 font-thicken-strength = 255
 cursor-style = block
 shell-integration-features = no-cursor
+macos-icon = chalkboard
 
-theme = Kanagawa Dragon
+theme = Zenbones Dark 
 
 title = "ghostty"
 cursor-style-blink = false

@@ -72,6 +72,10 @@ local function setup_main_plugins()
 	local flash = require("flash")
 	local opencode = require("opencode")
 
+	require("gruvbox").setup({
+		contrast = "hard",
+	})
+
 	require("obsidian").setup({
 		legacy_commands = false,
 		workspaces = {
@@ -377,7 +381,7 @@ local main_specs = {
 	gh("tpope/vim-sleuth"),
 	gh("pechorin/any-jump.vim"),
 	gh("stevearc/conform.nvim"),
-	gh("rafamadriz/friendly-snippets"),
+	gh("rafamadrizi/friendly-snippets"),
 	gh("numToStr/Comment.nvim"),
 	gh("williamboman/mason.nvim"),
 	gh("windwp/nvim-autopairs"),
@@ -385,8 +389,7 @@ local main_specs = {
 	gh("ray-x/go.nvim"),
 	gh("stevearc/quicker.nvim"),
 	gh("rebelot/kanagawa.nvim"),
-	gh("yorickpeterse/nvim-grey"),
-	gh("Mofiqul/adwaita.nvim"),
+	gh("rktjmp/lush.nvim"),
 	gh("folke/snacks.nvim"),
 	gh("nvim-lua/plenary.nvim"),
 	gh("MunifTanjim/nui.nvim"),
@@ -396,6 +399,8 @@ local main_specs = {
 	gh("NeogitOrg/neogit"),
 	gh("esmuellert/codediff.nvim"),
 	gh("MeanderingProgrammer/render-markdown.nvim"),
+	gh("ellisonleao/gruvbox.nvim"),
+	gh("zenbones-theme/zenbones.nvim"),
 	{
 		src = gh("obsidian-nvim/obsidian.nvim"),
 		version = vim.version.range("*"),

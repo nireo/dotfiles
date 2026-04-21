@@ -8,4 +8,4 @@ require("vim._core.ui2").enable({
 	enable = true,
 })
 
-vim.cmd.colorscheme("kanagawa-dragon")
+vim.cmd.colorscheme("zenbones")
