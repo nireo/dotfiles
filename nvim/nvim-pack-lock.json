@@ -30,6 +30,10 @@
       "src": "https://github.com/github/copilot.vim",
       "version": "'release'"
     },
+    "fff.nvim": {
+      "rev": "bca71efb32e208d0498369197303954b15e91b63",
+      "src": "https://github.com/dmtrKovalenko/fff.nvim"
+    },
     "flash.nvim": {
       "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
       "src": "https://github.com/folke/flash.nvim"

@@ -44,6 +44,33 @@ local function add(specs)
 	vim.pack.add(specs, { load = true, confirm = false })
 end
 
+local function setup_fff_pack_changed()
+	vim.api.nvim_create_autocmd("PackChanged", {
+		group = vim.api.nvim_create_augroup("core-fff-pack-changed", { clear = true }),
+		callback = function(ev)
+			local name, kind = ev.data.spec.name, ev.data.kind
+
+			if name == "fff.nvim" and (kind == "install" or kind == "update") then
+				if not ev.data.active then
+					vim.cmd.packadd("fff.nvim")
+				end
+
+				require("fff.download").download_or_build_binary()
+			end
+		end,
+	})
+end
+
+local function ensure_fff_binary()
+	local download = require("fff.download")
+
+	if vim.uv.fs_stat(download.get_binary_path()) then
+		return
+	end
+
+	download.download_or_build_binary()
+end
+
 local function setup_treesitter()
 	require("nvim-treesitter").install(treesitter_parsers)
 
@@ -71,10 +98,6 @@ local function setup_main_plugins()
 	local which_key = require("which-key")
 	local flash = require("flash")
 	local opencode = require("opencode")
-
-	require("gruvbox").setup({
-		contrast = "hard",
-	})
 
 	require("obsidian").setup({
 		legacy_commands = false,
@@ -302,11 +325,11 @@ local function setup_main_plugins()
 		snacks.picker.gh_pr({ state = "all" })
 	end, { desc = "GitHub Pull Requests (all)" })
 	map("n", "gr", function()
-		snacks.picker.grep()
+		require("fff").live_grep()
 	end, { desc = "Grep" })
 	map("n", "ff", function()
-		snacks.picker.files()
-	end, { desc = "Find files" })
+		require("fff").find_files()
+	end, { desc = "FFFind files" })
 	map("n", "gw", function()
 		snacks.picker.grep_word()
 	end, { desc = "Grep" })
@@ -399,8 +422,8 @@ local main_specs = {
 	gh("NeogitOrg/neogit"),
 	gh("esmuellert/codediff.nvim"),
 	gh("MeanderingProgrammer/render-markdown.nvim"),
-	gh("ellisonleao/gruvbox.nvim"),
 	gh("zenbones-theme/zenbones.nvim"),
+	gh("dmtrKovalenko/fff.nvim"),
 	{
 		src = gh("obsidian-nvim/obsidian.nvim"),
 		version = vim.version.range("*"),
@@ -412,7 +435,14 @@ local main_specs = {
 }
 
 function M.setup()
+	setup_fff_pack_changed()
+	vim.g.fff = {
+		lazy_sync = true,
+		debug = { enabled = true, show_scores = true },
+	}
+
 	add(main_specs)
+	ensure_fff_binary()
 	setup_main_plugins()
 end
 
