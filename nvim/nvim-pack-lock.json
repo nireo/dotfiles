@@ -46,6 +46,10 @@
       "rev": "fe8e1de03157f8a68e9e5b819409368ce33aeb87",
       "src": "https://github.com/ray-x/go.nvim"
     },
+    "gruber-darker.nvim": {
+      "rev": "aba065c3a79b58cc3863d5c9db319255abd1258a",
+      "src": "https://github.com/blazkowolf/gruber-darker.nvim"
+    },
     "gruvbox.nvim": {
       "rev": "154eb5ff5b96d0641307113fa385eaf0d36d9796",
       "src": "https://github.com/ellisonleao/gruvbox.nvim"

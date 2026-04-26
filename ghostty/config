@@ -1,5 +1,5 @@
-font-family = "Menlo"
-font-size = 19
+font-family = "UbuntuMono Nerd Font"
+font-size = 22
 font-style = "Regular"
 font-style-bold = "Regular"
 font-style-italic = "Regular"
@@ -10,7 +10,7 @@ cursor-style = block
 shell-integration-features = no-cursor
 macos-icon = chalkboard
 
-theme = Zenbones Dark 
+theme = light:Zenbones Light,dark:Zenbones Dark
 
 title = "ghostty"
 cursor-style-blink = false

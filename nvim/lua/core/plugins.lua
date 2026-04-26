@@ -215,6 +215,10 @@ local function setup_main_plugins()
 	which_key.setup({})
 	flash.setup({})
 
+	vim.g.zenbones_solid_line_nr = true
+	vim.g.zenbones_lighten_comments = 50
+	vim.g.zenbones_darkness = "stark"
+
 	snacks.setup({
 		zen = {
 			enabled = true,
@@ -422,6 +426,7 @@ local main_specs = {
 	gh("NeogitOrg/neogit"),
 	gh("esmuellert/codediff.nvim"),
 	gh("MeanderingProgrammer/render-markdown.nvim"),
+	gh("blazkowolf/gruber-darker.nvim"),
 	gh("zenbones-theme/zenbones.nvim"),
 	gh("dmtrKovalenko/fff.nvim"),
 	{
