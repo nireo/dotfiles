@@ -217,7 +217,6 @@ local function setup_main_plugins()
 
 	vim.g.zenbones_solid_line_nr = true
 	vim.g.zenbones_lighten_comments = 50
-	vim.g.zenbones_darkness = "stark"
 
 	snacks.setup({
 		zen = {

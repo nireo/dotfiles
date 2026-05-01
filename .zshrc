@@ -18,6 +18,7 @@ alias pu="git push"
 alias cd="z"
 alias ng="nvim +Neogit"
 alias ob="cd ~/vault/vault/ && nvim ."
+alias obf="cd ~/vault/vault/ && nvim \"+lua require('fff').live_grep()\""
 alias pup="brew update && brew upgrade && brew cleanup"
 alias audio="yt-dlp -f bestaudio -x --audio-format best --audio-quality 0 --embed-thumbnail --embed-metadata"
 
