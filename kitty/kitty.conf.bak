@@ -3100,10 +3100,10 @@ map ctrl+w>= layout_action mirror toggle
 map ctrl+w>z toggle_layout stack
 
 # BEGIN_KITTY_FONTS
-font_family      family="UbuntuMono Nerd Font"
-bold_font        auto
+font_family      family='InconsolataGo Nerd Font Mono' postscript_name=InconsolataGoNFM
+bold_font        family='InconsolataGo Nerd Font Mono' style=Regular
 italic_font      auto
-bold_italic_font auto
+bold_italic_font family='InconsolataGo Nerd Font Mono' style=Regular
 # END_KITTY_FONTS
 
 
