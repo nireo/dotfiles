@@ -13,6 +13,48 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("TermRequest", {
+	desc = "Handle OSC 7 terminal directory changes",
+	group = vim.api.nvim_create_augroup("terminal-osc7", { clear = true }),
+	callback = function(ev)
+		local dir, count = string.gsub(ev.data.sequence, "\027]7;file://[^/]*", "")
+		if count == 0 then
+			return
+		end
+
+		if vim.fn.isdirectory(dir) == 0 then
+			vim.notify("invalid dir: " .. dir)
+			return
+		end
+
+		vim.b[ev.buf].osc7_dir = dir
+		if vim.api.nvim_get_current_buf() == ev.buf then
+			vim.cmd.lcd(vim.fn.fnameescape(dir))
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+	desc = "Show terminal prompt signs when available",
+	group = vim.api.nvim_create_augroup("terminal-prompt-signs", { clear = true }),
+	command = "setlocal signcolumn=auto",
+})
+
+local terminal_prompt_ns = vim.api.nvim_create_namespace("terminal.prompt")
+vim.api.nvim_create_autocmd("TermRequest", {
+	desc = "Annotate OSC 133 terminal prompts",
+	group = vim.api.nvim_create_augroup("terminal-osc133", { clear = true }),
+	callback = function(ev)
+		if string.match(ev.data.sequence, "^\027]133;A") then
+			local lnum = ev.data.cursor[1]
+			vim.api.nvim_buf_set_extmark(ev.buf, terminal_prompt_ns, lnum - 1, 0, {
+				sign_text = "▶",
+				sign_hl_group = "SpecialChar",
+			})
+		end
+	end,
+})
+
 local winbar_branch_cache = {}
 local uv = vim.uv or vim.loop
 

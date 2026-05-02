@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 
-# macos_thicken_font 0.30
+macos_thicken_font 0.30
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -22,7 +22,7 @@
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 19
+font_size 22
 
 #: Font size (in pts).
 
@@ -195,7 +195,7 @@ font_size 19
 #: the gaps. Changing this option dynamically via reloading the config
 #: or remote control is undefined.
 
-text_composition_strategy 1.8 50
+# text_composition_strategy 1.8 50
 
 #: Control how kitty composites text glyphs onto the background color.
 #: The default value of platform tries for text rendering as close to
@@ -3100,14 +3100,14 @@ map ctrl+w>= layout_action mirror toggle
 map ctrl+w>z toggle_layout stack
 
 # BEGIN_KITTY_FONTS
-font_family      family="Menlo"
-bold_font        family=Menlo style=Regular
-italic_font      family=Menlo style=Regular
-bold_italic_font family=Menlo style=Regular
+font_family      family="UbuntuMono Nerd Font"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
 # END_KITTY_FONTS
 
 
 # BEGIN_KITTY_THEME
-# Kanagawa_dragon
+# zenbones_dark
 include current-theme.conf
 # END_KITTY_THEME

@@ -29,6 +29,21 @@ pdel() {
 eval "$(starship init zsh)"
 source <(fzf --zsh)
 
+autoload -Uz add-zsh-hook
+print_osc7() {
+    printf '\033]7;file://%s%s\033\\' "$HOST" "$PWD"
+}
+print_osc133_prompt_start() {
+    printf '\033]133;A\007'
+}
+print_osc133_prompt_end() {
+    printf '\033]133;B\007'
+}
+add-zsh-hook precmd print_osc7
+add-zsh-hook chpwd print_osc7
+add-zsh-hook precmd print_osc133_prompt_start
+add-zsh-hook preexec print_osc133_prompt_end
+
 . "$HOME/.cargo/env"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="~/.local/bin/:$PATH"
@@ -36,12 +51,6 @@ export PATH="~/.local/bin/:$PATH"
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/eemil/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/eemil/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/eemil/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/eemil/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 obsync() {
     cd ~/vault/vault || { echo "Error: ~/vault/vault directory not found"; return 1; }
