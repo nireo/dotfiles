@@ -5,6 +5,11 @@ export HOMEBREW_NO_ANALYTICS=1
 
 plugins=(git)
 
+if [[ $- == *i* ]] && [ -z "$TMUX" ]; then
+    tmux attach-session -t main || tmux new-session -s main
+fi
+
+
 source $ZSH/oh-my-zsh.sh
 eval "$(zoxide init zsh)"
 
@@ -22,6 +27,8 @@ alias ob="cd ~/vault/vault/ && nvim ."
 alias obf="cd ~/vault/vault/ && nvim \"+lua require('fff').live_grep()\""
 alias pup="brew update && brew upgrade && brew cleanup"
 alias audio="yt-dlp -f bestaudio -x --audio-format best --audio-quality 0 --embed-thumbnail --embed-metadata"
+alias playmusic='mpv --no-video --shuffle --term-osd-bar'
+alias ghstat="~/.dotfiles/scripts/gh-contribs"
 
 pdel() {
     brew uninstall "$@" && brew autoremove && brew cleanup

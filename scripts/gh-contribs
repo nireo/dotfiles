@@ -1,0 +1,340 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import subprocess
+from dataclasses import dataclass
+
+
+GRAPHQL_QUERY = """
+query($login: String!, $from: DateTime!, $to: DateTime!) {
+  user(login: $login) {
+    login
+    name
+    contributionsCollection(from: $from, to: $to) {
+      contributionCalendar {
+        totalContributions
+        weeks {
+          contributionDays {
+            color
+            contributionCount
+            date
+            weekday
+          }
+        }
+      }
+    }
+  }
+}
+"""
+
+RESET = "\033[0m"
+BOLD = "\033[1m"
+DIM = "\033[2m"
+FG_DIM = "\033[38;5;245m"
+
+
+@dataclass(frozen=True)
+class Day:
+    date: dt.date
+    weekday: int
+    count: int
+    color: str
+
+
+def run_gh(args: list[str]) -> dict:
+    try:
+        completed = subprocess.run(
+            ["gh", *args],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError:
+        raise SystemExit("gh is not installed or is not on PATH.")
+    except subprocess.CalledProcessError as exc:
+        message = exc.stderr.strip() or exc.stdout.strip() or str(exc)
+        raise SystemExit(f"gh command failed: {message}")
+
+    try:
+        return json.loads(completed.stdout)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"gh returned invalid JSON: {exc}")
+
+
+def current_login() -> str:
+    data = run_gh(["api", "user"])
+    login = data.get("login")
+    if not login:
+        raise SystemExit("Could not determine the authenticated GitHub user.")
+    return login
+
+
+def fetch_calendar(login: str, weeks: int) -> tuple[str, str | None, int, list[list[Day]]]:
+    today = dt.date.today()
+    days = weeks * 7
+    start = today - dt.timedelta(days=days - 1)
+
+    data = run_gh(
+        [
+            "api",
+            "graphql",
+            "-f",
+            f"query={GRAPHQL_QUERY}",
+            "-F",
+            f"login={login}",
+            "-F",
+            f"from={start.isoformat()}T00:00:00Z",
+            "-F",
+            f"to={today.isoformat()}T23:59:59Z",
+        ]
+    )
+
+    user = data.get("data", {}).get("user")
+    if user is None:
+        raise SystemExit(f"GitHub user not found: {login}")
+
+    calendar = user["contributionsCollection"]["contributionCalendar"]
+    parsed_weeks: list[list[Day]] = []
+    for week in calendar["weeks"]:
+        parsed_days = []
+        for day in week["contributionDays"]:
+            parsed_days.append(
+                Day(
+                    date=dt.date.fromisoformat(day["date"]),
+                    weekday=int(day["weekday"]),
+                    count=int(day["contributionCount"]),
+                    color=day["color"],
+                )
+            )
+        parsed_weeks.append(parsed_days)
+
+    return user["login"], user.get("name"), calendar["totalContributions"], parsed_weeks
+
+
+def flatten_weeks(weeks: list[list[Day]]) -> list[Day]:
+    return sorted((day for week in weeks for day in week), key=lambda day: day.date)
+
+
+def recent_weeks(weeks: list[list[Day]], months: int) -> list[list[Day]]:
+    today = dt.date.today()
+    cutoff = today - dt.timedelta(days=months * 31 - 1)
+    return [
+        [day for day in week if day.date >= cutoff]
+        for week in weeks
+        if any(day.date >= cutoff for day in week)
+    ]
+
+
+def streaks(days: list[Day]) -> tuple[int, int]:
+    longest = 0
+    current = 0
+    running = 0
+
+    for day in days:
+        if day.count > 0:
+            running += 1
+            longest = max(longest, running)
+        else:
+            running = 0
+
+    for day in reversed(days):
+        if day.date > dt.date.today():
+            continue
+        if day.count == 0:
+            break
+        current += 1
+
+    return longest, current
+
+
+def plural(value: int, singular: str, plural_word: str | None = None) -> str:
+    word = singular if value == 1 else plural_word or f"{singular}s"
+    return f"{value:,} {word}"
+
+
+def short_date(date: dt.date) -> str:
+    return f"{date.strftime('%b')} {date.day}"
+
+
+def long_date(date: dt.date) -> str:
+    return f"{date.strftime('%b')} {date.day}, {date.year}"
+
+
+def render_stats(days: list[Day], total: int) -> str:
+    active_days = [day for day in days if day.count > 0]
+    longest_streak, current_streak = streaks(days)
+    best = max(days, key=lambda day: day.count, default=None)
+    today_count = next(
+        (day.count for day in reversed(days) if day.date == dt.date.today()),
+        0,
+    )
+    weeks = max(len(days) / 7, 1)
+    average = total / weeks
+
+    best_text = "No active days"
+    if best and best.count > 0:
+        best_text = f"{best.count:,} on {long_date(best.date)}"
+
+    stats = [
+        ("Year total", f"{total:,}"),
+        ("Today", plural(today_count, "contribution")),
+        ("Active days", f"{len(active_days):,}/{len(days):,}"),
+        ("Avg/week", f"{average:.1f}"),
+        ("Current streak", plural(current_streak, "day")),
+        ("Longest streak", plural(longest_streak, "day")),
+        ("Best day", best_text),
+    ]
+
+    width = max(len(label) for label, _ in stats)
+    return "\n".join(f"{FG_DIM}{label.ljust(width)}{RESET}  {value}" for label, value in stats)
+
+
+def hex_bg(hex_color: str, char: str) -> str:
+    value = hex_color.lstrip("#")
+    if len(value) != 6:
+        return char
+    red = int(value[0:2], 16)
+    green = int(value[2:4], 16)
+    blue = int(value[4:6], 16)
+    return f"\033[48;2;{red};{green};{blue}m{char}{RESET}"
+
+
+def fallback_cell(count: int, char: str) -> str:
+    palette = [232, 22, 28, 34, 40]
+    if count == 0:
+        index = 0
+    elif count < 3:
+        index = 1
+    elif count < 6:
+        index = 2
+    elif count < 10:
+        index = 3
+    else:
+        index = 4
+    return f"\033[48;5;{palette[index]}m{char}{RESET}"
+
+
+def cell(day: Day | None, truecolor: bool) -> str:
+    if day is None:
+        return "  "
+    block = "  "
+    if truecolor:
+        return hex_bg(day.color, block)
+    return fallback_cell(day.count, block)
+
+
+def month_labels(weeks: list[list[Day]]) -> str:
+    labels: list[str] = []
+    last_month = None
+    for week in weeks:
+        first = next((day for day in week if day.weekday == 0), week[0])
+        month = first.date.month
+        if first.date.day <= 7 and month != last_month:
+            label = first.date.strftime("%b")
+            labels.append(label.ljust(3))
+            last_month = month
+        else:
+            labels.append("   ")
+    return "    " + "".join(labels).rstrip()
+
+
+def render_weeks(weeks: list[list[Day]], truecolor: bool) -> str:
+    by_weekday = [{day.weekday: day for day in week} for week in weeks]
+    weekday_labels = {1: "Mon", 3: "Wed", 5: "Fri"}
+    lines = [month_labels(weeks)]
+
+    for weekday in range(7):
+        label = weekday_labels.get(weekday, "   ")
+        row = [f"{FG_DIM}{label}{RESET} "]
+        for week in by_weekday:
+            row.append(cell(week.get(weekday), truecolor))
+            row.append(" ")
+        lines.append("".join(row).rstrip())
+
+    return "\n".join(lines)
+
+
+def render_legend(truecolor: bool) -> str:
+    samples = [
+        Day(dt.date.today(), 0, 0, "#ebedf0"),
+        Day(dt.date.today(), 0, 1, "#9be9a8"),
+        Day(dt.date.today(), 0, 4, "#40c463"),
+        Day(dt.date.today(), 0, 8, "#30a14e"),
+        Day(dt.date.today(), 0, 12, "#216e39"),
+    ]
+    blocks = " ".join(cell(sample, truecolor) for sample in samples)
+    return f"{FG_DIM}Less{RESET} {blocks} {FG_DIM}More{RESET}"
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Render a GitHub profile-style contribution graph in the terminal."
+    )
+    parser.add_argument(
+        "user",
+        nargs="?",
+        help="GitHub username. Defaults to the user authenticated with gh.",
+    )
+    parser.add_argument(
+        "-w",
+        "--weeks",
+        type=int,
+        default=53,
+        help="Number of recent weeks to include in stats. Defaults to 53.",
+    )
+    parser.add_argument(
+        "-m",
+        "--months",
+        type=int,
+        default=4,
+        help="Number of recent months to show in the graph. Defaults to 4.",
+    )
+    parser.add_argument(
+        "--full-year",
+        action="store_true",
+        help="Show the full fetched range in the graph instead of only recent months.",
+    )
+    parser.add_argument(
+        "--no-truecolor",
+        action="store_true",
+        help="Use a 256-color fallback palette instead of GitHub's exact colors.",
+    )
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    if args.weeks < 1:
+        raise SystemExit("--weeks must be at least 1.")
+    if args.months < 1:
+        raise SystemExit("--months must be at least 1.")
+
+    login = args.user or current_login()
+    login, name, total, calendar_weeks = fetch_calendar(login, args.weeks)
+    graph_weeks = calendar_weeks if args.full_year else recent_weeks(calendar_weeks, args.months)
+    days = flatten_weeks(calendar_weeks)
+    graph_days = flatten_weeks(graph_weeks)
+
+    title_name = f"{name} ({login})" if name else login
+    print(f"{BOLD}{title_name}{RESET}")
+    print(f"{total:,} contributions in the last {args.weeks} weeks")
+    if graph_days:
+        start = short_date(graph_days[0].date)
+        end = short_date(graph_days[-1].date)
+        print(f"{sum(day.count for day in graph_days):,} shown from {start} to {end}\n")
+    else:
+        print()
+
+    print(render_weeks(graph_weeks, truecolor=not args.no_truecolor))
+    print()
+    print(render_legend(truecolor=not args.no_truecolor))
+    print()
+    print(render_stats(days, total))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

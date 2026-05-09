@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 
-macos_thicken_font 0.30
+macos_thicken_font 0.40
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -3044,66 +3044,66 @@ inactive_tab_font_style bold
 
 window_padding_width 3
 
-enabled_layouts splits,stack
+#enabled_layouts splits,stack
 
 # -----------------------------------------------------------
 # Splitting Windows
 # -----------------------------------------------------------
 # Direct bindings for the QMK WM layer
-map ctrl+alt+minus launch --location=hsplit
-map ctrl+alt+backslash launch --location=vsplit
+#map ctrl+alt+minus launch --location=hsplit
+#map ctrl+alt+backslash launch --location=vsplit
 
 # ctrl+- : Split horizontally (top-and-bottom)
-map ctrl+- launch --location=hsplit
+#map ctrl+- launch --location=hsplit
 
 # ctrl+| : Split vertically (side-by-side)
-map ctrl+| launch --location=vsplit
+#map ctrl+| launch --location=vsplit
 
 # -----------------------------------------------------------
 # Moving Focus (Navigation)
 # -----------------------------------------------------------
 # Direct bindings for the QMK WM layer
-map ctrl+alt+h neighboring_window left
-map ctrl+alt+j neighboring_window down
-map ctrl+alt+k neighboring_window up
-map ctrl+alt+l neighboring_window right
+#map ctrl+alt+h neighboring_window left
+#map ctrl+alt+j neighboring_window down
+#map ctrl+alt+k neighboring_window up
+#map ctrl+alt+l neighboring_window right
 
 # ctrl+w > h/j/k/l : Move focus to the left/down/up/right
-map ctrl+w>h neighboring_window left
-map ctrl+w>j neighboring_window down
-map ctrl+w>k neighboring_window up
-map ctrl+w>l neighboring_window right
+#map ctrl+w>h neighboring_window left
+#map ctrl+w>j neighboring_window down
+#map ctrl+w>k neighboring_window up
+#map ctrl+w>l neighboring_window right
 
 # -----------------------------------------------------------
 # Moving Windows
 # -----------------------------------------------------------
 # ctrl+w > shift+h/j/k/l : Move the window itself in a direction
-map ctrl+w>shift+h move_window left
-map ctrl+w>shift+j move_window down
-map ctrl+w>shift+k move_window up
-map ctrl+w>shift+l move_window right
+#map ctrl+w>shift+h move_window left
+#map ctrl+w>shift+j move_window down
+#map ctrl+w>shift+k move_window up
+#map ctrl+w>shift+l move_window right
 
 # -----------------------------------------------------------
 # Window Management Utilities
 # -----------------------------------------------------------
 # Direct bindings for the QMK WM layer
-map ctrl+alt+q close_window
-map ctrl+alt+equal layout_action mirror toggle
+#map ctrl+alt+q close_window
+#map ctrl+alt+equal layout_action mirror toggle
 
 # ctrl+w > q : Close the current window
-map ctrl+w>q close_window
+#map ctrl+w>q close_window
 
 # ctrl+w > = : Resize windows to be equal
-map ctrl+w>= layout_action mirror toggle
+#map ctrl+w>= layout_action mirror toggle
 
 # ctrl+w > z : Toggle window zoom (temporarily maximize current pane)
-map ctrl+w>z toggle_layout stack
+#map ctrl+w>z toggle_layout stack
 
 # BEGIN_KITTY_FONTS
-font_family      family='InconsolataGo Nerd Font Mono' postscript_name=InconsolataGoNFM
-bold_font        family='InconsolataGo Nerd Font Mono' style=Regular
-italic_font      auto
-bold_italic_font family='InconsolataGo Nerd Font Mono' style=Regular
+font_family      family="UbuntuMono Nerd Font Mono"
+bold_font        family='UbuntuMono Nerd Font Mono' style=Regular
+italic_font      family='UbuntuMono Nerd Font Mono' style=Regular
+bold_italic_font family='UbuntuMono Nerd Font Mono' style=Regular
 # END_KITTY_FONTS
 
 
