@@ -5,7 +5,7 @@ export HOMEBREW_NO_ANALYTICS=1
 
 plugins=(git)
 
-if [[ $- == *i* ]] && [ -z "$TMUX" ]; then
+if [[ $- == *i* ]] && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "zed" ]; then
     tmux attach-session -t main || tmux new-session -s main
 fi
 
