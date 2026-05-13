@@ -1,13 +1,11 @@
 ;; HHKB / macOS Kanata config
 ;;
-;; Design:
-;;   Right Cmd    = Nav/Edit layer
-;;   Right Option = Num/Common-symbol layer
-;;   Right Shift  = Programming-symbol layer
+;; Right Cmd    = Nav/Edit layer
+;; Right Option = Num/Common-symbol layer
+;; Right Shift  = Programming-symbol layer
 ;;
 ;; No Space remap.
 ;; No tap-hold.
-;; No right-hand action keys required while holding right-side layer keys.
 
 (defcfg
   process-unmapped-keys yes
@@ -19,18 +17,23 @@
   num (layer-while-held num)
   sym (layer-while-held sym)
 
-  ;; macOS / app navigation
+  ;; Browser/editor tab navigation
   prevtab C-S-tab
   nexttab C-tab
-  appnext M-tab
-  appprev S-M-tab
-  appwin  M-`
 
-  ;; editing
-  undo M-z
-  cut  M-x
-  copy M-c
+  ;; macOS Command shortcuts.
+  ;; In Kanata, M- = Left Meta = Command on macOS.
+  appnext M-tab
+  appprev M-S-tab
+  appwin  M-grv
+
+  undo  M-z
+  cut   M-x
+  copy  M-c
   paste M-v
+
+  spotlight M-spc
+  lock      C-M-q
 )
 
 (defsrc
@@ -49,11 +52,9 @@
 
 ;; Right Cmd held
 ;;
-;; Left-hand-only nav/edit layer.
-;;
-;; Q W E R T = tab/app/window switching
-;; A S D F G = arrows + enter
-;; Z X C V B = edit cluster + backspace
+;; Q W E R T = previous tab, next tab, next app, previous app, app window
+;; A S D F G = left, down, up, right, enter
+;; Z X C V B = undo, cut, copy, paste, backspace
 
 (deflayer nav
   @prevtab @nexttab @appnext @appprev @appwin
@@ -63,8 +64,6 @@
 )
 
 ;; Right Option held
-;;
-;; Numbers + common programming delimiters.
 ;;
 ;; Q W E R T = 6 7 8 9 0
 ;; A S D F G = 1 2 3 4 5
@@ -79,8 +78,6 @@
 
 ;; Right Shift held
 ;;
-;; Shifted/programming symbols.
-;;
 ;; Q W E R T = ! @ # $ %
 ;; A S D F G = _ + { } |
 ;; Z X C V B = ~ ` < > ?
@@ -88,6 +85,6 @@
 (deflayer sym
   S-1  S-2  S-3  S-4  S-5
   S--  S-=  S-[  S-]  S-\
-  S-`  `    S-,  S-.  S-/
-  _    _    _
+  S-grv grv S-, S-. S-/
+  _     _   _
 )
