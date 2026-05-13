@@ -1,0 +1,93 @@
+;; HHKB / macOS Kanata config
+;;
+;; Design:
+;;   Right Cmd    = Nav/Edit layer
+;;   Right Option = Num/Common-symbol layer
+;;   Right Shift  = Programming-symbol layer
+;;
+;; No Space remap.
+;; No tap-hold.
+;; No right-hand action keys required while holding right-side layer keys.
+
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defalias
+  ;; Pure hold layers
+  nav (layer-while-held nav)
+  num (layer-while-held num)
+  sym (layer-while-held sym)
+
+  ;; macOS / app navigation
+  prevtab C-S-tab
+  nexttab C-tab
+  appnext M-tab
+  appprev S-M-tab
+  appwin  M-`
+
+  ;; editing
+  undo M-z
+  cut  M-x
+  copy M-c
+  paste M-v
+)
+
+(defsrc
+  q    w    e    r    t
+  a    s    d    f    g
+  z    x    c    v    b
+  rmet ralt rsft
+)
+
+(deflayer base
+  q    w    e    r    t
+  a    s    d    f    g
+  z    x    c    v    b
+  @nav @num @sym
+)
+
+;; Right Cmd held
+;;
+;; Left-hand-only nav/edit layer.
+;;
+;; Q W E R T = tab/app/window switching
+;; A S D F G = arrows + enter
+;; Z X C V B = edit cluster + backspace
+
+(deflayer nav
+  @prevtab @nexttab @appnext @appprev @appwin
+  left     down     up       rght     ret
+  @undo    @cut     @copy    @paste   bspc
+  _        _        _
+)
+
+;; Right Option held
+;;
+;; Numbers + common programming delimiters.
+;;
+;; Q W E R T = 6 7 8 9 0
+;; A S D F G = 1 2 3 4 5
+;; Z X C V B = - = [ ] \
+
+(deflayer num
+  6    7    8    9    0
+  1    2    3    4    5
+  -    =    [    ]    \
+  _    _    _
+)
+
+;; Right Shift held
+;;
+;; Shifted/programming symbols.
+;;
+;; Q W E R T = ! @ # $ %
+;; A S D F G = _ + { } |
+;; Z X C V B = ~ ` < > ?
+
+(deflayer sym
+  S-1  S-2  S-3  S-4  S-5
+  S--  S-=  S-[  S-]  S-\
+  S-`  `    S-,  S-.  S-/
+  _    _    _
+)

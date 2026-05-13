@@ -9,3 +9,4 @@ nvim : ~/.config/nvim
 aerospace : ~/.config/aerospace
 starship.toml : ~/.config/starship.toml
 opencode : ~/.config/opencode
+kanata : ~/.config/kanata
