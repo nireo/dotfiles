@@ -34,7 +34,7 @@ pdel() {
     brew uninstall "$@" && brew autoremove && brew cleanup
 }
 
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 source <(fzf --zsh)
 
 autoload -Uz add-zsh-hook
