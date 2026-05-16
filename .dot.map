@@ -1,10 +1,9 @@
-.zshrc : ~/.zshrc
 kitty : ~/.config/kitty
 ghostty : ~/.config/ghostty
 .tmux.conf : ~/.tmux.conf
 zathura : ~/.config/zathura
 nvim : ~/.config/nvim
 aerospace : ~/.config/aerospace
-starship.toml : ~/.config/starship.toml
 opencode : ~/.config/opencode
 kanata : ~/.config/kanata
+.zshrc : ~/.zshrc

@@ -1,17 +1,35 @@
-export ZSH="$HOME/.oh-my-zsh"
-
-ZSH_THEME="robbyrussell"
 export HOMEBREW_NO_ANALYTICS=1
 
-plugins=(git)
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+HISTSIZE=100000
+SAVEHIST=100000
 
 if [[ $- == *i* ]] && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "zed" ]; then
     tmux attach-session -t main || tmux new-session -s main
 fi
 
-
-source $ZSH/oh-my-zsh.sh
 eval "$(zoxide init zsh)"
+
+# Completion
+autoload -Uz compinit
+
+# Use cached completion metadata
+compinit -d "$HOME/.cache/zsh/zcompdump"
+
+# Interactive completion menu
+zstyle ':completion:*' menu select
+
+# Case-insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Grouped, descriptive completion
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'
+zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
@@ -29,6 +47,15 @@ alias pup="brew update && brew upgrade && brew cleanup"
 alias audio="yt-dlp -f bestaudio -x --audio-format best --audio-quality 0 --embed-thumbnail --embed-metadata"
 alias playmusic='mpv --no-video --shuffle --term-osd-bar'
 alias ghstat="~/.dotfiles/scripts/gh-contribs"
+
+export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
+
+alias ls="ls -G"
+alias ll="ls -lahG"
+alias la="ls -AG"
+alias grep='rg --color=auto'
+alias diff='diff --color=auto'
+alias df='df -h'
 
 pdel() {
     brew uninstall "$@" && brew autoremove && brew cleanup
@@ -93,3 +120,16 @@ obsync() {
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 eval "$(/Users/eemil/.local/bin/mise activate zsh)"
+
+export FZF_DEFAULT_OPTS="
+--height=40%
+--layout=reverse
+--border
+--inline-info
+"
+
+# Use fd if installed
+if command -v fd >/dev/null 2>&1; then
+    export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
