@@ -8,4 +8,5 @@ require("vim._core.ui2").enable({
 	enable = true,
 })
 
+vim.g.zenbones_transparent_background = true
 vim.cmd.colorscheme("zenbones")

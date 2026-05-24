@@ -38,6 +38,7 @@ export PATH=$PATH:$GOBIN
 export PATH=$PATH:$HOME/.local/bin
 
 alias sc="git add . && git commit -m"
+alias gc="git commit -m"
 alias pu="git push"
 alias cd="z"
 alias ng="nvim +Neogit"
