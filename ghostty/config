@@ -10,7 +10,7 @@ cursor-style = block
 shell-integration-features = no-cursor
 macos-icon = chalkboard
 
-theme = light:Zenbones Light,dark:Zenbones Dark
+theme = mono
 
 title = "ghostty"
 cursor-style-blink = false

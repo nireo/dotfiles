@@ -63,6 +63,8 @@ pdel() {
 }
 
 # eval "$(starship init zsh)"
+
+PROMPT='%F{magenta}%1~%f %F{blue}%%%f '
 source <(fzf --zsh)
 
 autoload -Uz add-zsh-hook
