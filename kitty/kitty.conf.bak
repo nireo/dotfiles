@@ -3102,10 +3102,10 @@ window_padding_width 3
 hide_window_decorations titlebar-only
 
 # BEGIN_KITTY_FONTS
-font_family      family=Menlo postscript_name=Menlo-Regular
-bold_font        family=Menlo style=Regular
-italic_font      family=Menlo style=Regular
-bold_italic_font family=Menlo style=Regular
+font_family      family="UbuntuMono Nerd Font"
+bold_font        family='UbuntuMono Nerd Font' style=Regular
+italic_font      family='UbuntuMono Nerd Font' style=Regular
+bold_italic_font family='UbuntuMono Nerd Font' style=Regular
 # END_KITTY_FONTS
 
 
