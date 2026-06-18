@@ -210,7 +210,9 @@ local function setup_main_plugins()
 		},
 	})
 	setup_treesitter()
-	require("neogit").setup({})
+	require("neogit").setup({
+		auto_refresh = true,
+	})
 	require("oil").setup({})
 	which_key.setup({})
 	flash.setup({})
