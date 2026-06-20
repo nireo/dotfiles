@@ -158,7 +158,7 @@ font_size 23
 #: font glyph is rendered and the baseline at which the glyph is
 #: placed in the cell. For example::
 
-modify_font cell_width 94%
+# modify_font cell_width 94%
 #:     modify_font baseline 3
 
 #: Note that modifying the baseline will automatically adjust the
@@ -3098,10 +3098,10 @@ window_padding_width 3
 # ctrl+w > z : Toggle window zoom (temporarily maximize current pane)
 #map ctrl+w>z toggle_layout stack
 #
-hide_window_decorations titlebar-only
+#hide_window_decorations titlebar-only
 
 # BEGIN_KITTY_FONTS
-font_family      family='Iosevka Term' features=+ss04
+font_family      family="Iosevka Term"
 bold_font        family='Iosevka Term' style=Regular
 italic_font      family='Iosevka Term' style=Regular
 bold_italic_font family='Iosevka Term' style=Regular
