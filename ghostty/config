@@ -1,9 +1,9 @@
-font-family = "Liga SFMono Nerd Font"
+font-family = "JetBrainsMono Nerd Font"
 font-size = 19
-font-style = "Regular"
-font-style-bold = "Regular"
-font-style-italic = "Regular"
-font-style-bold-italic = "Regular"
+font-style = "Semibold"
+font-style-bold = "Semibold"
+font-style-italic = "Semibold"
+font-style-bold-italic = "Semibold"
 font-thicken = true
 font-thicken-strength = 255
 cursor-style = block

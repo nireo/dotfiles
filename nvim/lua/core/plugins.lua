@@ -459,7 +459,13 @@ function M.setup_work()
 		gh("folke/snacks.nvim"),
 	})
 
-	require("neogit").setup({})
+	require("neogit").setup({
+		integrations = {
+			codediff = true,
+			diffview = false, -- optional, if diffview.nvim is also installed
+		},
+		diff_viewer = "codediff",
+	})
 	require("snacks").setup({
 		picker = {
 			enabled = true,
