@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 
-macos_thicken_font 0.35
+macos_thicken_font 0.50
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -3098,13 +3098,15 @@ window_padding_width 3
 # ctrl+w > z : Toggle window zoom (temporarily maximize current pane)
 #map ctrl+w>z toggle_layout stack
 #
+#
 hide_window_decorations titlebar-only
+mouse_map cmd+left release grabbed,ungrabbed mouse_click_url
 
 # BEGIN_KITTY_FONTS
-font_family      family="Aporetic Sans Mono"
-bold_font        family='Aporetic Sans Mono' style=Regular
-italic_font      family='Aporetic Sans Mono' style=Regular
-bold_italic_font family='Aporetic Sans Mono' style=Regular
+font_family      family='Ioskeley Mono Term' style=Regular
+bold_font        family='Ioskeley Mono Term' style=Regular
+italic_font      family='Ioskeley Mono Term' style=Italic
+bold_italic_font family='Ioskeley Mono Term' style=Italic
 # END_KITTY_FONTS
 
 
