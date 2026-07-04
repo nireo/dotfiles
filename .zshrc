@@ -51,6 +51,7 @@ alias ghstat="~/.dotfiles/scripts/gh-contribs"
 
 export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
 
+alias jqf="jq '.' "
 alias ls="ls -G"
 alias ll="ls -lahG"
 alias la="ls -AG"
