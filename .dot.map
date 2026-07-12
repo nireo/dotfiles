@@ -7,5 +7,5 @@ aerospace : ~/.config/aerospace
 opencode : ~/.config/opencode
 kanata : ~/.config/kanata
 .zshrc : ~/.zshrc
-pi : ~/.pi/agent
 sketchybar : ~/.config/sketchybar
+pi : ~/.pi/agent
