@@ -12,12 +12,12 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 [gaps]
-    inner.horizontal = 15
-    inner.vertical =   15
-    outer.left =       15
-    outer.bottom =     15
-    outer.top =        [{ monitor."built-in" = 15 }, 55]
-    outer.right =      15
+    inner.horizontal = 12
+    inner.vertical =   12
+    outer.left =       12
+    outer.bottom =     12
+    outer.top =        [{ monitor."built-in" = 12 }, 35]
+    outer.right =      12
 
 [mode.main.binding]
     alt-enter = '''exec-and-forget osascript -e '

@@ -4,10 +4,6 @@
       "rev": "e30b7f2008e52442154b66f7c519bfd2f1e32acb",
       "src": "https://github.com/numToStr/Comment.nvim"
     },
-    "adwaita.nvim": {
-      "rev": "93f3bed009f7fc4c57f8d710880b6cab9e0b0d15",
-      "src": "https://github.com/Mofiqul/adwaita.nvim"
-    },
     "any-jump.vim": {
       "rev": "f95674d9a4251ac02f452d5f1861e4422f4652c7",
       "src": "https://github.com/pechorin/any-jump.vim"
@@ -50,10 +46,6 @@
       "rev": "aba065c3a79b58cc3863d5c9db319255abd1258a",
       "src": "https://github.com/blazkowolf/gruber-darker.nvim"
     },
-    "gruvbox.nvim": {
-      "rev": "154eb5ff5b96d0641307113fa385eaf0d36d9796",
-      "src": "https://github.com/ellisonleao/gruvbox.nvim"
-    },
     "guihua.lua": {
       "rev": "fdca486468a5d94676477917872767b5e67a2b4c",
       "src": "https://github.com/ray-x/guihua.lua"
@@ -70,9 +62,9 @@
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/williamboman/mason.nvim"
     },
-    "mfd.nvim": {
-      "rev": "5d6067159e1b1116a12f34827a353572dbf3bdb9",
-      "src": "https://github.com/kungfusheep/mfd.nvim"
+    "moonfly": {
+      "rev": "261664f92ed51cf0c077555b2d4b2530307eac17",
+      "src": "https://github.com/bluz71/vim-moonfly-colors"
     },
     "neogit": {
       "rev": "4681c1fdac1b730592ae195576e87406f7255750",
@@ -85,10 +77,6 @@
     "nvim-autopairs": {
       "rev": "59bce2eef357189c3305e25bc6dd2d138c1683f5",
       "src": "https://github.com/windwp/nvim-autopairs"
-    },
-    "nvim-grey": {
-      "rev": "62d268a3e582b846f5c20a895a07bd7d563e9db9",
-      "src": "https://github.com/yorickpeterse/nvim-grey"
     },
     "nvim-treesitter": {
       "rev": "7caec274fd19c12b55902a5b795100d21531391f",

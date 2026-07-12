@@ -43,6 +43,26 @@ local function add(specs)
 	prepare_pack()
 	vim.pack.add(specs, { load = true, confirm = false })
 end
+local function clean_unused_packages()
+	prepare_pack()
+
+	local unused = vim.iter(vim.pack.get())
+		:filter(function(package)
+			return not package.active
+		end)
+		:map(function(package)
+			return package.spec.name
+		end)
+		:totable()
+
+	if #unused == 0 then
+		vim.notify("No unused packages to remove", vim.log.levels.INFO)
+		return
+	end
+
+	vim.pack.del(unused)
+end
+
 
 local function setup_fff_pack_changed()
 	vim.api.nvim_create_autocmd("PackChanged", {
@@ -438,9 +458,13 @@ local main_specs = {
 	{ src = gh("saghen/blink.cmp"), version = vim.version.range("1") },
 	{ src = gh("nvim-treesitter/nvim-treesitter"), version = "main" },
 	{ src = gh("nickjvandyke/opencode.nvim"), version = vim.version.range("0") },
+	{ src = gh("bluz71/vim-moonfly-colors"), name = "moonfly" },
 }
 
 function M.setup()
+	vim.api.nvim_create_user_command("PackClean", clean_unused_packages, {
+		desc = "Delete packages absent from configuration",
+	})
 	setup_fff_pack_changed()
 	vim.g.fff = {
 		lazy_sync = true,
