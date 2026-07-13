@@ -152,14 +152,13 @@ class DiscussionReviewApp {
   }
 
   private moveDiff(delta: number): void {
-    const rows = this.changedRowIndexes();
-    if (rows.length === 0) {
-      this.message = "This file has no line-level changes; use F or D for a file note.";
+    const lastRow = this.activeFile.rows.length - 1;
+    if (lastRow < 0) {
+      this.message = "This file has no lines to review; use F or D for a file note.";
       return;
     }
-    const current = Math.max(0, rows.indexOf(this.selectedRow));
-    const next = Math.max(0, Math.min(rows.length - 1, current + delta));
-    this.selectedRow = rows[next]!;
+    const current = Math.max(0, this.selectedRow);
+    this.selectedRow = Math.max(0, Math.min(lastRow, current + delta));
     this.message = null;
   }
 
@@ -312,9 +311,9 @@ class DiscussionReviewApp {
     } else if (matchesKey(data, "p")) {
       this.jumpHunk(-1);
     } else if (matchesKey(data, "g")) {
-      if (this.focus === "files") this.moveFile(-this.data.files.length); else this.moveDiff(-this.changedRowIndexes().length);
+      if (this.focus === "files") this.moveFile(-this.data.files.length); else this.moveDiff(-this.activeFile.rows.length);
     } else if (matchesKey(data, "shift+g") || data === "G") {
-      if (this.focus === "files") this.moveFile(this.data.files.length); else this.moveDiff(this.changedRowIndexes().length);
+      if (this.focus === "files") this.moveFile(this.data.files.length); else this.moveDiff(this.activeFile.rows.length);
     } else if (matchesKey(data, "f")) {
       this.openEditor("fix", "line");
       return;

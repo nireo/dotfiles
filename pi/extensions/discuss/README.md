@@ -11,7 +11,7 @@ Run `/reload` in Pi, then use `/discuss`.
 ## Keys
 
 - `Tab`, `←`, `→` — switch between files and diff panes
-- `j`/`k` or `↑`/`↓` — move through files or changed lines
+- `j`/`k` or `↑`/`↓` — move through files or diff lines
 - `]`/`[` — next/previous file
 - `n`/`p` — next/previous changed hunk
 - `f` / `d` — annotate the selected line as a **FIX** / **DISCUSS** item
