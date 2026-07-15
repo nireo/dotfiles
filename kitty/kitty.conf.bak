@@ -22,7 +22,7 @@ macos_thicken_font 0.60
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 13
+font_size 17
 
 #: Font size (in pts).
 
@@ -3103,14 +3103,14 @@ hide_window_decorations titlebar-only
 mouse_map cmd+left release grabbed,ungrabbed mouse_click_url
 
 # BEGIN_KITTY_FONTS
-font_family      family="Menlo"
-bold_font        family=Menlo style=Regular
-italic_font      family=Menlo style=Regular
-bold_italic_font family=Menlo style=Regular
+font_family      family="Monaco"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
 # END_KITTY_FONTS
 
 
 # BEGIN_KITTY_THEME
-# Solarized Dark - Patched
+# Moonfly
 include current-theme.conf
 # END_KITTY_THEME
