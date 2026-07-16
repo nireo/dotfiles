@@ -139,6 +139,34 @@ if command -v fd >/dev/null 2>&1; then
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
+_tmux_named_command() {
+  local label="$1"
+  shift
+
+  if [[ -n "${TMUX-}" ]]; then
+    tmux set-option -p -t "$TMUX_PANE" @app_name "$label"
+  fi
+
+  command "$@"
+  local exit_code=$?
+
+  if [[ -n "${TMUX-}" ]]; then
+    tmux set-option -p -u -t "$TMUX_PANE" @app_name
+  fi
+
+  return "$exit_code"
+}
+
+codex() {
+  _tmux_named_command codex codex "$@"
+}
+
+pi() {
+  _tmux_named_command "π" pi "$@"
+}
+
+
+
 
 # Added by Antigravity CLI installer
 export PATH="/Users/eemil/.local/bin:$PATH"

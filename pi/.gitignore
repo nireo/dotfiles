@@ -4,6 +4,7 @@ auth.json
 .env
 .env.*
 trust.json
+openai-accounts/
 
 .pi-subagents
 
