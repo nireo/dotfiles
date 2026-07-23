@@ -36,7 +36,6 @@ local function prepare_pack()
 	end
 
 	ensure_site_in_packpath()
-	vim.g.copilot_enabled = false
 end
 
 local function add(specs)
@@ -303,9 +302,6 @@ local function setup_main_plugins()
 	map("n", "<leader>ib", "<cmd>AnyJumpBack<CR>", { desc = "Any Jump Back" })
 	map("n", "<leader>il", "<cmd>AnyJumpLastResults<CR>", { desc = "Any Jump Resume" })
 
-	map("n", "<leader>ce", ":Copilot enable<CR>", { desc = "Toggle Copilot" })
-	map("n", "<leader>cd", ":Copilot disable<CR>", { desc = "Toggle Copilot" })
-
 	map("n", "<leader>?", function()
 		which_key.show({ global = false })
 	end, { desc = "Buffer Local Keymaps (which-key)" })
@@ -454,7 +450,6 @@ local main_specs = {
 		src = gh("obsidian-nvim/obsidian.nvim"),
 		version = vim.version.range("*"),
 	},
-	{ src = gh("github/copilot.vim"), version = "release" },
 	{ src = gh("saghen/blink.cmp"), version = vim.version.range("1") },
 	{ src = gh("nvim-treesitter/nvim-treesitter"), version = "main" },
 	{ src = gh("nickjvandyke/opencode.nvim"), version = vim.version.range("0") },

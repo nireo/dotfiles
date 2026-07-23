@@ -165,8 +165,9 @@ pi() {
   _tmux_named_command "π" pi "$@"
 }
 
-
-
+alias tn='tmux new-session -s'
+alias tl='tmux list-sessions'
+alias ta='tmux attach-session'
 
 # Added by Antigravity CLI installer
 export PATH="/Users/eemil/.local/bin:$PATH"

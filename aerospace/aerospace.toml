@@ -6,9 +6,6 @@ enable-normalization-flatten-containers = false
 enable-normalization-opposite-orientation-for-nested-containers = false
 start-at-login = true
 
-after-startup-command = ['exec-and-forget sketchybar']
-exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE']
-
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 [gaps]
@@ -16,8 +13,11 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     inner.vertical =   12
     outer.left =       12
     outer.bottom =     12
-    outer.top =        [{ monitor."built-in" = 12 }, 35]
+    outer.top =        8
     outer.right =      12
+
+
+#outer.top =        [{ monitor."built-in" = 12 }, 30]
 
 [mode.main.binding]
     alt-enter = '''exec-and-forget osascript -e '
