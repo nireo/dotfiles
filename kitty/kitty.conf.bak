@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 
-macos_thicken_font 0.60
+macos_thicken_font 0.50
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -3105,14 +3105,14 @@ hide_window_decorations titlebar-only
 mouse_map cmd+left release grabbed,ungrabbed mouse_click_url
 
 # BEGIN_KITTY_FONTS
-font_family      family="MesloLGSDZ Nerd Font Mono"
-bold_font        family='MesloLGSDZ Nerd Font Mono' style=Regular
-italic_font      family='MesloLGSDZ Nerd Font Mono' style=Regular
-bold_italic_font family='MesloLGSDZ Nerd Font Mono' style=Regular
+font_family      family="JetBrains Mono"
+bold_font        family='JetBrains Mono' style=Regular variable_name=JetBrainsMono
+italic_font      family='JetBrains Mono' style=Regular variable_name=JetBrainsMono
+bold_italic_font family='JetBrains Mono' style=Regular
 # END_KITTY_FONTS
 
 
 # BEGIN_KITTY_THEME
-# Solarized Osaka
+# Ayaka
 include current-theme.conf
 # END_KITTY_THEME

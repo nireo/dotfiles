@@ -1,0 +1,4 @@
+interface:
+  display_name: "Profile performance"
+  short_description: "Evidence-led profiling across four languages"
+  default_prompt: "Use $profile-performance to profile this Rust, C, Go, or Python workload and identify measured bottlenecks."

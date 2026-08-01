@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review systems code"
+  short_description: "Correct, idiomatic high-performance review"
+  default_prompt: "Use $review-systems-code to review this systems code for correctness, simplicity, and avoidable work."

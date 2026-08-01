@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review wlho-model"
+  short_description: "Correctness and lean performance review"
+  default_prompt: "Use $review-wlho-model to review these wlho-model changes for correctness, simplicity, and performance."

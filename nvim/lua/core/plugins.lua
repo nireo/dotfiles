@@ -42,6 +42,7 @@ local function add(specs)
 	prepare_pack()
 	vim.pack.add(specs, { load = true, confirm = false })
 end
+
 local function clean_unused_packages()
 	prepare_pack()
 
@@ -61,7 +62,6 @@ local function clean_unused_packages()
 
 	vim.pack.del(unused)
 end
-
 
 local function setup_fff_pack_changed()
 	vim.api.nvim_create_autocmd("PackChanged", {
@@ -123,7 +123,7 @@ local function setup_main_plugins()
 		workspaces = {
 			{
 				name = "personal",
-				path = "~/vault/vault",
+				path = "~/2b",
 			},
 		},
 	})
