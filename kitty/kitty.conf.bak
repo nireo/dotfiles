@@ -3113,6 +3113,6 @@ bold_italic_font family='DejaVuSansM Nerd Font Mono' style=Regular
 
 
 # BEGIN_KITTY_THEME
-# Sequoia Moonlight Light
+# School Boy Colored Dark
 include current-theme.conf
 # END_KITTY_THEME
