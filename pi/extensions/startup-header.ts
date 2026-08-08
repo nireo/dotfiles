@@ -9,9 +9,10 @@
  *   Skills - 4
  *     pdf-reader            profile-performance  review-systems-code
  *
- *   Extensions - 6
+ *   Extensions - 9
  *     ask_user_question     context              discuss
- *     exit                  notification-sound   startup-header
+ *     exit                  minimal-footer      notification-sound
+ *     permission-gate       quiet-tools         startup-header
  *
  * Press ctrl+o (app.tools.expand) to expand the full built-in keybinding
  * hints; press ctrl+o again to collapse back.

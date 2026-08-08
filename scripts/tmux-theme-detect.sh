@@ -44,7 +44,7 @@ apply_theme() {
     # Use the actual Kitty background rather than tmux's default palette.  The
     # foreground/accent/border colors come directly from the active theme.
     tmux set-option -g status-style "bg=$BACKGROUND,fg=$FOREGROUND"
-    tmux set-option -g status-right '#[fg='"$ACCENT"']#(b="$(git -C "#{pane_current_path}" rev-parse --abbrev-ref HEAD 2>/dev/null)"; [ -n "$b" ] || exit; printf "%s" "$b"; [ -n "$(git -C "#{pane_current_path}" status --porcelain 2>/dev/null)" ] && printf " (c)")#[default] #[fg='"$ACCENT"']▍#[default] #[fg='"$FOREGROUND"',bold]#S #{?client_prefix,#[fg='"$ACCENT"']⌃B ,}#[default]'
+    tmux set-option -g status-right '#[fg='"$ACCENT"']#(b="$(git -C "#{pane_current_path}" rev-parse --abbrev-ref HEAD 2>/dev/null)"; [ -n "$b" ] || exit; printf "%%s" "$b"; [ -n "$(git -C "#{pane_current_path}" status --porcelain 2>/dev/null)" ] && printf " (c)")#[default] #[fg='"$ACCENT"']▍#[default] #[fg='"$FOREGROUND"',bold]#S #{?client_prefix,#[fg='"$ACCENT"']⌃B ,}#[default]'
     tmux set-option -g window-status-style "fg=$MUTED,bg=$BACKGROUND"
     tmux set-option -g window-status-current-style "fg=$ACCENT,bg=$BACKGROUND,bold"
     tmux set-option -g window-status-format " #[fg=$MUTED]#I/#W#[default] "

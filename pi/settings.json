@@ -1,15 +1,14 @@
 {
-  "lastChangelogVersion": "0.83.0",
-  "theme": "light/dark",
+  "lastChangelogVersion": "0.84.1",
+  "theme": "gray-tools-light/gray-tools-dark",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.6-luna",
-  "defaultThinkingLevel": "high",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "medium",
   "hideThinkingBlock": true,
   "packages": [
     "npm:@juicesharp/rpiv-todo",
     "npm:pi-web-access",
-    "npm:@tintinweb/pi-subagents",
-    "npm:@plannotator/pi-extension"
+    "npm:@tintinweb/pi-subagents"
   ],
   "autocompleteMaxVisible": 15,
   "quietStartup": true,
@@ -17,5 +16,7 @@
   "followUpMode": "all",
   "terminal": {
     "showTerminalProgress": true
-  }
+  },
+  "enableInstallTelemetry": false,
+  "tuiMode": "fullscreen"
 }

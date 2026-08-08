@@ -1,0 +1,37 @@
+{
+  "context": {
+    "showPercent": true,
+    "dumbZone": {
+      "enabled": true,
+      "thresholdTokens": 200000,
+      "label": "DUMB ZONE",
+      "color": "error"
+    }
+  },
+  "codexUsage": {
+    "enabled": true,
+    "cacheTtlMs": 300000,
+    "requestTimeoutMs": 10000,
+    "windows": {
+      "primary": {
+        "enabled": true,
+        "label": "5h"
+      },
+      "secondary": {
+        "enabled": true,
+        "label": "7d"
+      }
+    }
+  },
+  "experimentalMarker": {
+    "enabled": true,
+    "label": "xp",
+    "color": "warning"
+  },
+  "gitStatus": {
+    "enabled": true,
+    "refreshIntervalMs": 8000,
+    "gitTimeoutMs": 1500,
+    "ghTimeoutMs": 3000
+  }
+}
