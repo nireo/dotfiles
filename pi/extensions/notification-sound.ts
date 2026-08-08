@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
-const DEFAULT_SOUND = "/System/Library/Sounds/Glass.aiff";
+const DEFAULT_SOUND = "/System/Library/Sounds/Purr.aiff";
 
 function playNotificationSound(): void {
 	if (process.platform !== "darwin") return;

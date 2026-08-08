@@ -177,7 +177,12 @@ function renderFooter(options: {
 	theme: FooterTheme;
 	footerData: ReadonlyFooterDataProvider;
 }): string[] {
-	const { width, state, theme, footerData } = options;
+	const { width: availableWidth, state, theme, footerData } = options;
+	// Match the boxed editor's outer margin so the footer sits directly below
+	// it instead of stretching to the terminal edges.
+	const marginWidth = Math.min(3, Math.floor((availableWidth - 1) / 2));
+	const margin = " ".repeat(marginWidth);
+	const width = Math.max(1, availableWidth - marginWidth * 2);
 	const { ctx, model } = state;
 	const { totals, latestCacheHitRate } = collectUsage(ctx.sessionManager.getEntries());
 
@@ -289,7 +294,7 @@ function renderFooter(options: {
 		lines.push(truncateToWidth(statusLine, width, theme.fg("dim", "...")));
 	}
 
-	return lines;
+	return lines.map((line) => margin + line);
 }
 
 class DefaultFooterComponent implements Component {

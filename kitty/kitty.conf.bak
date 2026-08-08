@@ -3105,10 +3105,10 @@ hide_window_decorations titlebar-and-corners
 mouse_map cmd+left release grabbed,ungrabbed mouse_click_url
 
 # BEGIN_KITTY_FONTS
-font_family      family="Ioskeley Mono Term"
-bold_font        family='Ioskeley Mono Term' style=Regular
-italic_font      family='Ioskeley Mono Term' style=Regular
-bold_italic_font family='Ioskeley Mono Term' style=Regular
+font_family      family="DejaVuSansM Nerd Font Mono"
+bold_font        family='DejaVuSansM Nerd Font Mono' style=Regular
+italic_font      family='DejaVuSansM Nerd Font Mono' style=Regular
+bold_italic_font family='DejaVuSansM Nerd Font Mono' style=Regular
 # END_KITTY_FONTS
 
 

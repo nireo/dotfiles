@@ -108,6 +108,24 @@ function section(title: string, count: number, names: string[], theme: Theme): s
 	return [header, ...grid3(names)];
 }
 
+const OPENING_ART = [
+	"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣶⠿⠿⠿⣶⣦⣀⠀⠀⠀",
+	"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠉⠀⠀⠀⠀⠀⠀⠉⠻⣧⡀⠀",
+	"⢠⣄⣀⣀⣀⣀⣀⣀⣀⣴⠋⠀⠀⠀⠀⠀⣴⣆⠀⠀⠀⠀⠘⣿⡀",
+	"⠀⠙⠻⣿⣟⠛⠛⠛⠋⠁⠀⠀⠀⠀⠀⠘⠿⠋⠀⠀⠀⠀⠀⣿⡇",
+	"⠀⠀⠀⠀⠙⢷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⡇",
+	"⠀⠀⠀⠀⠀⠀⠘⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⠃",
+	"⠀⠀⠀⠀⠀⠀⢰⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀",
+	"⠀⠀⠀⠀⠀⠀⣾⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡿⠀",
+	"⠀⠀⠀⠀⠀⢸⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠃⠀",
+	"⠀⠀⠀⠀⢀⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡟⠀⠀",
+	"⠀⠀⠀⠀⣾⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠇⠀⠀",
+] as const;
+
+function openingArt(theme: Theme): string[] {
+	return OPENING_ART.map((line) => theme.fg("accent", line));
+}
+
 function logo(theme: Theme): string {
 	return theme.bold(theme.fg("accent", "pi")) + theme.fg("dim", ` v${VERSION}`);
 }
@@ -165,7 +183,7 @@ export default function (pi: ExtensionAPI) {
 
 		ctx.ui.setHeader((tui, theme) => {
 			let expanded = false;
-			const collapsed: string[] = [logo(theme)];
+			const collapsed: string[] = [...openingArt(theme), "", logo(theme)];
 			if (skills.length > 0) {
 				collapsed.push("", ...section("Skills", skills.length, skills, theme));
 			}
