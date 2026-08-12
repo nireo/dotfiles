@@ -58,6 +58,10 @@ Plays the macOS Glass notification sound when an interactive Pi agent run has fu
 
 Prompts before potentially dangerous Bash commands (`rm -rf`, `sudo`, and unsafe `chmod`/`chown`) or writes/edits to protected paths such as `.git`, `node_modules`, and secret-bearing `.env` files. Matching operations are blocked by default without an interactive UI.
 
+### `extensions/prompt-clarifier/`
+
+Adds `Ctrl+Shift+E` to conservatively improve the current editor prompt with a separately configured model, then leaves the result in the editor for review. The default is `opencode-go/deepseek-v4-flash` at max thinking. Configure the model, thinking level, shortcut, and output limit in `prompt-clarifier.json`; see `extensions/prompt-clarifier/README.md`.
+
 ### `extensions/quiet-tools/`
 
 Compacts collapsed built-in tool rows (except `edit`) to wrapped invocations plus an expand hint, with small pending/running/success/failure markers. The `edit` tool keeps Pi’s normal diff, status, and background rendering. Use `/quiet-tools on|off|toggle|status` to control it for the current session.

@@ -15,13 +15,8 @@ class BoxedEditor extends CustomEditor {
 	}
 
 	render(width: number): string[] {
-		// Keep the box inset from the terminal edges. Reduce the margin only
-		// when necessary to leave enough room for a valid frame.
 		if (width < 3) return super.render(width);
-		const marginWidth = Math.min(3, Math.floor((width - 3) / 2));
-		const margin = " ".repeat(marginWidth);
-		const boxWidth = width - marginWidth * 2;
-		const innerWidth = boxWidth - 2;
+		const innerWidth = width - 2;
 		const lines = super.render(innerWidth);
 		if (lines.length < 2) return lines;
 
@@ -41,7 +36,7 @@ class BoxedEditor extends CustomEditor {
 			framed[last] = `${border("╰")}${lines[last]}${border("╯")}`;
 		}
 
-		return framed.map((line) => `${margin}${line}${margin}`);
+		return framed;
 	}
 }
 

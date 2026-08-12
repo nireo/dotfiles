@@ -3,8 +3,8 @@
   "theme": "gray-tools-light/gray-tools-dark",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
-  "defaultThinkingLevel": "medium",
-  "hideThinkingBlock": true,
+  "defaultThinkingLevel": "high",
+  "hideThinkingBlock": false,
   "packages": [
     "npm:@juicesharp/rpiv-todo",
     "npm:pi-web-access",
