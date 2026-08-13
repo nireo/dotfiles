@@ -18,7 +18,7 @@ Adds `/context`, an interactive overlay showing estimated context-window usage a
 
 ### `extensions/default-footer/`
 
-Replaces Pi's built-in footer with a local replica of the regular statusline, including cached Git markers beside the branch. Its directory/branch/session, usage/context, model/thinking, experimental, and extension-status components are easy to customize. See `extensions/default-footer/README.md`.
+Replaces Pi's built-in footer with a local replica of the regular statusline, including cached Git markers beside the branch and account-aware ChatGPT 5-hour/7-day limits for OpenAI Codex models. Its directory/branch/session, usage/context, model/thinking, experimental, and extension-status components are easy to customize. See `extensions/default-footer/README.md`.
 
 ### `extensions/discuss/`
 
@@ -60,7 +60,7 @@ Prompts before potentially dangerous Bash commands (`rm -rf`, `sudo`, and unsafe
 
 ### `extensions/prompt-clarifier/`
 
-Adds `Ctrl+Shift+E` to conservatively improve the current editor prompt with a separately configured model, then leaves the result in the editor for review. The default is `opencode-go/deepseek-v4-flash` at max thinking. Configure the model, thinking level, shortcut, and output limit in `prompt-clarifier.json`; see `extensions/prompt-clarifier/README.md`.
+Adds `Alt+E` / `Cmd+E` to conservatively improve the current editor prompt with a separately configured model, then leaves the result in the editor for review. The default is `opencode-go/deepseek-v4-flash` at max thinking. Configure the model, thinking level, shortcut, and output limit in `prompt-clarifier.json`; see `extensions/prompt-clarifier/README.md`.
 
 ### `extensions/quiet-tools/`
 

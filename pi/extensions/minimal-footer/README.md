@@ -202,5 +202,5 @@ This extension also lives inside the broader [`pi-extensions`](../../README.md) 
 
 - The statusline registration is disabled in `index.ts`.
 - When enabled, it uses background cached git/gh checks after project trust is granted.
-- For `openai-codex`, it reads pi's stored OAuth login and fetches usage from ChatGPT's backend usage endpoint.
+- For `openai-codex`, the shared usage helper resolves Pi's active provider auth, derives the ChatGPT account id from that selected account's OAuth token, and fetches usage from ChatGPT's backend usage endpoint. The active default footer uses this helper even though this package's separate statusline registration remains disabled.
 - Usage is cached briefly in memory and refreshed after turns.

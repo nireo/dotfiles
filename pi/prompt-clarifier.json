@@ -1,6 +1,5 @@
 {
   "model": "opencode-go/deepseek-v4-flash",
   "thinkingLevel": "max",
-  "shortcut": "ctrl+shift+e",
-  "maxTokens": 8192
+  "shortcuts": ["alt+e", "super+e"]
 }

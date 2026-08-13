@@ -22,6 +22,13 @@ import type { Model, Usage } from "@earendil-works/pi-ai";
 import { truncateToWidth, visibleWidth, type Component, type TUI } from "@earendil-works/pi-tui";
 import { GitFooterCache, formatGitFooterStatus } from "./git-status.ts";
 import { OPENAI_ACCOUNT_CHANGED_EVENT, getOpenAIAccountName } from "../openai-accounts.ts";
+import {
+	fetchOpenAICodexUsage,
+	formatUsageSummary,
+	isOpenAICodexProvider,
+	type UsageSnapshot,
+	type UsageSummaryWindowsConfig,
+} from "../minimal-footer/openai-usage.ts";
 import { readFileSync, unwatchFile, watchFile } from "node:fs";
 import { isAbsolute, join, relative, resolve, sep } from "node:path";
 
@@ -41,10 +48,22 @@ type FooterState = {
 	thinkingLevel: string | undefined;
 	autoCompactionEnabled: boolean;
 	gitCache?: GitFooterCache;
+	codexUsageSnapshot?: UsageSnapshot;
+	codexUsageCheckedAt?: number;
+	codexUsageRequestVersion: number;
+	codexUsageInflight?: Promise<void>;
+	disposed: boolean;
 	requestRender?: () => void;
 };
 
 type FooterTheme = Pick<Theme, "fg" | "bold">;
+
+const CODEX_USAGE_CACHE_TTL_MS = 5 * 60 * 1000;
+const CODEX_USAGE_REQUEST_TIMEOUT_MS = 10 * 1000;
+const CODEX_USAGE_WINDOWS: UsageSummaryWindowsConfig = {
+	primary: { enabled: true, label: "5h" },
+	secondary: { enabled: true, label: "7d" },
+};
 
 function formatTokens(count: number): string {
 	if (count < 1000) return count.toString();
@@ -171,6 +190,60 @@ function watchAutoCompactionSetting(ctx: ExtensionContext, onChange: () => void)
 	};
 }
 
+function clearCodexUsageState(state: FooterState): void {
+	state.codexUsageRequestVersion += 1;
+	state.codexUsageSnapshot = undefined;
+	state.codexUsageCheckedAt = undefined;
+}
+
+/** Refresh limits using the provider's resolved auth, including the active account override. */
+async function refreshCodexUsage(state: FooterState, force = false): Promise<void> {
+	if (state.disposed) return;
+	if (!isOpenAICodexProvider(state.model?.provider)) {
+		clearCodexUsageState(state);
+		state.requestRender?.();
+		return;
+	}
+
+	const now = Date.now();
+	if (
+		!force
+		&& state.codexUsageCheckedAt !== undefined
+		&& now - state.codexUsageCheckedAt < CODEX_USAGE_CACHE_TTL_MS
+	) {
+		return;
+	}
+	if (!force && state.codexUsageInflight) return state.codexUsageInflight;
+
+	if (force) {
+		clearCodexUsageState(state);
+		state.requestRender?.();
+	}
+
+	const requestVersion = ++state.codexUsageRequestVersion;
+	const request = (async () => {
+		try {
+			const snapshot = await fetchOpenAICodexUsage(state.ctx.modelRegistry, {
+				timeoutMs: CODEX_USAGE_REQUEST_TIMEOUT_MS,
+			});
+			if (state.disposed || requestVersion !== state.codexUsageRequestVersion) return;
+			state.codexUsageSnapshot = snapshot;
+			state.codexUsageCheckedAt = snapshot?.fetchedAt ?? Date.now();
+		} catch {
+			if (state.disposed || requestVersion !== state.codexUsageRequestVersion) return;
+			state.codexUsageSnapshot = undefined;
+			state.codexUsageCheckedAt = Date.now();
+		} finally {
+			if (!state.disposed && requestVersion === state.codexUsageRequestVersion) {
+				state.requestRender?.();
+			}
+		}
+	})();
+	state.codexUsageInflight = request;
+	await request;
+	if (state.codexUsageInflight === request) state.codexUsageInflight = undefined;
+}
+
 function renderFooter(options: {
 	width: number;
 	state: FooterState;
@@ -234,6 +307,11 @@ function renderFooter(options: {
 		contextPercentStr = contextDisplay;
 	}
 	statsParts.push(contextPercentStr);
+
+	if (isOpenAICodexProvider(model?.provider)) {
+		const usageSummary = formatUsageSummary(state.codexUsageSnapshot, CODEX_USAGE_WINDOWS);
+		if (usageSummary) statsParts.push(usageSummary);
+	}
 
 	if (process.env.PI_EXPERIMENTAL === "1") {
 		statsParts.push(`${theme.fg("dim", "•")} ${theme.bold(theme.fg("warning", "xp"))}`);
@@ -318,6 +396,8 @@ class DefaultFooterComponent implements Component {
 		this.unsubscribeBranch();
 		this.unsubscribeAccountChanged();
 		this.stopSettingsWatcher();
+		this.state.disposed = true;
+		clearCodexUsageState(this.state);
 		this.state.gitCache?.dispose();
 		this.state.gitCache = undefined;
 		this.state.requestRender = undefined;
@@ -337,6 +417,8 @@ export default function (pi: ExtensionAPI) {
 			model: ctx.model,
 			thinkingLevel: ctx.thinkingLevel ?? "off",
 			autoCompactionEnabled: readAutoCompactionEnabled(ctx),
+			codexUsageRequestVersion: 0,
+			disposed: false,
 		};
 		state = nextState;
 
@@ -351,7 +433,10 @@ export default function (pi: ExtensionAPI) {
 			}
 
 			const unsubscribeBranch = footerData.onBranchChange(() => tui.requestRender());
-			const unsubscribeAccountChanged = pi.events.on(OPENAI_ACCOUNT_CHANGED_EVENT, () => tui.requestRender());
+			const unsubscribeAccountChanged = pi.events.on(OPENAI_ACCOUNT_CHANGED_EVENT, () => {
+				void refreshCodexUsage(nextState, true);
+				tui.requestRender();
+			});
 			const stopSettingsWatcher = watchAutoCompactionSetting(ctx, () => {
 				if (!nextState.requestRender) return;
 				const enabled = readAutoCompactionEnabled(ctx);
@@ -369,12 +454,14 @@ export default function (pi: ExtensionAPI) {
 				stopSettingsWatcher,
 			);
 		});
+		void refreshCodexUsage(nextState, true);
 	});
 
 	pi.on("model_select", (event, ctx) => {
 		if (!state || ctx.mode !== "tui") return;
 		state.model = event.model;
 		state.thinkingLevel = ctx.thinkingLevel ?? state.thinkingLevel;
+		void refreshCodexUsage(state, true);
 		requestRender();
 	});
 
@@ -401,11 +488,15 @@ export default function (pi: ExtensionAPI) {
 	});
 
 	pi.on("agent_settled", (_event, ctx) => {
-		if (ctx.mode === "tui") requestRender();
+		if (ctx.mode !== "tui") return;
+		if (state) void refreshCodexUsage(state);
+		requestRender();
 	});
 
 	pi.on("session_shutdown", (_event, ctx) => {
 		if (state) {
+			state.disposed = true;
+			clearCodexUsageState(state);
 			state.gitCache?.dispose();
 			state.gitCache = undefined;
 			state.requestRender = undefined;
@@ -421,4 +512,6 @@ export const __testing = {
 	formatTokens,
 	renderFooter,
 	sanitizeStatusText,
+	clearCodexUsageState,
+	refreshCodexUsage,
 };
