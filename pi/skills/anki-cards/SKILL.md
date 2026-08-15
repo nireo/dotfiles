@@ -15,6 +15,7 @@ For technical and mathematical subjects, prefer cards that test mechanisms, equa
 
 1. **Identify Material**
    - If the user has supplied source material, use it as the primary source of truth.
+   - When invoked from the `teach` skill, use the lesson's validated `card-source.json` or rendered `card-source.md` as the primary claim set. Do not reconstruct lesson facts from model memory; consult the cited original material when the packet is stale, ambiguous, or insufficient.
    - If the user refers to files or notes that have not yet been inspected, read the relevant material first.
    - If the user specifies a topic rather than a source document, create cards only from well-established facts you can state accurately.
 
@@ -51,7 +52,7 @@ For technical and mathematical subjects, prefer cards that test mechanisms, equa
 
 6. **Validate**
    - Before outputting, verify the TSV structure.
-   - If available, use `scripts/validate_tsv.cjs` on a temporary file.
+   - Save the proposed cards to a temporary TSV file and run `node scripts/validate_tsv.cjs <temporary-file>` from this skill directory. Fix every reported error before delivering the cards.
    - For mathematical material, also check that MathJax delimiters are balanced and that no physical newline or tab appears inside a field.
 
 ---
@@ -638,6 +639,7 @@ For foundational or difficult concepts, 2–5 orthogonal cards per concept is of
 # Source Fidelity
 
 - Stay grounded in the user's material when source material is provided.
+- For a teaching lesson, every factual card must be supported by the validated card-source packet or by a newly checked authoritative source that is first added to that packet.
 - Do not invent claims or fill gaps with uncertain information.
 - You may synthesize across nearby passages when the relationship is well supported.
 - If the source uses an imprecise explanation but the intended mathematical fact is clear, improve clarity without changing the meaning.

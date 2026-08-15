@@ -1,0 +1,28 @@
+{
+  "lessonId": "lesson-id",
+  "entries": [
+    {
+      "conceptId": "namespace:capability-id",
+      "verifiedClaims": [
+        "A concise claim checked against the listed source."
+      ],
+      "notation": [],
+      "assumptions": [],
+      "examples": [],
+      "learnerEvidenceIds": [
+        "ev-000000000000"
+      ],
+      "volatility": "stable",
+      "verifiedAt": "2026-01-01T00:00:00Z",
+      "sources": [
+        {
+          "label": "Authoritative source name",
+          "location": "URL, file path, or document identifier",
+          "locator": "Page, section, heading, or passage anchor",
+          "checkedAt": "2026-01-01T00:00:00Z",
+          "support": "A short excerpt or precise paraphrase showing how the source supports the claim."
+        }
+      ]
+    }
+  ]
+}
