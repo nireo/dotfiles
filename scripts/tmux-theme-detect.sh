@@ -48,7 +48,7 @@ apply_theme() {
     tmux set-option -g window-status-style "fg=$MUTED,bg=$BACKGROUND"
     tmux set-option -g window-status-current-style "fg=$ACCENT,bg=$BACKGROUND,bold"
     tmux set-option -g window-status-format " #[fg=$MUTED]#I/#W#[default] "
-    tmux set-option -g window-status-current-format " #[fg=$ACCENT][#[fg=$ACCENT]#I#[fg=$MUTED]:#[fg=$FOREGROUND]#W#[fg=$ACCENT]#{?window_zoomed_flag,⤢,}]#[default] "
+    tmux set-option -g window-status-current-format " #[fg=$ACCENT]#I#[fg=$MUTED]:#[fg=$FOREGROUND]#W#[fg=$ACCENT]#{?window_zoomed_flag,⤢,}*#[default] "
     tmux set-option -g pane-border-style "fg=$MUTED"
     tmux set-option -g pane-active-border-style "fg=$ACCENT,bold"
     tmux set-option -g message-style "fg=$BACKGROUND,bg=$SELECTION"
