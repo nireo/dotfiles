@@ -21,7 +21,7 @@ macos_thicken_font 0.70
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 16
+font_size 11
 
 #: Font size (in pts).
 
@@ -2095,7 +2095,7 @@ enable_audio_bell no
 #: to use the background color of the currently active kitty window
 #: and finally you can use an arbitrary color, such as #12af59 or red.
 
-# macos_titlebar_color system
+macos_titlebar_color background
 
 #: The color of the kitty window's titlebar on macOS. A value of
 #: system means to use the default system color, light or dark can
@@ -3108,10 +3108,10 @@ window_padding_width 3
 mouse_map cmd+left release grabbed,ungrabbed mouse_click_url
 
 # BEGIN_KITTY_FONTS
-font_family      family="UbuntuMono Nerd Font"
-bold_font        family='UbuntuMono Nerd Font' style=Regular
-italic_font      family='UbuntuMono Nerd Font' style=Regular
-bold_italic_font family='UbuntuMono Nerd Font' style=Regular
+font_family      family="SF Mono"
+bold_font        family='SF Mono' style=Regular
+italic_font      family='SF Mono' style=Regular
+bold_italic_font family='SF Mono' style=Regular
 # END_KITTY_FONTS
 
 

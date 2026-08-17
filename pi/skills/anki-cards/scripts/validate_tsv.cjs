@@ -42,27 +42,27 @@ try {
 }
 
 if (text.startsWith("\uFEFF")) {
-  fail("UTF-8 BOM is not allowed before the header");
+  fail("UTF-8 BOM is not allowed before the first card");
 }
 if (text.includes("\r")) {
   fail("use LF line endings; carriage returns are not allowed");
 }
 
 const lines = text.endsWith("\n") ? text.slice(0, -1).split("\n") : text.split("\n");
-if (lines[0] !== "Front\tBack") {
-  fail("header must be exactly Front<TAB>Back");
-}
-if (lines.length < 2) {
+if (lines.length === 1 && lines[0].length === 0) {
   fail("TSV must contain at least one card");
+  process.exit(1);
 }
 
-for (let index = 1; index < lines.length; index += 1) {
+let cardCount = 0;
+for (let index = 0; index < lines.length; index += 1) {
   const row = index + 1;
   const line = lines[index];
   if (line.length === 0) {
     fail(`row ${row}: blank rows are not allowed`);
     continue;
   }
+  cardCount += 1;
   const tabs = [...line].filter((character) => character === "\t").length;
   if (tabs !== 1) {
     fail(`row ${row}: expected exactly one tab separator, found ${tabs}`);
@@ -84,5 +84,5 @@ for (let index = 1; index < lines.length; index += 1) {
 }
 
 if (!process.exitCode) {
-  console.log(`OK: ${lines.length - 1} card(s), two TSV fields per row, balanced MathJax delimiters`);
+  console.log(`OK: ${cardCount} card(s), two TSV fields per row, balanced MathJax delimiters`);
 }

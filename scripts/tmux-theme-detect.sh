@@ -7,8 +7,7 @@
 # resolves those files from the same appearance setting before falling back
 # to the configured include.  With no arguments this retains the original
 # light/dark detector.  --apply applies the palette to the current tmux
-# server, and --watch re-applies it when the config, theme file, or OS mode
-# changes.
+# server whenever tmux starts or this configuration is reloaded.
 
 set -u
 
@@ -16,7 +15,6 @@ KITTY_CONF="${KITTY_CONF:-$HOME/.config/kitty/kitty.conf}"
 # KITTY_THEME_FILE overrides the theme file directly for custom setups.
 DIRECT_THEME="${KITTY_THEME_FILE:-}"
 THEME_FILE=""
-THEME_MODE=""
 
 # Return the appearance Kitty uses for its automatic theme files.
 detect_os_mode() {
@@ -53,7 +51,6 @@ detect_os_mode() {
 resolve_theme() {
     if [[ -n "$DIRECT_THEME" ]]; then
         THEME_FILE="$DIRECT_THEME"
-        THEME_MODE="direct"
         return
     fi
 
@@ -69,7 +66,6 @@ resolve_theme() {
     for candidate in "${candidates[@]}"; do
         if [[ -f "$config_dir/$candidate" ]]; then
             THEME_FILE="$config_dir/$candidate"
-            THEME_MODE="$mode"
             return
         fi
     done
@@ -89,7 +85,6 @@ resolve_theme() {
     else
         THEME_FILE="$config_dir/current-theme.conf"
     fi
-    THEME_MODE="static"
 }
 
 kitty_color() {
@@ -185,34 +180,6 @@ apply_theme() {
 
 if [[ "${1:-}" == "--apply" ]]; then
     apply_theme
-    exit 0
-fi
-
-if [[ "${1:-}" == "--watch" ]]; then
-    # Started by .tmux.conf; replaces any previous watcher (e.g. after
-    # Prefix-r).  Polling avoids requiring fswatch/inotify and costs
-    # negligible work while tmux is running.
-    WATCH_PIDFILE="/tmp/kitty-theme-watch.pid"
-    if [[ -f "$WATCH_PIDFILE" ]]; then
-        old_pid="$(cat "$WATCH_PIDFILE" 2>/dev/null)"
-        if [[ "$old_pid" =~ ^[0-9]+$ ]] \
-            && ps -p "$old_pid" -o command= 2>/dev/null | grep -q "tmux-theme-detect.sh --watch"; then
-            kill "$old_pid" 2>/dev/null || true
-        fi
-    fi
-    printf '%s\n' "$$" > "$WATCH_PIDFILE"
-    trap 'rm -f "$WATCH_PIDFILE"' EXIT
-
-    last_signature=""
-    while tmux list-sessions >/dev/null 2>&1; do
-        resolve_theme
-        signature="$(printf '%s\n' "$THEME_MODE" "$THEME_FILE"; cksum "$KITTY_CONF" 2>/dev/null || printf 'missing\n'; cksum "$THEME_FILE" 2>/dev/null || printf 'missing\n')"
-        if [[ "$signature" != "$last_signature" ]]; then
-            apply_theme
-            last_signature="$signature"
-        fi
-        sleep 2
-    done
     exit 0
 fi
 

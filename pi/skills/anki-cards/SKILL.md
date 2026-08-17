@@ -63,11 +63,8 @@ Output cards as TSV with exactly two fields: **Front** and **Back**.
 
 ## TSV structure
 
-- **Header:** First row must be exactly:
-
-```text
-Front	Back
-```
+- **No header row.** Do not start the file with a `Front<TAB>Back` header line. Every physical line is a card, so a naive importer would otherwise ingest that line as a card with Front `Front` and Back `Back`.
+- Fields map to the note type's **Front** and **Back** fields in order.
 
 - **One card per physical line.**
 - **Exactly one tab** separates Front and Back.
@@ -674,7 +671,7 @@ Before outputting each set of cards, verify:
 
 ## Structure
 
-1. Header is exactly `Front<TAB>Back`.
+1. No header row: the file starts directly with card data, so no importer ingests a stray `Front`/`Back` line as a card.
 2. Exactly two columns per row.
 3. Exactly one separator tab per card.
 4. No tabs inside fields.
@@ -703,7 +700,6 @@ Before outputting each set of cards, verify:
 # Example Output
 
 ```text
-Front	Back
 Why does increasing temperature generally increase the pressure of a gas in a rigid container?	Higher temperature increases the molecules' average kinetic energy, causing more frequent and more forceful collisions with the container walls.
 Write the quadratic formula for \(ax^2+bx+c=0\).	\[x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\]
 In the quadratic formula, what does the discriminant \(b^2-4ac\) determine?	It determines the nature of the roots: positive gives two distinct real roots, zero gives one repeated real root, and negative gives two complex conjugate roots.

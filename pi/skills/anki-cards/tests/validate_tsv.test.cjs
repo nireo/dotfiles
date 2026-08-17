@@ -18,27 +18,32 @@ function validate(content) {
 
 test("accepts a two-field TSV with balanced MathJax", () => {
   const result = validate(
-    "Front\tBack\n" +
-      "Write the vector sum \\(v+w\\).\tAdd corresponding components: \\((v_1+w_1, v_2+w_2)\\).\n",
+    "Write the vector sum \\(v+w\\).\tAdd corresponding components: \\((v_1+w_1, v_2+w_2)\\).\n",
   );
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /OK: 1 card/);
 });
 
 test("rejects extra TSV columns", () => {
-  const result = validate("Front\tBack\nQuestion\tAnswer\tUnexpected\n");
+  const result = validate("Question\tAnswer\tUnexpected\n");
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /exactly one tab/);
 });
 
 test("rejects unbalanced MathJax", () => {
-  const result = validate("Front\tBack\nWhat is \\(x?\tA variable\n");
+  const result = validate("What is \\(x?\tA variable\n");
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /unclosed MathJax/);
 });
 
 test("rejects Markdown inside card fields", () => {
-  const result = validate("Front\tBack\nWhat is **bold**?\tMarkdown syntax\n");
+  const result = validate("What is **bold**?\tMarkdown syntax\n");
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /Markdown syntax/);
+});
+
+test("treats a literal Front<TAB>Back first line as a card, not a header", () => {
+  const result = validate("Front\tBack\nWhat is x?\tAnswer\n");
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /OK: 2 card/);
 });

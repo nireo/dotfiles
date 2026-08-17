@@ -10,32 +10,32 @@ vim.g.colors_name = "mono"
 vim.o.background = "dark"
 
 -- Base colors
-set_hl(0, "Normal", { fg = "#B0B0B0", bg = "#090909" })
-set_hl(0, "BoldKeyword", { fg = "#B0B0B0", bg = "NONE", bold = true })
-set_hl(0, "Muted", { fg = "#666666", bg = "NONE" })
+set_hl(0, "Normal", { fg = "#F7EEF2", bg = "#181818" })
+set_hl(0, "BoldKeyword", { fg = "#F7EEF2", bg = "NONE", bold = true })
+set_hl(0, "Muted", { fg = "#C4B2BC", bg = "NONE" })
 
 -- UI Elements
-set_hl(0, "LineNr", { fg = "#444444", bg = "#090909" })
-set_hl(0, "CursorLine", { bg = "#121212" })
-set_hl(0, "CursorLineNr", { fg = "#A0A0A0", bg = "#090909", bold = true })
-set_hl(0, "ColorColumn", { bg = "#090909" })
-set_hl(0, "SignColumn", { bg = "#090909" })
-set_hl(0, "VertSplit", { fg = "#1A1A1A", bg = "#090909" })
-set_hl(0, "WinSeparator", { fg = "#1A1A1A", bg = "#090909" })
-set_hl(0, "StatusLine", { fg = "#909090", bg = "#141414" })
-set_hl(0, "StatusLineNC", { fg = "#444444", bg = "#090909" })
+set_hl(0, "LineNr", { fg = "#8F6C7D", bg = "#181818" })
+set_hl(0, "CursorLine", { bg = "#211C20" })
+set_hl(0, "CursorLineNr", { fg = "#F0D1E0", bg = "#181818", bold = true })
+set_hl(0, "ColorColumn", { bg = "#181818" })
+set_hl(0, "SignColumn", { bg = "#181818" })
+set_hl(0, "VertSplit", { fg = "#55414D", bg = "#181818" })
+set_hl(0, "WinSeparator", { fg = "#55414D", bg = "#181818" })
+set_hl(0, "StatusLine", { fg = "#C6B7C0", bg = "#252025" })
+set_hl(0, "StatusLineNC", { fg = "#8F6C7D", bg = "#181818" })
 
 -- Selection and Search
-set_hl(0, "Visual", { bg = "#262626" })
-set_hl(0, "Search", { fg = "#090909", bg = "#B0B0B0", bold = true })
-set_hl(0, "IncSearch", { fg = "#090909", bg = "#FFFFFF", bold = true })
+set_hl(0, "Visual", { bg = "#4A3541" })
+set_hl(0, "Search", { fg = "#181818", bg = "#F0D1E0", bold = true })
+set_hl(0, "IncSearch", { fg = "#181818", bg = "#FFD6E1", bold = true })
 
 -- --- The Only Colored Groups ---
--- Muted steel blue for comments
-set_hl(0, "Comment", { fg = "#788CA0", bg = "NONE", italic = true })
-set_hl(0, "SpecialComment", { fg = "#788CA0", bg = "NONE", italic = true })
--- Muted sage green for strings
-set_hl(0, "String", { fg = "#8FA18F", bg = "NONE" })
+-- Pastel blue for comments
+set_hl(0, "Comment", { fg = "#BBD9FF", bg = "NONE", italic = true })
+set_hl(0, "SpecialComment", { fg = "#BBD9FF", bg = "NONE", italic = true })
+-- Pastel lavender for strings
+set_hl(0, "String", { fg = "#D0B9DC", bg = "NONE" })
 
 -- --- Neutralizing Everything Else ---
 set_hl(0, "Identifier", { link = "Normal" })
@@ -106,13 +106,13 @@ set_hl(0, "@punctuation.delimiter", { link = "Muted" })
 set_hl(0, "@punctuation.bracket", { link = "Muted" })
 
 -- Pop-up Menu
-set_hl(0, "Pmenu", { fg = "#A0A0A0", bg = "#141414" })
-set_hl(0, "PmenuSel", { fg = "#FFFFFF", bg = "#262626", bold = true })
-set_hl(0, "FloatBorder", { fg = "#303030", bg = "#090909" })
-set_hl(0, "NormalFloat", { fg = "#B0B0B0", bg = "#090909" })
+set_hl(0, "Pmenu", { fg = "#C6B7C0", bg = "#252025" })
+set_hl(0, "PmenuSel", { fg = "#181818", bg = "#C6DDFF", bold = true })
+set_hl(0, "FloatBorder", { fg = "#8F6C7D", bg = "#181818" })
+set_hl(0, "NormalFloat", { fg = "#F7EEF2", bg = "#181818" })
 
 -- Diagnostics
-set_hl(0, "DiagnosticError", { fg = "#805555" })
-set_hl(0, "DiagnosticWarn", { fg = "#807055" })
-set_hl(0, "DiagnosticInfo", { fg = "#556680" })
-set_hl(0, "DiagnosticHint", { fg = "#558070" })
+set_hl(0, "DiagnosticError", { fg = "#FFD6E1" })
+set_hl(0, "DiagnosticWarn", { fg = "#F7BCCF" })
+set_hl(0, "DiagnosticInfo", { fg = "#C6DDFF" })
+set_hl(0, "DiagnosticHint", { fg = "#D0B9DC" })
