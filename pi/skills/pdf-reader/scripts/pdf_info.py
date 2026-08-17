@@ -24,7 +24,7 @@ def box_text(box: dict) -> str:
     """Collect text spans from one PyMuPDF4LLM layout box."""
     return "\n".join(
         span.get("text", "")
-        for line in box.get("textlines", [])
+        for line in box.get("textlines") or []
         for span in line.get("spans", [])
     )
 

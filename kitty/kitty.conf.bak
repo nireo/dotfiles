@@ -1,7 +1,6 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
-
-macos_thicken_font 0.65
+macos_thicken_font 0.70
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -22,7 +21,7 @@ macos_thicken_font 0.65
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 14
+font_size 16
 
 #: Font size (in pts).
 
@@ -89,6 +88,8 @@ font_size 14
 #: Note that this refers to programming ligatures, typically
 #: implemented using the calt OpenType feature. For disabling general
 #: ligatures, use the font_features option.
+
+#: this is something that works without any
 
 # font_features
 
@@ -2103,6 +2104,7 @@ enable_audio_bell no
 #: you can use an arbitrary color, such as #12af59 or red.
 
 # macos_option_as_alt no
+macos_option_as_alt left
 
 #: Use the Option key as an Alt key on macOS. With this set to no,
 #: kitty will use the macOS native Option+Key to enter Unicode
@@ -3101,18 +3103,19 @@ window_padding_width 3
 #map ctrl+w>z toggle_layout stack
 #
 #
-hide_window_decorations titlebar-and-corners
+# hide_window_decorations titlebar-and-corners
+# hide_window_decorations titlebar-only
 mouse_map cmd+left release grabbed,ungrabbed mouse_click_url
 
 # BEGIN_KITTY_FONTS
-font_family      family="DejaVuSansM Nerd Font Mono"
-bold_font        family='DejaVuSansM Nerd Font Mono' style=Regular
-italic_font      family='DejaVuSansM Nerd Font Mono' style=Regular
-bold_italic_font family='DejaVuSansM Nerd Font Mono' style=Regular
+font_family      family="UbuntuMono Nerd Font"
+bold_font        family='UbuntuMono Nerd Font' style=Regular
+italic_font      family='UbuntuMono Nerd Font' style=Regular
+bold_italic_font family='UbuntuMono Nerd Font' style=Regular
 # END_KITTY_FONTS
 
 
 # BEGIN_KITTY_THEME
-# Mono
-include mono.conf
+# Ayaka
+include current-theme.conf
 # END_KITTY_THEME

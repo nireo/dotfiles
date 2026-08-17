@@ -18,6 +18,9 @@ run-history.jsonl
 session-manager-config.toml
 pi-crash.log
 
+# Private learner history created by the teach skill
+learner-state/
+
 # Dependencies / generated environments
 node_modules/
 **/node_modules/

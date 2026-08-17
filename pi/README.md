@@ -4,7 +4,7 @@ This directory is the global Pi configuration directory (`~/.pi/agent` is a syml
 
 ## Theme
 
-`themes/gray-tools-light.json` and `themes/gray-tools-dark.json` keep every tool execution background neutral gray for both built-in and default-shell custom tools. `settings.json` selects the matching theme automatically for light or dark terminals.
+`themes/kitty-light.json` and `themes/kitty-dark.json` match the Kitty light/dark palettes with restrained semantic colors for tool states, diffs, and markdown. `settings.json` selects the matching theme automatically for light or dark terminals.
 
 ## Extensions
 

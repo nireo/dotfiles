@@ -68,6 +68,7 @@ pdel() {
 
 PROMPT='%F{magenta}%1~%f %F{blue}%%%f '
 source <(fzf --zsh)
+source <(kubectl completion zsh)
 
 autoload -Uz add-zsh-hook
 print_osc7() {
@@ -167,6 +168,7 @@ pi() {
 
 alias tn='tmux new-session -s'
 alias tl='tmux list-sessions'
+
 alias ta='tmux attach-session'
 
 # Added by Antigravity CLI installer
