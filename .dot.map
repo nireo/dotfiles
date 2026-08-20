@@ -1,11 +1,8 @@
 kitty : ~/.config/kitty
-ghostty : ~/.config/ghostty
 .tmux.conf : ~/.tmux.conf
-zathura : ~/.config/zathura
 nvim : ~/.config/nvim
 aerospace : ~/.config/aerospace
 opencode : ~/.config/opencode
-kanata : ~/.config/kanata
 .zshrc : ~/.zshrc
 sketchybar : ~/.config/sketchybar
 pi : ~/.pi/agent

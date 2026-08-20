@@ -4,7 +4,6 @@ persistent-workspaces = []
 
 enable-normalization-flatten-containers = false
 enable-normalization-opposite-orientation-for-nested-containers = false
-start-at-login = true
 
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
