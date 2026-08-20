@@ -14,9 +14,12 @@ import {
 	type ToolDefinition as PiToolDefinition,
 	type ToolsOptions,
 } from "@earendil-works/pi-coding-agent";
-import { Container, Text, truncateToWidth, wrapTextWithAnsi } from "@earendil-works/pi-tui";
+import { Container, Text, truncateToWidth, wrapTextWithAnsi, type Component } from "@earendil-works/pi-tui";
 
-const QUIET_CALL_TOOL_NAMES = new Set(["bash", "find", "grep", "ls", "read", "write"]);
+const QUIET_CALL_TOOL_NAMES = new Set(["bash", "edit", "find", "grep", "ls", "read", "write"]);
+const STATUS_BAR = "▌";
+const STATUS_GAP = " ";
+const STATUS_PREFIX_WIDTH = 2;
 
 type ToolDefinition = PiToolDefinition<any, any, any>;
 type ToolRenderCall = NonNullable<ToolDefinition["renderCall"]>;
@@ -45,8 +48,38 @@ class QuietLinesRenderComponent extends Container {
 	}
 }
 
-class QuietCallRenderComponent extends QuietLinesRenderComponent {}
-class QuietResultRenderComponent extends QuietLinesRenderComponent {}
+class StatusBarRenderComponent implements Component {
+	private child: Component | undefined;
+	private barRenderer: (() => string) | undefined;
+
+	getChild(): Component | undefined {
+		return this.child;
+	}
+
+	setContent(child: Component, barRenderer: () => string): void {
+		this.child = child;
+		this.barRenderer = barRenderer;
+		this.invalidate();
+	}
+
+	render(width: number): string[] {
+		if (!this.child) return [];
+		if (width <= STATUS_PREFIX_WIDTH) return this.child.render(width);
+
+		const innerWidth = width - STATUS_PREFIX_WIDTH;
+		const prefix = (this.barRenderer?.() ?? STATUS_BAR) + STATUS_GAP;
+		return this.child.render(innerWidth).map(
+			(line) => prefix + truncateToWidth(line, innerWidth, ""),
+		);
+	}
+
+	invalidate(): void {
+		this.child?.invalidate();
+	}
+}
+
+class QuietCallRenderComponent extends StatusBarRenderComponent {}
+class QuietResultRenderComponent extends StatusBarRenderComponent {}
 
 function sanitizeInlineText(text: string): string {
 	return text
@@ -195,10 +228,10 @@ function formatExpandHint(theme: RenderTheme): string {
 }
 
 function formatQuietStatus(context: ToolRenderContext, theme: RenderTheme): string {
-	if (!context.executionStarted) return theme.fg("dim", "·");
-	if (context.isPartial) return theme.fg("warning", "…");
-	if (context.isError) return theme.fg("error", "✗");
-	return theme.fg("success", "✓");
+	if (!context.executionStarted) return theme.fg("dim", STATUS_BAR);
+	if (context.isPartial) return theme.fg("warning", STATUS_BAR);
+	if (context.isError) return theme.fg("error", STATUS_BAR);
+	return theme.fg("success", STATUS_BAR);
 }
 
 function markToolTiming(options: ToolRenderResultParams[1], context: ToolRenderContext): void {
@@ -217,14 +250,18 @@ function markToolTiming(options: ToolRenderResultParams[1], context: ToolRenderC
 function renderQuietCollapsedResult(
 	_result: ToolRenderResultParams[0],
 	options: ToolRenderResultParams[1],
-	_theme: RenderTheme,
+	theme: RenderTheme,
 	context: ToolRenderContext,
 ): QuietResultRenderComponent {
 	markToolTiming(options, context);
 	const component = context.lastComponent instanceof QuietResultRenderComponent
 		? context.lastComponent
 		: new QuietResultRenderComponent();
-	component.setLinesRenderer(() => []);
+	const lines = component.getChild() instanceof QuietLinesRenderComponent
+		? component.getChild() as QuietLinesRenderComponent
+		: new QuietLinesRenderComponent();
+	lines.setLinesRenderer(() => []);
+	component.setContent(lines, () => formatQuietStatus(context, theme));
 	return component;
 }
 
@@ -241,22 +278,28 @@ function renderQuietCall(
 		state.endedAt = undefined;
 	}
 
-	if (context.expanded || !QUIET_CALL_TOOL_NAMES.has(toolName)) {
-		const delegateContext = context.lastComponent instanceof QuietCallRenderComponent
-			? { ...context, lastComponent: undefined }
-			: context;
-		return base.renderCall?.(args, theme, delegateContext) ?? new Text(theme.fg("toolTitle", theme.bold(toolName)), 0, 0);
-	}
-
 	const component = context.lastComponent instanceof QuietCallRenderComponent
 		? context.lastComponent
 		: new QuietCallRenderComponent();
-	const line = `${formatQuietStatus(context, theme)} ${formatQuietCallLine(toolName, args, theme)}`;
+
+	if (context.expanded || !QUIET_CALL_TOOL_NAMES.has(toolName)) {
+		const delegateContext = { ...context, lastComponent: component.getChild() };
+		const delegated = base.renderCall?.(args, theme, delegateContext)
+			?? new Text(theme.fg("toolTitle", theme.bold(toolName)), 0, 0);
+		component.setContent(delegated, () => formatQuietStatus(context, theme));
+		return component;
+	}
+
+	const lines = component.getChild() instanceof QuietLinesRenderComponent
+		? component.getChild() as QuietLinesRenderComponent
+		: new QuietLinesRenderComponent();
+	const line = formatQuietCallLine(toolName, args, theme);
 	const hint = formatExpandHint(theme);
-	component.setLinesRenderer((width) => [
+	lines.setLinesRenderer((width) => [
 		...wrapTextWithAnsi(line, Math.max(1, width)),
 		truncateToWidth(hint, width, "..."),
 	]);
+	component.setContent(lines, () => formatQuietStatus(context, theme));
 	return component;
 }
 
@@ -265,15 +308,24 @@ function createQuietToolDefinition(base: ToolDefinition): ToolDefinition {
 
 	return {
 		...base,
+		renderShell: "self",
 		renderCall(args, theme, context) {
 			return renderQuietCall(base.name, base, args, theme, context);
 		},
 		renderResult(result, options, theme, context) {
 			if (options.expanded && baseRenderResult) {
-				const delegateContext = context.lastComponent instanceof QuietResultRenderComponent
-					? { ...context, lastComponent: undefined }
-					: context;
-				return baseRenderResult(result, options, theme, delegateContext);
+				markToolTiming(options, context);
+				const component = context.lastComponent instanceof QuietResultRenderComponent
+					? context.lastComponent
+					: new QuietResultRenderComponent();
+				const delegated = baseRenderResult(
+					result,
+					options,
+					theme,
+					{ ...context, lastComponent: component.getChild() },
+				);
+				component.setContent(delegated, () => formatQuietStatus(context, theme));
+				return component;
 			}
 
 			return renderQuietCollapsedResult(result, options, theme, context);

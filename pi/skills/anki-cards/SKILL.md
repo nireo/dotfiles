@@ -1,710 +1,328 @@
 ---
 name: anki-card-maker
-description: Create high-quality Anki flashcards from user-specified material in importable Front/Back TSV format with HTML fields. Use when the user asks for Anki cards, flashcards, spaced-repetition cards, exam cards, or study cards from notes, PDFs, transcripts, slides, codebase docs, mathematical material, technical material, or other source material.
+description: Create, inspect, update, move, and delete Anki decks and flashcards through the safe ankiedit CLI. Use when the user asks to manage Anki cards, decks, study cards, or spaced-repetition material, including cards derived from notes, PDFs, lessons, transcripts, slides, code, mathematics, or technical sources.
 ---
 
-# Anki Card Maker
+# Anki Collection Manager
 
-Create high-quality, focused Anki flashcards from source material.
+Use the globally installed `ankiedit` command for all Anki collection work. It is the only supported collection interface for this skill.
 
-The primary objective is not to maximize the number of cards. It is to create cards that produce durable recall, conceptual understanding, mathematical fluency, and useful problem-solving ability.
+Do not edit `collection.anki2` with SQLite, invoke Anki's Python library directly, copy the live collection, or assemble ad hoc import scripts. `ankiedit` owns profile discovery, offline checks, locking, backups, note/card bookkeeping, and pre/post integrity verification.
 
-For technical and mathematical subjects, prefer cards that test mechanisms, equations, assumptions, derivations, dimensions or structures, implementation consequences, and failure modes rather than cards that merely reproduce prose.
+## Operational contract
+
+- Anki Desktop must be fully closed. If `ankiedit` reports an unsafe collection state, stop and ask the user to close Anki; never bypass the check.
+- Confirm the command is available with `command -v ankiedit` when first needed. If it is missing, report that installation is required instead of falling back to direct database access.
+- Let `ankiedit` select the collection when there is exactly one profile. Use `--profile NAME` when multiple profiles exist. Use `--collection PATH` only when the user explicitly provides a nonstandard collection.
+- Read operations are safe to run when needed. Mutations still require the user's intent; do not infer permission to create, edit, move, or delete unrelated material.
+- Every mutation performs its own safety checks and returns `safety.before` and `safety.after`. Treat any non-`ok` quick or integrity check as a hard stop.
+- For destructive operations, always run `--dry-run` first and compare the exact deck/note/card IDs and counts. Use `--confirm` only when the preview matches the user's requested target.
+- Use JSON files or stdin for structured input. Do not encode complex fields as shell arguments.
+
+## Anki's content model
+
+Anki stores editable content in **notes**. A note type's templates generate one or more **cards** from a note.
+
+- Create or edit content with `notes create` and `notes update`.
+- A reversed or Cloze note can generate multiple cards; report all returned card IDs.
+- `notes delete` removes a note and every card generated from it.
+- `cards delete` removes only a selected generated card and is rarely the right content-deletion operation.
+- Moving a note during `notes update` moves all of its generated cards. `cards move` targets individual cards.
 
 ## Workflow
 
-1. **Identify Material**
-   - If the user has supplied source material, use it as the primary source of truth.
-   - When invoked from the `teach` skill, use the lesson's validated `card-source.json` or rendered `card-source.md` as the primary claim set. Do not reconstruct lesson facts from model memory; consult the cited original material when the packet is stale, ambiguous, or insufficient.
-   - If the user refers to files or notes that have not yet been inspected, read the relevant material first.
-   - If the user specifies a topic rather than a source document, create cards only from well-established facts you can state accurately.
+1. Ground card content in the user's source material. When invoked from the `teach` skill, use its validated `card-source.json` or `card-source.md` as the primary claim set.
+2. Inspect existing targets before deciding anything:
 
-2. **Extract & Synthesize**
-   - Identify:
-     - core concepts,
-     - definitions,
-     - mechanisms,
-     - equations,
-     - assumptions,
-     - relationships,
-     - derivation steps,
-     - examples,
-     - distinctions,
-     - dimensions, shapes, or structural relationships,
-     - implementation implications,
-     - common failure modes,
-     - likely misconceptions.
-   - Do not mechanically convert every sentence into a card.
-   - Omit low-value trivia unless the user explicitly asks for exhaustive coverage.
+   ```sh
+   ankiedit decks list --pretty
+   ankiedit note-types list --pretty
+   ```
 
-3. **Choose Card Types**
-   - Select the card type that best tests the knowledge.
-   - For technical or mathematical material, use the specialized card types described below.
+3. If the target deck is not explicit and cannot be safely inferred, ask for it. Never silently put cards in `Default`.
+4. Search before creating when duplicates are plausible:
 
-4. **Generate Cards**
-   - Follow the [Formatting Rules](#formatting-rules).
-   - Follow the [Card Quality Standards](#card-quality-standards).
-   - For mathematical material, also follow the [Math and Equation Rules](#math-and-equation-rules).
+   ```sh
+   ankiedit notes search --query 'deck:"Deck Name" tag:topic' --limit 100 --pretty
+   ```
 
-5. **Quality Filter**
-   - Rewrite or remove cards that are vague, overloaded, trivial, redundant, answer-leaking, or excessively difficult to grade.
-   - Prefer a smaller number of excellent cards over a larger number of mediocre cards.
+5. Draft structured JSON using the exact field names returned by `note-types list`.
+6. Apply the quality filter below. Prefer a smaller, high-value batch.
+7. Preview the mutation with `--dry-run`; inspect resolved deck, note type, rendered HTML, and affected IDs.
+8. Execute the same payload. Batch creation and every destructive operation require `--confirm`.
+9. Check that the response has `ok: true`, the expected counts/IDs, `backup_created: true` for a real write, and `ok` pre/post safety checks. Report the outcome concisely.
 
-6. **Validate**
-   - Before outputting, verify the TSV structure.
-   - Save the proposed cards to a temporary TSV file and run `node scripts/validate_tsv.cjs <temporary-file>` from this skill directory. Fix every reported error before delivering the cards.
-   - For mathematical material, also check that MathJax delimiters are balanced and that no physical newline or tab appears inside a field.
+## Command reference
 
----
+```sh
+# Health and discovery
+ankiedit doctor --pretty
+ankiedit profiles list --pretty
+ankiedit decks list --pretty
+ankiedit note-types list --pretty
 
-# Formatting Rules
+# Read
+ankiedit notes search --query 'deck:"Biology"' --limit 50 --pretty
+ankiedit notes get --note-id 123 --pretty
+ankiedit notes get --card-id 456 --pretty
+ankiedit cards search --query 'tag:review' --limit 50 --pretty
+ankiedit cards get --card-id 456 --pretty
 
-Output cards as TSV with exactly two fields: **Front** and **Back**.
-
-## TSV structure
-
-- **No header row.** Do not start the file with a `Front<TAB>Back` header line. Every physical line is a card, so a naive importer would otherwise ingest that line as a card with Front `Front` and Back `Back`.
-- Fields map to the note type's **Front** and **Back** fields in order.
-
-- **One card per physical line.**
-- **Exactly one tab** separates Front and Back.
-- **No other tabs** may occur anywhere in the row.
-- **No extra columns.**
-- **Do not wrap fields in quotes.**
-- **Do not place physical line breaks inside a field.**
-  - Use `<br>` instead.
-- **No Markdown syntax inside card fields.**
-  - Do not use `**bold**`, Markdown headings, Markdown lists, fenced code blocks, or Markdown links inside Front or Back.
-- The surrounding skill documentation may use Markdown normally. The restriction applies only to generated TSV field contents.
-
-## HTML styling
-
-Use basic HTML inside fields:
-
-- `<br>` for line breaks.
-- `<ul><li>...</li></ul>` for short lists.
-- `<b>...</b>` for important terms.
-- `<i>...</i>` sparingly.
-- `<code>...</code>` for short code expressions, API names, technical operations, or identifiers.
-- Avoid excessive visual styling.
-
-Example:
-
-```text
-What is <b>gradient clipping</b> used for?	<b>Gradient clipping</b> limits gradient magnitude to reduce unstable parameter updates caused by exploding gradients.<br>It is especially useful in models where gradient norms can occasionally become very large.
+# Mutate using JSON
+ankiedit decks create --input deck.json --dry-run --pretty
+ankiedit decks create --input deck.json --pretty
+ankiedit notes create --input notes.json --dry-run --pretty
+ankiedit notes create --input notes.json --confirm --pretty
+ankiedit notes update --input updates.json --dry-run --pretty
+ankiedit notes update --input updates.json --confirm --pretty
+ankiedit cards move --input move.json --dry-run --pretty
+ankiedit cards move --input move.json --confirm --pretty
+ankiedit notes delete --input notes.json --dry-run --pretty
+ankiedit notes delete --input notes.json --confirm --pretty
+ankiedit decks delete --input deck.json --dry-run --pretty
+ankiedit decks delete --input deck.json --confirm --pretty
 ```
 
----
+## Payloads
 
-# Math and Equation Rules
+### Create a deck
 
-When the source material contains mathematics, Anki supports MathJax. Use MathJax delimiters directly inside TSV fields.
+Deck creation is idempotent. Nested names use Anki's `Parent::Child` syntax.
 
-## Inline equations
-
-Use:
-
-```text
-\( y = Wx + b \)
+```json
+{"name": "Biology::Cell Biology"}
 ```
 
-Example card:
+### Create notes
 
-```text
-For the affine transformation \(z = Wx+b\), what is the gradient with respect to \(x\)?	\(\frac{\partial L}{\partial x}=W^\top\frac{\partial L}{\partial z}\)
+Input may be one object or an array. Markdown is the default field format.
+
+```json
+[
+  {
+    "deck": "Biology::Cell Biology",
+    "note_type": "Basic",
+    "format": "markdown",
+    "fields": {
+      "Front": "What is the main function of the **mitochondrion**?",
+      "Back": "It produces ATP through cellular respiration."
+    },
+    "tags": ["biology", "cell_biology"]
+  },
+  {
+    "deck": "Biology::Cell Biology",
+    "note_type": "Cloze",
+    "format": "markdown",
+    "fields": {
+      "Text": "The {{c1::mitochondrion}} produces {{c2::ATP}}.",
+      "Back Extra": "Two cloze numbers generate two cards."
+    },
+    "tags": ["biology", "cell_biology", "cloze"]
+  }
+]
 ```
 
-## Display equations
+### Update a note
 
-Use:
+Updates are partial: omitted fields and tags remain unchanged. Identify the note with exactly one `note_id` or `card_id`.
 
-```text
-\[ ... \]
+```json
+{
+  "note_id": 123,
+  "format": "markdown",
+  "fields": {"Back": "Updated answer with inline math: $E=mc^2$."},
+  "tags": {"add": ["checked"], "remove": ["draft"]},
+  "deck": "Physics"
+}
 ```
 
-Display equations may appear inside a field as long as the entire TSV card remains on one physical line.
+### Move cards
 
-Example:
-
-```text
-Write the equation for kinetic energy.	\[E_k=\frac{1}{2}mv^2\]
+```json
+{"card_ids": [456, 457], "deck": "Physics"}
 ```
 
-## Mathematical notation
+### Delete notes or a deck
 
-Prefer standard notation:
-
-```text
-\(\nabla_\theta L\)
-\(\frac{\partial L}{\partial W}\)
-\(\mathbb{E}[X]\)
-\(\operatorname{softmax}(z)\)
-\(\arg\max_a Q(s,a)\)
-\(x \in \mathbb{R}^{B \times T \times d}\)
+```json
+[{"note_id": 123}, {"card_id": 456}]
 ```
 
-## Equation quality
-
-Do not create cards that only test visual recognition of a formula when reconstruction or interpretation would be more useful.
-
-Prefer multiple complementary cards:
-
-1. reconstruct the equation,
-2. explain each term,
-3. explain why the equation has that form,
-4. identify its assumptions,
-5. apply it to a small case.
-
-For example, for an important equation or model, prefer separate cards for:
-
-- the equation itself,
-- why it has that form,
-- the meaning of each term,
-- the assumptions under which it applies,
-- the consequences of changing one variable or condition.
-
-## Derivations
-
-Do not place a long derivation on one card.
-
-Break derivations into **retrievable checkpoints**.
-
-Bad:
-
-```text
-Derive backpropagation through a two-layer neural network.	[ten-line derivation]
+```json
+{"name": "Temporary Deck"}
 ```
 
-Better:
+Deck deletion removes that deck's notes and cards. It refuses `Default` and refuses a parent with child decks until the children are explicitly handled.
 
-```text
-For \(z=Wx+b\), express \(\frac{\partial L}{\partial W}\) using the upstream gradient \(\frac{\partial L}{\partial z}\).	\(\frac{\partial L}{\partial W}=\frac{\partial L}{\partial z}x^\top\)
-```
+## Formatting
 
-and:
+Use Markdown for authoring and let `ankiedit` convert it to sanitized Anki HTML.
 
-```text
-For \(z=Wx+b\), express \(\frac{\partial L}{\partial x}\) using the upstream gradient.	\(\frac{\partial L}{\partial x}=W^\top\frac{\partial L}{\partial z}\)
-```
+- `**bold**`, `*italic*`, `~~strikethrough~~`
+- headings, paragraphs, lists, blockquotes, links, tables, and inline code
+- safe inline HTML for `<u>`, `<sub>`, `<sup>`, colors, and alignment
+- `$...$` for inline MathJax and `$$...$$` for display MathJax
+- `{{c1::answer}}` and `{{c1::answer::hint}}` for Cloze notes
 
-and:
+Use `"format": "html"` only when native HTML is materially easier. Media import is not supported; do not invent file or URL attachment workflows.
 
-```text
-Why is backpropagation efficient for a scalar loss with many parameters?	It uses reverse-mode automatic differentiation, reusing intermediate derivatives while traversing the computational graph backward, so gradients with respect to many parameters can be computed efficiently in one reverse pass.
-```
+## Card quality filter
 
----
+The objective is durable recall and useful understanding, not maximum card count.
 
-# Card Quality Standards
+- **Source fidelity:** Ground factual cards in supplied material. Do not silently encode ambiguous, stale, or unsupported claims.
+- **Atomicity:** Test one main mental operation per card. Split long explanations and derivations into retrievable checkpoints.
+- **Specificity:** Make the target clear and independently understandable weeks later.
+- **Minimum information:** Keep answers concise while retaining the mechanism or qualification that makes them correct.
+- **Recall over recognition:** Prefer free recall to multiple choice.
+- **Mechanism over wording:** Test why/how, assumptions, implications, and failure modes when those matter.
+- **Gradeability:** The learner must be able to tell whether the recalled answer is correct.
+- **No answer leakage:** Do not reveal most of the answer in the prompt unless required mathematical context makes it unavoidable.
+- **No low-value redundancy:** Multiple cards about one concept should test genuinely different dimensions.
+- **Useful difficulty:** Preserve meaningful reconstruction and reasoning; do not turn technical material into trivia.
 
-## 1. Atomicity
+For important technical or mathematical concepts, consider a small orthogonal cluster drawn from:
 
-Each card should test **one main mental operation**.
-
-Bad:
-
-```text
-Explain softmax, cross-entropy, maximum likelihood, and why they are used for classification.
-```
-
-Better as separate cards:
-
-```text
-What does softmax convert a vector of logits into?
-Why does cross-entropy arise naturally in multiclass classification?
-Write the multiclass cross-entropy loss.
-How is minimizing cross-entropy related to maximum likelihood?
-```
-
-A card may contain a few closely related answer components when they form one coherent fact, but avoid mini-essays.
-
----
-
-## 2. Specific prompts
-
-Avoid vague fronts such as:
-
-```text
-Explain photosynthesis.
-What is inflation?
-Discuss natural selection.
-```
-
-Prefer questions with a clear target:
-
-```text
-What two quantities determine kinetic energy?
-Why does kinetic energy depend on the square of velocity?
-How does increasing temperature affect the pressure of a gas in a rigid container?
-```
-
-The learner should know exactly what must be recalled.
-
----
-
-## 3. Minimum information principle
-
-Answers should be as short as possible while remaining correct and meaningful.
-
-Do not create unnecessarily verbose backs.
-
-Bad:
-
-```text
-What is dropout?	[large paragraph covering history, implementation, intuition, variants, and caveats]
-```
-
-Better:
-
-```text
-What does dropout do during training?	It randomly zeros a subset of activations, reducing reliance on specific co-adapted features and acting as a regularizer.
-```
-
-Then create separate cards for inference behavior or scaling if those details matter.
-
----
-
-## 4. Recall over recognition
-
-Prefer free recall.
-
-Avoid unnecessary multiple-choice cards unless the source material or user explicitly calls for them.
-
-Weak:
-
-```text
-Which optimizer maintains first- and second-moment estimates? A) SGD B) Adam C) Newton's method
-```
-
-Strong:
-
-```text
-What two exponential moving averages does Adam maintain?	A first-moment estimate of gradients and a second-moment estimate of squared gradients.
-```
-
----
-
-## 5. Mechanism over wording
-
-Prefer cards that ask **why** or **how** when the mechanism matters.
-
-Weak:
-
-```text
-What is the SI unit of force?	The newton, \(\mathrm{N}\).
-```
-
-Stronger:
-
-```text
-Why does a metal wire typically become more resistive as its temperature rises?	Higher temperature increases lattice vibrations, which scatter conduction electrons more strongly and impede their motion.
-```
-
-The weaker factual card may still be useful if exact formula recall is important, but it should not replace the mechanism card.
-
----
-
-## 6. Explicit context
-
-A card must contain enough context to be answerable independently after weeks or months.
-
-Bad:
-
-```text
-Why does this help?	It stabilizes training.
-```
-
-Good:
-
-```text
-Why can buffering help stabilize the pH of a solution?	A buffer contains a weak acid/base pair that consumes added \(H^+\) or \(OH^-\), reducing the resulting change in pH.
-```
-
-Do not rely on neighboring cards for interpretation.
-
----
-
-## 7. Avoid answer leakage
-
-Do not make the front reveal most of the answer.
-
-Weak:
-
-```text
-Why does the residual equation \(y=F(x)+x\) improve gradient flow?
-```
-
-Potentially better:
-
-```text
-What architectural feature in a residual block gives gradients a direct path through the block?	The identity skip connection, which adds the block input directly to its transformed output.
-```
-
-Equation-containing prompts are appropriate when the equation itself is required context for a derivation or shape question.
-
----
-
-## 8. Gradeability
-
-The learner should be able to decide whether the recalled answer is correct.
-
-Avoid prompts with arbitrarily broad answer spaces.
-
-Bad:
-
-```text
-What should you know about the immune system?
-```
-
-Good:
-
-```text
-Why does parameter sharing make a convolutional layer more parameter-efficient than a fully connected layer on an image?
-```
-
----
-
-## 9. Avoid trivial cards
-
-Do not create cards for facts that are obvious from terminology or can be reconstructed instantly with no useful learning value.
-
-For example, avoid:
-
-```text
-What does DNA stand for?	Deoxyribonucleic acid.
-```
-
-unless the user is a complete beginner or explicitly requests terminology cards.
-
----
-
-## 10. Avoid redundancy
-
-Do not create several cards that test effectively the same memory trace with slightly different wording.
-
-Multiple cards about one concept are encouraged only when they test genuinely different dimensions:
-
-- equation,
+- definition,
 - mechanism,
-- derivation,
-- interpretation,
-- application,
-- failure mode,
-- comparison.
+- equation reconstruction,
+- term interpretation,
+- assumptions,
+- derivation checkpoint,
+- shape or dimensionality,
+- small application,
+- implementation consequence,
+- failure mode or misconception.
 
----
+Use only the dimensions that improve learning. Usually 2–5 strong cards are better than one oversized card or a repetitive batch.
 
-## 11. Avoid oversized list cards
+## Explicit TSV export mode
 
-Long lists are difficult to recall and grade.
+`ankiedit` is the default. Only produce an importable Front/Back TSV when the user explicitly requests a TSV file instead of live collection changes. In that case, use HTML fields with Anki MathJax delimiters, keep exactly one physical row and one tab per card, and run:
 
-Bad:
-
-```text
-List every difference between SGD, momentum, RMSProp, Adam, AdamW, Adagrad, and Adadelta.
+```sh
+node scripts/validate_tsv.cjs <temporary-file>
 ```
 
-Split into targeted comparisons:
+Fix every validation error before delivering the file. Do not import it automatically.
 
-```text
-How does momentum modify vanilla SGD?
-What additional statistic does Adam track beyond momentum?
-How does AdamW differ conceptually from L2 regularization implemented inside Adam?
-```
+## Flashcard quality examples
 
----
+Use these examples as patterns, not as unsupported source material. A good rewrite should preserve the source's actual scope and terminology.
 
-## 12. Preserve useful difficulty
+### One testable idea instead of a list
 
-Do not oversimplify until the card becomes meaningless.
+**Bad**
 
-A good card should require effortful retrieval but still have a reasonably short answer.
+- Front: What is TCP?
+- Back: TCP is connection-oriented, reliable, ordered, uses acknowledgements, retransmits packets, performs flow and congestion control, and has a three-way handshake.
 
-For mathematical material, it is often desirable to require the learner to reconstruct an equation or intermediate reasoning step rather than merely name a term.
+This tests too many facts at once, so partial recall is hard to grade. Split it into distinct cards, such as:
 
----
+**Good**
 
-# Specialized Card Types
+- Front: What property of TCP ensures an application receives bytes in sequence?
+- Back: TCP provides an ordered byte stream by sequencing data and reassembling it in order.
 
-Use these types when appropriate. Do not force every concept into every type.
+**Good**
 
-## A. Definition cards
+- Front: How does TCP recover from data it infers was lost?
+- Back: It retransmits the missing data, based on signals such as timeouts or duplicate acknowledgements.
 
-Test precise definitions.
+### Specific prompt instead of vague context
 
-Example:
+**Bad**
 
-```text
-What is an <b>opportunity cost</b>?	The value of the best alternative forgone when a choice is made.
-```
+- Front: What does it do?
+- Back: It produces ATP.
 
----
+The prompt will not be understandable after it is separated from the original lesson.
 
-## B. Mechanism / Why cards
+**Good**
 
-Test causal understanding.
+- Front: What is the mitochondrion's main role in aerobic cellular respiration?
+- Back: It produces most of the cell's ATP through oxidative phosphorylation.
 
-Example:
+### Free recall instead of recognition
 
-```text
-Why does increasing temperature generally increase the pressure of a gas in a rigid container?	Higher temperature increases the molecules' average kinetic energy, causing more frequent and more forceful collisions with the container walls.
-```
+**Bad**
 
-These are often among the highest-value cards.
+- Front: Which structure produces most cellular ATP: the nucleus, Golgi apparatus, or mitochondrion?
+- Back: The mitochondrion.
 
----
+The alternatives make the answer easier to recognize than to recall.
 
-## C. Equation reconstruction cards
+**Good**
 
-Ask the learner to produce an equation from memory.
+- Front: Which organelle produces most ATP in a eukaryotic cell during aerobic respiration?
+- Back: The mitochondrion.
 
-Example:
+### Mechanism instead of a label alone
 
-```text
-Write the quadratic formula for \(ax^2+bx+c=0\).	\[x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\]
-```
+**Bad**
 
----
+- Front: What is a hash table's average lookup complexity?
+- Back: $O(1)$.
 
-## D. Equation interpretation cards
+This can encourage memorizing a slogan without its conditions.
 
-Test understanding of individual terms.
+**Good**
 
-Example:
+- Front: Why can a hash table provide $O(1)$ average-case lookup?
+- Back: A hash function maps a key directly to a bucket; with a suitable hash function and controlled load factor, only a constant expected number of entries must be checked.
 
-```text
-In the quadratic formula, what does the discriminant \(b^2-4ac\) determine?	It determines the nature of the roots: positive gives two distinct real roots, zero gives one repeated real root, and negative gives two complex conjugate roots.
-```
+### Gradeable answer instead of an open-ended dump
 
----
+**Bad**
 
-## E. Assumption cards
+- Front: Explain photosynthesis.
+- Back: A long paragraph covering light reactions, the Calvin cycle, chloroplast anatomy, and ecological importance.
 
-Many mathematical results are only valid under particular assumptions.
+There is no clear boundary for a complete answer.
 
-Example:
+**Good**
 
-```text
-Under what condition is the approximation \(\sin x\approx x\) valid?	When \(x\) is close to zero and measured in radians.
-```
+- Front: What immediate products of the light-dependent reactions are used by the Calvin cycle?
+- Back: ATP and NADPH.
 
-Prefer assumption cards whenever a formula might otherwise be memorized without understanding when it applies.
+### No answer leakage
 
----
+**Bad**
 
-## F. Derivation checkpoint cards
+- Front: In which organelle does mitochondrial oxidative phosphorylation occur?
+- Back: The mitochondrion.
 
-Break a derivation into short, meaningful steps.
+The wording reveals the answer.
 
-Example:
+**Good**
 
-```text
-If \(A=\pi r^2\), what is \(\frac{dA}{dr}\)?	\(2\pi r\)
-```
+- Front: In which organelle does oxidative phosphorylation occur in eukaryotic cells?
+- Back: The mitochondrion, specifically its inner membrane.
 
-The ideal checkpoint is a step the learner should be able to reconstruct during a full derivation.
+### Focused cloze deletion
 
----
+**Bad**
 
-## G. Dimension / shape cards
+- Text: {{c1::TCP is a connection-oriented transport protocol that provides reliable, ordered delivery with flow control and congestion control.}}
 
-Use whenever dimensional or structural reasoning is important, such as matrices, arrays, geometry, units, data tables, or structured representations.
+Deleting the whole sentence tests verbatim recitation rather than a precise relationship.
 
-Example:
+**Good**
 
-```text
-If a matrix \(A\) has shape \(m\times n\) and \(B\) has shape \(n\times p\), what shape does \(AB\) have?	\(m\times p\)
-```
+- Text: TCP flow control prevents a sender from overwhelming the {{c1::receiver}}, whereas congestion control prevents it from overwhelming the {{c2::network}}.
 
-Example:
+Each deletion tests a distinct contrast. If the two deletions are not independently useful, use separate notes instead.
 
-```text
-If a vector has 8 components and is reshaped into a \(2\times4\) matrix, how many scalar values does the result contain?	8
-```
+### Meaningful application instead of trivia
 
----
+**Bad**
 
-## H. Small calculation cards
+- Front: In what year was Dijkstra's shortest-path algorithm published?
+- Back: 1959.
 
-Use small numerical examples when they reinforce a general mechanism.
+Unless the date serves a learning goal, it does not improve understanding or application.
 
-Example:
+**Good**
 
-```text
-A solution contains 0.50 mol of solute in 2.0 L of solution. What is its molarity?	\(0.25\,\mathrm{mol/L}\)
-```
-
-Keep numbers small enough that the card tests the concept rather than arithmetic endurance.
-
----
-
-## I. Comparison cards
-
-Use when two concepts are easily confused.
-
-Example:
-
-```text
-What is the key difference between <b>mitosis</b> and <b>meiosis</b> in their products?	<b>Mitosis</b> typically produces two genetically similar daughter cells, while <b>meiosis</b> produces four genetically varied haploid cells.
-```
-
-Avoid asking for many differences at once.
-
----
-
-## J. Implementation mapping cards
-
-Connect math to code.
-
-Example:
-
-```text
-In a spreadsheet, what does an absolute reference such as <code>$A$1</code> do when a formula is copied?	It keeps both the column and row fixed instead of adjusting them relative to the new formula location.
-```
-
-Example:
-
-```text
-Why should a database query use parameterized inputs instead of directly concatenating user text into SQL?	Parameterized queries separate data from executable SQL syntax, reducing the risk of SQL injection.
-```
-
-Use code cards for mechanisms and semantics, not for memorizing arbitrary syntax.
-
----
-
-## K. Debugging cards
-
-Turn practical failure modes into reusable knowledge.
-
-Example:
-
-```text
-A program starts failing only after a previously optional input becomes empty. What is a useful first debugging hypothesis?	A code path is assuming the value is present and does not correctly handle the empty or null case.
-```
-
-Whenever possible, create debugging cards from problems the learner actually encountered.
-
----
-
-## L. Misconception cards
-
-Target tempting but incorrect intuitions.
-
-Example:
-
-```text
-Does correlation by itself establish causation?	No. A correlation can arise from confounding variables, reverse causation, selection effects, or coincidence.
-```
-
-These cards are especially useful when a concept is intuitive but easy to state imprecisely.
-
----
-
-## M. Consequence / What-if cards
-
-Ask what changes when one design choice is altered.
-
-Example:
-
-```text
-What happens to the period of a simple pendulum, approximately, if its length is increased while gravity stays constant?	The period increases because \(T=2\pi\sqrt{L/g}\).
-```
-
----
-
-# Card Generation Strategy
-
-When a concept is important, consider generating a **card cluster**.
-
-A high-quality cluster may contain:
-
-1. **Definition**
-2. **Equation**
-3. **Mechanism**
-4. **Interpretation**
-5. **Assumption**
-6. **Shape or dimensionality**
-7. **Implementation implication**
-8. **Failure mode or misconception**
-
-Do not create all eight automatically. Use only the dimensions that meaningfully improve understanding.
-
-For foundational or difficult concepts, 2–5 orthogonal cards per concept is often better than one giant card.
-
----
-
-# Source Fidelity
-
-- Stay grounded in the user's material when source material is provided.
-- For a teaching lesson, every factual card must be supported by the validated card-source packet or by a newly checked authoritative source that is first added to that packet.
-- Do not invent claims or fill gaps with uncertain information.
-- You may synthesize across nearby passages when the relationship is well supported.
-- If the source uses an imprecise explanation but the intended mathematical fact is clear, improve clarity without changing the meaning.
-- If the source appears incorrect or ambiguous, do not silently encode the questionable claim as a flashcard. Flag it or omit it.
-
----
-
-# Card Selection Heuristic
-
-Before creating a card, ask:
-
-> "Would successfully recalling this help the learner explain, derive, implement, debug, or apply the concept later?"
-
-If not, the card is probably low value.
-
-Especially prioritize knowledge that is:
-
-- foundational,
-- frequently reused,
-- easily confused,
-- mathematically important,
-- hard to reconstruct under pressure,
-- useful for solving new problems,
-- useful for troubleshooting or application,
-- likely to appear in coursework, exams, professional practice, or interviews.
-
----
-
-# Final Quality Checklist
-
-Before outputting each set of cards, verify:
-
-## Structure
-
-1. No header row: the file starts directly with card data, so no importer ingests a stray `Front`/`Back` line as a card.
-2. Exactly two columns per row.
-3. Exactly one separator tab per card.
-4. No tabs inside fields.
-5. No physical newlines inside fields.
-6. No surrounding quotes.
-7. HTML is valid enough for Anki.
-8. MathJax delimiters are balanced.
-
-## Card quality
-
-9. Each card has one main target.
-10. The front is specific and independently understandable.
-11. The answer is concise and gradeable.
-12. The front does not unintentionally reveal the answer.
-13. The card tests recall, reasoning, or reconstruction rather than mere recognition.
-14. Long derivations are split into checkpoints.
-15. Equations are paired with interpretation or mechanism cards when useful.
-16. Important assumptions are tested.
-17. Dimensions or shapes are tested where dimensional reasoning matters.
-18. Redundant cards are removed.
-19. Low-value trivia is omitted unless requested.
-20. The cards remain grounded in the source material.
-
----
-
-# Example Output
-
-```text
-Why does increasing temperature generally increase the pressure of a gas in a rigid container?	Higher temperature increases the molecules' average kinetic energy, causing more frequent and more forceful collisions with the container walls.
-Write the quadratic formula for \(ax^2+bx+c=0\).	\[x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\]
-In the quadratic formula, what does the discriminant \(b^2-4ac\) determine?	It determines the nature of the roots: positive gives two distinct real roots, zero gives one repeated real root, and negative gives two complex conjugate roots.
-If a matrix \(A\) has shape \(m\times n\) and \(B\) has shape \(n\times p\), what shape does \(AB\) have?	\(m\times p\)
-What is the key difference between <b>mitosis</b> and <b>meiosis</b> in their products?	<b>Mitosis</b> typically produces two genetically similar daughter cells, while <b>meiosis</b> produces four genetically varied haploid cells.
-Why should a database query use parameterized inputs instead of directly concatenating user text into SQL?	Parameterized queries separate data from executable SQL syntax, reducing the risk of SQL injection.
-Does correlation by itself establish causation?	No. A correlation can arise from confounding variables, reverse causation, selection effects, or coincidence.
-```
+- Front: Why does standard Dijkstra's algorithm not handle negative edge weights correctly?
+- Back: It assumes that once the lowest-distance unvisited node is finalized, no later path can make it cheaper; a negative edge can violate that assumption.

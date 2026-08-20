@@ -10,8 +10,9 @@
     "comment": "#687682",
     "sage": "#617063",
     "hint": "#66776B",
+    "pastelGreen": "#6F9B73",
     "warning": "#8A7F6D",
-    "error": "#8B6D74",
+    "pastelRed": "#B86F76",
     "border": "#C3C4C0",
     "borderAccent": "#B7B8B4",
     "selectedBg": "#CACED3",
@@ -31,8 +32,8 @@
     "border": "border",
     "borderAccent": "slate",
     "borderMuted": "borderAccent",
-    "success": "sage",
-    "error": "error",
+    "success": "pastelGreen",
+    "error": "pastelRed",
     "warning": "warning",
     "muted": "muted",
     "dim": "dim",
@@ -49,8 +50,8 @@
     "customMessageText": "text",
     "customMessageLabel": "slate",
     "toolPendingBg": "panelBg",
-    "toolSuccessBg": "addedBg",
-    "toolErrorBg": "removedBg",
+    "toolSuccessBg": "panelBg",
+    "toolErrorBg": "panelBg",
     "toolTitle": "text",
     "toolOutput": "muted",
 
@@ -66,7 +67,7 @@
     "mdListBullet": "hint",
 
     "toolDiffAdded": "sage",
-    "toolDiffRemoved": "error",
+    "toolDiffRemoved": "pastelRed",
     "toolDiffContext": "muted",
 
     "syntaxComment": "comment",
@@ -84,7 +85,7 @@
     "thinkingLow": "steelLight",
     "thinkingMedium": "slate",
     "thinkingHigh": "comment",
-    "thinkingXhigh": "error",
+    "thinkingXhigh": "pastelRed",
     "thinkingMax": "warm",
 
     "bashMode": "sage"

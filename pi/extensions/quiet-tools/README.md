@@ -2,20 +2,21 @@
 
 A pi extension that makes collapsed built-in tool rows much quieter in the TUI.
 
-When enabled, each covered collapsed tool row renders a compact invocation wrapped to the terminal width plus a separate `(Ctrl+O to expand)` hint line. A small status marker shows `·` pending, `…` running, `✓` success, or `✗` failure. Tool output is hidden until expanded. Expanding with `Ctrl+O` still shows pi's full rendered output and the normal Pi tool background. The `edit` tool is intentionally left on Pi's normal renderer so its diff and status remain visible.
+When enabled, each built-in tool row uses a slim left status bar instead of Pi's colored success/error background. The bar is dim before execution, yellow while running, green on success, and red on failure; the tool text itself keeps its normal colors. Collapsed rows render a compact invocation plus a separate `(Ctrl+O to expand)` hint line, with output hidden until expanded. Expanding with `Ctrl+O` still shows Pi's full rendered output inside the same status-bar treatment.
 
 `quiet-tools` only changes the visual renderer. It does not truncate, summarize, or rewrite the actual tool results sent to the model.
 
 ## Covered tools
 
 - `bash`
+- `edit`
 - `read`
 - `grep`
 - `find`
 - `ls`
 - `write`
 
-For every covered tool, the collapsed invocation wraps to the terminal width so long paths and commands remain visible without showing their result output. Expanding restores pi's normal renderer; `edit` is normal by default.
+For every covered tool, the collapsed invocation wraps to the terminal width so long paths and commands remain visible without showing their result output. Expanding restores Pi's detailed renderer while retaining the slim status bar and avoiding the colored background.
 
 ## Commands
 

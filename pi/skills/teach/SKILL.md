@@ -147,7 +147,7 @@ If the learner accepts:
 3. Give it `card-source.json` or `card-source.md` as the primary source, together with original passages only when needed. Use recorded misconceptions to select useful misconception cards, not as factual sources.
 4. Generate only high-value cards: mechanisms, equations and interpretations, assumptions, derivation checkpoints, distinctions, misconceptions, and small applications. Do not convert the transcript into cards.
 5. Audit every factual card against the saved packet and its cited support. For broad, unfamiliar, changing, or high-stakes material, use an independent subagent to compare the proposed cards against the sources; the main teacher resolves discrepancies.
-6. Run the Anki skill's TSV and MathJax validation. Remove unsupported cards rather than completing them from memory.
+6. Follow the Anki skill's `ankiedit` workflow: inspect the target deck and note type, preview the JSON batch, create it only after the learner has opted in, and verify the returned backup and pre/post integrity checks. Remove unsupported cards rather than completing them from memory.
 
 When adding more demonstrated concepts later, first read the existing card-source packet, preserve its valid entries, and save an updated complete packet. Avoid regenerating cards that test the same memory trace.
 
