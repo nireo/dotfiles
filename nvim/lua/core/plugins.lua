@@ -5,6 +5,7 @@ local treesitter_parsers = {
 	"ocaml",
 	"c",
 	"cpp",
+	"objc",
 	"go",
 	"lua",
 	"rust",
@@ -91,6 +92,8 @@ local function ensure_fff_binary()
 end
 
 local function setup_treesitter()
+	vim.treesitter.language.register("cpp", "metal")
+	vim.treesitter.language.register("objc", "objcpp")
 	require("nvim-treesitter").install(treesitter_parsers)
 
 	vim.api.nvim_create_autocmd("FileType", {
@@ -106,6 +109,11 @@ local function setup_treesitter()
 			end
 
 			vim.treesitter.start(args.buf, language)
+
+			-- Keep the small Metal syntax overlay alongside the C++ parser.
+			if args.match == "metal" then
+				vim.bo[args.buf].syntax = "metal"
+			end
 		end,
 	})
 end
@@ -138,6 +146,7 @@ local function setup_main_plugins()
 			go = { "goimports", "gofumpt" },
 			c = { "clang-format" },
 			cpp = { "clang-format" },
+			metal = { "clang-format" },
 			javascriptreact = { "prettier" },
 			typescriptreact = { "prettier" },
 			javascript = { "prettier" },
