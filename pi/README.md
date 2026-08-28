@@ -48,11 +48,11 @@ Account names and credentials are stored as private files under `openai-accounts
 
 ### `extensions/notification-sound.ts`
 
-Plays the macOS Glass notification sound when an interactive Pi agent run has fully settled and is ready for another prompt. It uses `/System/Library/Sounds/Glass.aiff` and `afplay`.
+Plays the macOS Purr notification sound when an interactive Pi agent run has fully settled and is ready for another prompt. Inside tmux, it also shows `Pi done - DIR` (using the current directory name) in the status bar and rings the pane bell so background windows use tmux's configured `window-status-bell-style` highlight.
 
-- Disable it with `PI_NOTIFICATION_SOUND=off`.
+- Disable the sound with `PI_NOTIFICATION_SOUND=off`.
 - Use a custom sound with `PI_NOTIFICATION_SOUND=/path/to/sound.aiff`.
-- It only plays in Pi’s interactive TUI and is ignored on non-macOS systems.
+- The sound only plays in Pi’s interactive TUI on macOS; the tmux status notification works on any platform with tmux.
 
 ### `extensions/permission-gate/`
 

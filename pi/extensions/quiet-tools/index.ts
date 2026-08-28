@@ -17,9 +17,6 @@ import {
 import { Container, Text, truncateToWidth, wrapTextWithAnsi, type Component } from "@earendil-works/pi-tui";
 
 const QUIET_CALL_TOOL_NAMES = new Set(["bash", "edit", "find", "grep", "ls", "read", "write"]);
-const STATUS_BAR = "▌";
-const STATUS_GAP = " ";
-const STATUS_PREFIX_WIDTH = 2;
 
 type ToolDefinition = PiToolDefinition<any, any, any>;
 type ToolRenderCall = NonNullable<ToolDefinition["renderCall"]>;
@@ -48,29 +45,20 @@ class QuietLinesRenderComponent extends Container {
 	}
 }
 
-class StatusBarRenderComponent implements Component {
+class ToolRenderComponent implements Component {
 	private child: Component | undefined;
-	private barRenderer: (() => string) | undefined;
 
 	getChild(): Component | undefined {
 		return this.child;
 	}
 
-	setContent(child: Component, barRenderer: () => string): void {
+	setContent(child: Component): void {
 		this.child = child;
-		this.barRenderer = barRenderer;
 		this.invalidate();
 	}
 
 	render(width: number): string[] {
-		if (!this.child) return [];
-		if (width <= STATUS_PREFIX_WIDTH) return this.child.render(width);
-
-		const innerWidth = width - STATUS_PREFIX_WIDTH;
-		const prefix = (this.barRenderer?.() ?? STATUS_BAR) + STATUS_GAP;
-		return this.child.render(innerWidth).map(
-			(line) => prefix + truncateToWidth(line, innerWidth, ""),
-		);
+		return this.child?.render(width) ?? [];
 	}
 
 	invalidate(): void {
@@ -78,8 +66,8 @@ class StatusBarRenderComponent implements Component {
 	}
 }
 
-class QuietCallRenderComponent extends StatusBarRenderComponent {}
-class QuietResultRenderComponent extends StatusBarRenderComponent {}
+class QuietCallRenderComponent extends ToolRenderComponent {}
+class QuietResultRenderComponent extends ToolRenderComponent {}
 
 function sanitizeInlineText(text: string): string {
 	return text
@@ -227,13 +215,6 @@ function formatExpandHint(theme: RenderTheme): string {
 	return `${theme.fg("muted", "(")}${keyHint("app.tools.expand", "to expand")}${theme.fg("muted", ")")}`;
 }
 
-function formatQuietStatus(context: ToolRenderContext, theme: RenderTheme): string {
-	if (!context.executionStarted) return theme.fg("dim", STATUS_BAR);
-	if (context.isPartial) return theme.fg("warning", STATUS_BAR);
-	if (context.isError) return theme.fg("error", STATUS_BAR);
-	return theme.fg("success", STATUS_BAR);
-}
-
 function markToolTiming(options: ToolRenderResultParams[1], context: ToolRenderContext): void {
 	const state = context.state as TimerRenderState;
 
@@ -250,7 +231,6 @@ function markToolTiming(options: ToolRenderResultParams[1], context: ToolRenderC
 function renderQuietCollapsedResult(
 	_result: ToolRenderResultParams[0],
 	options: ToolRenderResultParams[1],
-	theme: RenderTheme,
 	context: ToolRenderContext,
 ): QuietResultRenderComponent {
 	markToolTiming(options, context);
@@ -261,7 +241,7 @@ function renderQuietCollapsedResult(
 		? component.getChild() as QuietLinesRenderComponent
 		: new QuietLinesRenderComponent();
 	lines.setLinesRenderer(() => []);
-	component.setContent(lines, () => formatQuietStatus(context, theme));
+	component.setContent(lines);
 	return component;
 }
 
@@ -286,7 +266,7 @@ function renderQuietCall(
 		const delegateContext = { ...context, lastComponent: component.getChild() };
 		const delegated = base.renderCall?.(args, theme, delegateContext)
 			?? new Text(theme.fg("toolTitle", theme.bold(toolName)), 0, 0);
-		component.setContent(delegated, () => formatQuietStatus(context, theme));
+		component.setContent(delegated);
 		return component;
 	}
 
@@ -299,7 +279,7 @@ function renderQuietCall(
 		...wrapTextWithAnsi(line, Math.max(1, width)),
 		truncateToWidth(hint, width, "..."),
 	]);
-	component.setContent(lines, () => formatQuietStatus(context, theme));
+	component.setContent(lines);
 	return component;
 }
 
@@ -324,11 +304,11 @@ function createQuietToolDefinition(base: ToolDefinition): ToolDefinition {
 					theme,
 					{ ...context, lastComponent: component.getChild() },
 				);
-				component.setContent(delegated, () => formatQuietStatus(context, theme));
+				component.setContent(delegated);
 				return component;
 			}
 
-			return renderQuietCollapsedResult(result, options, theme, context);
+			return renderQuietCollapsedResult(result, options, context);
 		},
 	};
 }
@@ -371,7 +351,6 @@ function createQuietToolDefinitions(cwd: string, enabled: boolean): ToolDefiniti
 export const __testing = {
 	sanitizeInlineText,
 	formatQuietCallLine,
-	formatQuietStatus,
 	createQuietToolDefinition,
 };
 

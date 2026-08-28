@@ -1,10 +1,10 @@
 {
   "lastChangelogVersion": "0.84.2",
-  "theme": "kitty-light/kitty-dark",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "deepseek-v4-flash",
+  "theme": "kitty-light/kitty-mono-pastel",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-luna",
   "defaultThinkingLevel": "max",
-  "hideThinkingBlock": true,
+  "hideThinkingBlock": false,
   "packages": [
     "npm:@juicesharp/rpiv-todo",
     "npm:pi-web-access",
@@ -19,5 +19,6 @@
     "showTerminalProgress": true
   },
   "enableInstallTelemetry": false,
-  "tuiMode": "fullscreen"
+  "tuiMode": "fullscreen",
+  "outputPad": 0
 }
