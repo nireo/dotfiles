@@ -31,7 +31,7 @@ Anki stores editable content in **notes**. A note type's templates generate one 
 
 ## Workflow
 
-1. Ground card content in the user's source material. When invoked from the `teach` skill, use its validated `card-source.json` or `card-source.md` as the primary claim set.
+1. Ground card content in the user's source material.
 2. Inspect existing targets before deciding anything:
 
    ```sh

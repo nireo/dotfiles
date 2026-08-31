@@ -35,10 +35,6 @@ import { isAbsolute, join, relative, resolve, sep } from "node:path";
 type SessionEntries = ReturnType<ExtensionContext["sessionManager"]["getEntries"]>;
 
 type UsageTotals = {
-	input: number;
-	output: number;
-	cacheRead: number;
-	cacheWrite: number;
 	cost: number;
 };
 
@@ -93,35 +89,19 @@ function sanitizeStatusText(text: string): string {
 }
 
 function createUsageTotals(): UsageTotals {
-	return { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0 };
+	return { cost: 0 };
 }
 
 function addUsageToTotals(totals: UsageTotals, usage: Usage): void {
-	totals.input += usage.input;
-	totals.output += usage.output;
-	totals.cacheRead += usage.cacheRead;
-	totals.cacheWrite += usage.cacheWrite;
 	totals.cost += usage.cost.total;
 }
 
-function collectUsage(entries: SessionEntries): {
-	totals: UsageTotals;
-	latestCacheHitRate: number | undefined;
-} {
+function collectUsage(entries: SessionEntries): { totals: UsageTotals } {
 	const totals = createUsageTotals();
-	let latestCacheHitRate: number | undefined;
 
 	for (const entry of entries) {
 		if (entry.type === "message" && entry.message.role === "assistant") {
 			addUsageToTotals(totals, entry.message.usage);
-			const latestPromptTokens =
-				entry.message.usage.input +
-				entry.message.usage.cacheRead +
-				entry.message.usage.cacheWrite;
-			latestCacheHitRate =
-				latestPromptTokens > 0
-					? (entry.message.usage.cacheRead / latestPromptTokens) * 100
-					: undefined;
 		} else if (entry.type === "message" && entry.message.role === "toolResult" && entry.message.usage) {
 			addUsageToTotals(totals, entry.message.usage);
 		} else if ((entry.type === "branch_summary" || entry.type === "compaction") && entry.usage) {
@@ -129,7 +109,7 @@ function collectUsage(entries: SessionEntries): {
 		}
 	}
 
-	return { totals, latestCacheHitRate };
+	return { totals };
 }
 
 type SettingsFile = {
@@ -252,43 +232,32 @@ function renderFooter(options: {
 }): string[] {
 	const { width, state, theme, footerData } = options;
 	const { ctx, model } = state;
-	const { totals, latestCacheHitRate } = collectUsage(ctx.sessionManager.getEntries());
+	const { totals } = collectUsage(ctx.sessionManager.getEntries());
 
 	const contextUsage = ctx.getContextUsage();
 	const contextWindow = contextUsage?.contextWindow ?? model?.contextWindow ?? 0;
 	const contextPercentValue = contextUsage?.percent ?? 0;
 	const contextPercent = contextUsage?.percent !== null ? contextPercentValue.toFixed(1) : "?";
 
-	let pwd = formatCwdForFooter(
+	const directory = formatCwdForFooter(
 		ctx.sessionManager.getCwd(),
 		process.env.HOME || process.env.USERPROFILE,
 	);
-
 	const accountName = getOpenAIAccountName(model?.provider);
-	if (accountName) pwd = `${accountName} • ${pwd}`;
 
 	const branch = footerData.getGitBranch();
 	const gitStatus = formatGitFooterStatus(
 		state.gitCache?.getStatusSnapshot(),
 		state.gitCache?.getPullRequestSnapshot(),
 	);
-	if (branch) {
-		pwd = `${pwd} (${branch})`;
-		if (gitStatus) pwd += ` ${gitStatus}`;
-	}
+	const gitInfo = [branch ? `(${branch})` : undefined, gitStatus]
+		.filter((part): part is string => !!part)
+		.join(" ");
 
 	const sessionName = ctx.sessionManager.getSessionName();
-	if (sessionName) pwd = `${pwd} • ${sessionName}`;
+	const directoryDisplay = sessionName ? `${directory} • ${sessionName}` : directory;
 
 	const statsParts: string[] = [];
-	if (totals.input) statsParts.push(`↑${formatTokens(totals.input)}`);
-	if (totals.output) statsParts.push(`↓${formatTokens(totals.output)}`);
-	if (totals.cacheRead) statsParts.push(`R${formatTokens(totals.cacheRead)}`);
-	if (totals.cacheWrite) statsParts.push(`W${formatTokens(totals.cacheWrite)}`);
-	if ((totals.cacheRead > 0 || totals.cacheWrite > 0) && latestCacheHitRate !== undefined) {
-		statsParts.push(`CH${latestCacheHitRate.toFixed(1)}%`);
-	}
-
 	if (totals.cost) statsParts.push(`$${totals.cost.toFixed(3)}`);
 
 	const contextPercentDisplay =
@@ -308,66 +277,60 @@ function renderFooter(options: {
 	}
 	statsParts.push(contextPercentStr);
 
-	if (isOpenAICodexProvider(model?.provider)) {
-		const usageSummary = formatUsageSummary(state.codexUsageSnapshot, CODEX_USAGE_WINDOWS);
-		if (usageSummary) statsParts.push(usageSummary);
-	}
+	const openAILimits = isOpenAICodexProvider(model?.provider)
+		? formatUsageSummary(state.codexUsageSnapshot, CODEX_USAGE_WINDOWS)
+		: undefined;
 
 	if (process.env.PI_EXPERIMENTAL === "1") {
 		statsParts.push(`${theme.fg("dim", "•")} ${theme.bold(theme.fg("warning", "xp"))}`);
 	}
 
-	let statsLeft = statsParts.join(" ");
-	let statsLeftWidth = visibleWidth(statsLeft);
-	if (statsLeftWidth > width) {
-		statsLeft = truncateToWidth(statsLeft, width, "...");
-		statsLeftWidth = visibleWidth(statsLeft);
-	}
+	const statsLeft = statsParts.join(" ");
 
 	const modelName = model?.id || "no-model";
-	let rightSide = modelName;
+	let modelDisplay = modelName;
 	if (model?.reasoning) {
 		const thinkingLevel = state.thinkingLevel || "off";
-		rightSide =
+		modelDisplay =
 			thinkingLevel === "off" ? `${modelName} (thinking off)` : `${modelName} (${thinkingLevel})`;
 	}
 
-	const rightSideWidth = visibleWidth(rightSide);
-	const totalNeeded = statsLeftWidth + 2 + rightSideWidth;
-	let statsLine: string;
-	if (totalNeeded <= width) {
-		const padding = " ".repeat(width - statsLeftWidth - rightSideWidth);
-		statsLine = statsLeft + padding + rightSide;
-	} else {
-		const availableForRight = width - statsLeftWidth - 2;
-		if (availableForRight > 0) {
-			const truncatedRight = truncateToWidth(rightSide, availableForRight, "");
-			const truncatedRightWidth = visibleWidth(truncatedRight);
-			const padding = " ".repeat(Math.max(0, width - statsLeftWidth - truncatedRightWidth));
-			statsLine = statsLeft + padding + truncatedRight;
-		} else {
-			statsLine = statsLeft;
-		}
-	}
-
-	// Color each portion independently because contextPercentStr may contain
-	// its own ANSI color reset.
-	const dimStatsLeft = theme.fg("dim", statsLeft);
-	const remainder = statsLine.slice(statsLeft.length);
-	const dimRemainder = theme.fg("dim", remainder);
-	const pwdLine = truncateToWidth(theme.fg("dim", pwd), width, theme.fg("dim", "..."));
-	const lines = [pwdLine, dimStatsLeft + dimRemainder];
+	const leftParts = [
+		theme.fg("dim", modelDisplay),
+		theme.fg("dim", directoryDisplay),
+	];
+	if (gitInfo) leftParts.push(theme.fg("dim", gitInfo));
+	leftParts.push(theme.fg("dim", statsLeft));
 
 	const extensionStatuses = footerData.getExtensionStatuses();
 	if (extensionStatuses.size > 0) {
 		const sortedStatuses = Array.from(extensionStatuses.entries())
 			.sort(([a], [b]) => a.localeCompare(b))
 			.map(([, text]) => sanitizeStatusText(text));
-		const statusLine = sortedStatuses.join(" ");
-		lines.push(truncateToWidth(statusLine, width, theme.fg("dim", "...")));
+		leftParts.push(sortedStatuses.join(" "));
 	}
 
-	return lines;
+	const rightParts = [accountName, openAILimits]
+		.filter((part): part is string => !!part)
+		.map((part) => theme.fg("dim", part));
+	const separator = theme.fg("dim", " • ");
+	const leftLine = leftParts.join(separator);
+	const rightLine = rightParts.join(separator);
+
+	if (!rightLine) return [truncateToWidth(leftLine, width, theme.fg("dim", "..."))];
+
+	const rightForLayout = truncateToWidth(rightLine, width, theme.fg("dim", "..."));
+	const rightWidth = visibleWidth(rightForLayout);
+	const leftWidth = visibleWidth(leftLine);
+	const minGap = 2;
+	if (leftWidth + minGap + rightWidth <= width) {
+		return [`${leftLine}${" ".repeat(width - leftWidth - rightWidth)}${rightForLayout}`];
+	}
+
+	const availableForLeft = Math.max(0, width - rightWidth - minGap);
+	const leftForLayout = truncateToWidth(leftLine, availableForLeft, theme.fg("dim", "..."));
+	const padding = " ".repeat(Math.max(0, width - visibleWidth(leftForLayout) - rightWidth));
+	return [`${leftForLayout}${padding}${rightForLayout}`];
 }
 
 class DefaultFooterComponent implements Component {

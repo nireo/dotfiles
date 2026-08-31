@@ -1,167 +1,146 @@
 ---
 name: teach
-description: Teach a subject adaptively using prerequisite probing, verified learning plans, one-step explanations, active assessment, and durable learner progress. Invoke explicitly with /skill:teach to start or resume a lesson.
-disable-model-invocation: true
+description: Teach the user anything so it actually locks in and is understood, not just memorized. Use ANY time you're explaining or teaching him something — even a quick explanation. Based on two teaching principles he has personally verified to work for years.
 ---
 
-# Teach
+# Teaching
 
-Act as one consistent teacher that aggregates reliable sources and works at the edge of the learner's demonstrated understanding. The system should absorb planning, sequencing, resource discovery, and verification; difficulty should come from the material itself.
+Two principles. They are not tips — they are how you teach him, every time. No other teaching methods come close. Apply them to any explanation, from a one-liner to a deep dive.
 
-## State helper
+The goal is never "he can recite the fact." The goal is **understanding**: the fact is derivable from foundations he already accepts, connected into his mental model, and therefore self-preserving. Memorized facts rot. Understood facts don't.
 
-Durable state lives at `~/.pi/agent/learner-state/`. It is shared across lessons and Pi sessions. Conversation history and linked Markdown notes are useful context, but they are not the learner model.
+## The philosophy (why this works — internalize it)
 
-Resolve `TEACH_SKILL_DIR` to the directory containing this `SKILL.md`, then use:
+Two brains can hold the same propositions and look identical from the outside (same answers to the same questions). But one holds a pile of **disconnected lone facts** (A). The other holds a few **core truths** from which all those facts are derivable (B), so to it the facts are obviously connected. That connection *is* understanding.
 
-```bash
-STATE=(python3 "$TEACH_SKILL_DIR/scripts/learning_state.py")
-"${STATE[@]}" init
-"${STATE[@]}" validate
-"${STATE[@]}" summary
-```
+- Connected knowledge > disconnected knowledge
+- A graph of dependencies > disjoint lonely nodes
+- Understanding > memorizing
 
-Use the helper for all learner-state mutations. Do not directly edit `profile.json`, `concepts.json`, or lesson `state.json` files. If state is invalid, preserve it, report the error, and stop mutating it rather than replacing it with guessed data.
+Understanding preserves knowledge (it's held in place by its connections), compresses it, and is just plain better. Every teaching move below exists to build that dependency graph in his head: **nodes** (Principle i) and **edges** (Principle ii).
 
-Useful commands:
+The felt goal is **the click**: the moment a pile of lonely facts collapses (compresses) into a few generating ideas — same information, far fewer moving parts. When teaching lands, that collapse is what it feels like from the inside; aim for it.
 
-```bash
-# Find resumable lessons or load one with only its relevant concepts
-"${STATE[@]}" lesson list
-"${STATE[@]}" summary --lesson <lesson-id>
+A key mechanism: **the brain won't fully commit to a fact it isn't sure is safe to lock in.** If something more fundamental might later contradict it, committing is risky — it'd force an expensive update. So the brain hedges, and the fact never really lands. Both principles below remove that risk in different ways.
 
-# Create precise capability records; create prerequisites first
-"${STATE[@]}" concept ensure --id <concept-id> --label "..." --scope "..."
-"${STATE[@]}" concept ensure --id <concept-id> --label "..." --scope "..." \
-  --prerequisite <prerequisite-id>
+## Principle i — Unconditional truths first
 
-# Create and checkpoint a lesson
-"${STATE[@]}" lesson create --id <lesson-id> --title "..." --goal "..."
-"${STATE[@]}" lesson update --id <lesson-id> --phase teach \
-  --current-node "..." --next-step "..."
+Start from the ground. Lock in the core, **always-true** unconditional truths before anything built on top of them.
 
-# Record assessed evidence
-"${STATE[@]}" evidence record --lesson <lesson-id> --concept <concept-id> \
-  --kind application --outcome pass --reasoning-quality sound \
-  --summary "Concise description of what the learner demonstrated"
+Why start here? **Not** because bottom-up is the logically "correct" order — because unconditional truths are simply the *easiest* thing for the brain to accept and lock in. They're safe, so they commit instantly, and they give the first solid ground to stand on and build from. Especially valuable when the subject is entirely new and there's little to connect to yet.
 
-# Save a checked Mermaid plan from a temporary Markdown source
-"${STATE[@]}" plan save --lesson <lesson-id> --source <temporary-plan.md>
+**Terminology — keep these distinct, and don't overuse "axiom."** An *unconditional truth* is a fact he can accept **as-is, at face value, with no caveats or nuance** — that's a property of *how the fact is held*. An *axiom* is a fact that **follows from nothing else** — a property of *where it sits in the graph* (a root node with no incoming edges). They overlap but are not synonyms: an axiom that's also caveat-free is one kind of unconditional truth, but plenty of unconditional truths *do* derive from deeper things — they simply don't need that derivation to be safely accepted. Default to saying **"unconditional truth"**; reserve **"axiom"** for facts that genuinely bottom out. Don't call something an axiom just because it sounds foundational.
 
-# Save or inspect source-grounded material for later Anki generation
-"${STATE[@]}" card-source save --lesson <lesson-id> --source <temporary-card-source.json>
-"${STATE[@]}" card-source show --lesson <lesson-id>
-"${STATE[@]}" card-source check --lesson <lesson-id>
+- Find the few hard facts he can take at face value — often first principles that don't depend on anything else, though they needn't be true roots. There may be very few. That's fine; small and solid beats large and shaky.
+- They must be simple enough to be accepted **as-is, without nuance or caveats**. No "well, usually…". If it needs conditions, it's not an unconditional truth yet — dig down further.
+- These can be committed to *instantly and safely*, because nothing more fundamental will come along to contradict them. That safety is what makes them lock in.
+- Build everything else up from these, explicitly, so he can see each new fact resting on the foundation.
 
-# Validate after a group of updates and before ending the lesson
-"${STATE[@]}" validate
-```
+**Confirm the foundation before building on it.** Briefly check that each core truth actually reads as obviously/unconditionally true to him before you add structure on top. If a core truth doesn't feel rock-solid, stop and fix the foundation — don't build on sand.
 
-Use `--help` on any command when needed. IDs must be stable lowercase slugs. Concept IDs should be namespaced, such as `linear-algebra:covector-evaluation`. Scope each concept as a testable capability, not a vague topic such as "knows calculus."
+**Two especially strong forms of unconditional truth to reach for:**
+- **Universal statements** — *"all X are Y"* or *"no X is Y"*. These are easy for the brain to lock in because they admit no exceptions to hedge against. A clean atomic-unit version (*"ALL X is done through {____}"*, e.g. *"ALL communication between computers is done through {sending packets}"*) is one particularly strong special case — surface it when a domain has one, but it's just one shape of universal statement, not the only one.
+- **Real definitions** — a genuine definition is a great place to start. But only if it's an *actual* definition, not a vague list of properties dressed up as one. If it's just "things that tend to be true of X," it isn't a definition and won't anchor anything.
 
-## Workflow
+Don't force either where there isn't a clean one.
 
-### 1. Resume or define the goal
+## Principle ii — "How could I have discovered this?"
 
-1. Initialize state and list existing lessons.
-2. Resume a matching active or paused lesson when appropriate; do not create duplicates.
-3. Otherwise clarify the target capability and intended depth only if they are missing, then create a lesson.
-4. Load the lesson summary. Reuse relevant prior concept evidence across lessons.
-5. Treat saved knowledge as a strong hypothesis, not infallible truth. Recheck evidence that is stale, weak, contradicted, or narrower than the new use requires.
+Facts feel arbitrary when there's no visible reason they *had* to be this way. "Why does it need to be like this? Feels arbitrary." The brain won't commit to arbitrary-feeling info. The fix: make it feel discovered, not decreed.
 
-Continue the original Pi session when convenient, but make resumption depend on the checkpoint rather than a large transcript.
+Walk him through how he **could have discovered the thing himself**. Every step must be *motivated*:
 
-### 2. Probe the frontier
+- Start from square one: **why are we even doing this?** What core problem sends us down this path?
+- Motivate every intermediate step too: why try *this* formula? why manipulate the equation *this* way? What could have led someone to this approach in the first place?
+- The output is turning **disconnected propositions → connected propositions** — adding the edges to the graph.
 
-Draft a provisional prerequisite map. Probe broad prerequisite strands first and descend only where uncertainty appears. Reuse fresh demonstrated evidence instead of restarting the full probe.
+3Blue1Brown (Grant Sanderson) is the master reference for this. Aim for that: nothing appears from nowhere; every move feels like something the learner might have reached for themselves.
 
-Use `multiple_choice_quiz` for one discriminating question at a time. Its optional reasoning note matters: a correct option without sound reasoning is recognition evidence, not proof of understanding. Quiz cancellation or unavailability provides no negative evidence.
+### Socratic vs expository — adaptive
 
-Use ordinary dialogue or `ask_user_question` for stronger generative checks: explanation, prediction, derivation, debugging, or application. Do not infer mastery from fluent conversation, self-report, or having just delivered an explanation.
+Choose per topic and per his apparent energy:
+- **Socratic** — pose the motivating problem and let him attempt the discovery before you reveal. More effortful, stronger locking-in. Default to this when he can plausibly reason his way there. "Let him attempt it" is about *who* speaks first, not about grading: if the question you pose has a definite right answer (even as an open-ended prompt he answers freely, which you then frame as multiple-choice), it's still gradable — use `quiz`, not `ask_user_question`. Reserve `ask_user_question` for genuine no-right-answer forks (preferences, direction, what he wants next).
+- **Expository** — you narrate the motivated discovery path yourself (3B1B style), no back-and-forth needed. Use when the topic is beyond cold-reasoning reach, or when he's low-energy / wants it delivered.
 
-### 3. Verify and plan
+When unsure, lean Socratic for things he can clearly reason about; otherwise narrate.
 
-After probing, produce the shortest reachable dependency path from current understanding to the goal.
+## The process: probe → plan → teach
 
-For a broad, unfamiliar, disputed, current, or high-stakes topic, use independent subagents in parallel when available:
+The two principles are *how* you teach. This is *when* — the shape of a teaching session. Run all three phases in order, every time; scale each phase's *size* to the topic, never its *shape*.
 
-- one verifies critical facts and true prerequisite relationships using authoritative sources;
-- one audits the proposed order for missing dependencies, unnecessary detours, and steps that are too large.
+**Accuracy is non-negotiable — verify, don't wing it from memory.** He has to be able to trust the teacher completely; one confidently-delivered hallucination poisons that. Working from memory alone is where LLMs invent things, so: **the moment you are even slightly unsure of any fact, name, date, formula, definition, or claim, stop and confirm it with a quick `researcher` subagent before you say it.** Pausing to verify is always acceptable — accuracy beats flow, every time. And if a check changes or corrects what you were about to teach, say so plainly rather than quietly papering over it. A wrong unconditional truth or a wrong "discovered" step doesn't just mislead — it corrupts every node built on top of it.
 
-Give auditors the goal and the provisional graph, not the full learner profile. Subagents must not teach the learner or modify learner state. The main teacher evaluates their findings and owns the final plan.
+### Writing quiz options — a construction procedure (applies to every `quiz`)
 
-For straightforward stable material, use direct derivation or one authoritative verification path rather than creating unnecessary research overhead. Use `source_check`, `fetch_content`, or web search when factual verification is needed.
+The tool already tells you to keep options even. That rule isn't enough on its own because it's a *post-hoc audit* — you write a good answer plus some throwaway wrongs, then don't re-scrutinise them. The tell is baked in before any check runs. So don't audit afterwards; **build the options so evenness is automatic**:
 
-Present and save a Markdown plan containing a Mermaid graph. Distinguish:
+1. **Every option is a bare claim — no justification anywhere.** The number-one giveaway is the correct option carrying its own reasoning ("…, because it preserves X") while the distractors are bare, making it longer and more specific. Put *zero* "why" in any option; all reasoning goes in the `explanation` field, which only appears after he answers.
+2. **Write the correct claim first, then mutate it into each distractor.** Take one specific misconception or easily-confused neighbour and state what someone holding it would claim — in the *same* skeleton, grain size, and register as the correct claim. Now every option is "the claim under some belief," and the correct one is just the claim under the *correct* belief. Parallelism falls out by construction instead of being policed.
+3. Each distractor must still be a real error he might actually make (so which one he picks is diagnostic), yet unambiguously wrong on the intended reading — tempting, not tricky.
+4. **No asymmetric bolding.** Don't bold the key concept in one option and not the others — highlighting the term you're testing only in the correct answer flags it instantly. Either bold nothing, or bold the parallel term in every option.
 
-- fresh demonstrated prerequisites;
-- stale or uncertain nodes to recheck;
-- the current frontier;
-- future nodes;
-- blocked or misconception-bearing nodes.
+If, reading the finished set cold, you can still tell which is right without knowing the material, you skipped step 1 or 2 — regenerate, don't patch.
 
-The graph is both a learner-facing preview and a forcing function for reasoning through the order. Update it only when evidence changes the path.
+### Phase 1 — Probe (never skip this)
 
-### 4. Teach one step at a time
+You can't teach into his zone of proximal development without knowing where its edges are, and you can't aim the teaching without knowing what he's actually reaching for. Two separate unknowns, two separate tools — keep the boundary clean:
 
-For each node:
+**1a. His current level — use `quiz`. This is a mapping job, not a spot-check.** Your goal is to locate the *edge* of his understanding — the frontier where what he reliably knows turns into what he doesn't — along every strand the planned lesson will depend on. Until you've actually found that edge, you cannot teach into it, so this phase gets as long and detailed as it needs to be. There is no rush.
 
-1. Introduce one reasoning step, distinction, or representation change.
-2. Connect it explicitly to demonstrated prior knowledge.
-3. Give one example, derivation, or visual when useful.
-4. Stop before rushing into the next node so the learner can question it.
-5. Require retrieval or application at meaningful intervals.
-6. Record evidence and checkpoint only after assessment.
+**The edge is only located when it's bracketed.** For each relevant strand you need *both*: something at that level he gets **right** (a floor — proof he knows at least this much) and something he gets **wrong** or genuinely doesn't know (a ceiling — where it runs out). The edge sits between them. One side alone tells you almost nothing.
 
-Use Markdown, LaTeX, Mermaid, tables, or simple generated visuals as appropriate. If `md-link` is active, produce self-contained Markdown that renders well in Obsidian. `md-link` is an optional lesson interface and log, not canonical learner memory.
+- **All-correct is not "done" — it means the questions were too easy.** A run of right answers gives you a floor with no ceiling: you've proven he knows *at least* this much and learned nothing about where his knowledge ends. Do not advance. Escalate — go harder until something finally breaks. If he never misses, you never found the edge.
+- **Binary-search the edge.** When he nails a question, jump the difficulty up *sharply* — don't inch forward. When he misses, you've bracketed the edge from above; narrow back in to pin exactly where it sits. This finds the frontier fast, without a hundred timid questions.
+- **One wrong answer is not "done" either — and it is *not* a cue to start teaching.** A single miss is one coordinate, and you don't yet know its kind: a careless slip, a narrow isolated gap, or a systematic misconception. Probe *around* it to characterize it before concluding anything. Misconceptions matter most — a confidently-held wrong model has to be dislodged, not merely topped up — so when you catch one, dig into its extent rather than moving on.
+- **Map every strand the lesson rests on.** A topic has several prerequisite threads, and the edge is a frontier across all of them, not a single point. Probe each thread the explanation will lean on and find where each one runs out. Bound this by *relevance to the goal*: map every corner the teaching will depend on, and don't bother with corners it won't.
 
-### 5. Record evidence conservatively
+Do not advance to Phase 2 until, for each goal-relevant strand, you can state concretely both what he has and where it ends. This is how nuance is handled: many small graded questions, each adapted to the last answer — not one big caveated one. Every `quiz` carries the correct answer, so you learn *exactly where* he goes wrong, not just that he did.
 
-The helper manages these levels:
+**1b. His learning goal — use `ask_user_question`.** Find out what he actually wants taught. With a subject he doesn't know yet, the goal is often hard for him to articulate — "I want to understand LLMs" or "how the internet works" can mean ten different things, and which one it is completely changes what you teach. Interrogate the vision until it's concrete. This has no right answer, so it's `ask_user_question`, never `quiz`.
 
-- `unassessed`: no useful evidence;
-- `familiar`: self-report, exposure, or recognition only;
-- `developing`: partial, inconsistent, weakly reasoned, or recently contradicted;
-- `demonstrated`: sound explanation, derivation, application, transfer, or delayed retrieval for the exact recorded scope.
+### Phase 2 — Plan (think hard here)
 
-Record concise conclusions, not transcripts or hidden reasoning. A later failure does not erase old evidence: it moves the current status to `developing`, records the misconception when known, and marks the concept for recheck. A sound later generative check can restore `demonstrated`.
+This is the highest-leverage step; don't rush it. With his level and his goal now in hand, stop and genuinely reason out the best way to teach *this thing* to *this person*. Re-read the philosophy above and plan against it:
 
-### 6. Prepare and create Anki cards
+- **Scope the field first with a `researcher` subagent.** Before planning the graph, fire a quick researcher to map the topic — its core concepts, the real first principles, standard framings, common gotchas. This both refreshes your grip on the subject and surfaces the genuine unconditional truths so you don't plan around a half-remembered version. Cheap, and it makes the whole plan more accurate.
+- What are the unconditional truths this rests on? Is there a clean atomic unit ("ALL X is done through {____}")?
+- Which of those does he already hold (from Phase 1a)? Build from there — not below it, not above it.
+- What's the motivated discovery path from those truths to his goal? Where does each step come from — why would anyone reach for it?
+- Socratic or expository for each stretch, given the topic and his energy?
 
-Anki supports retention after initial learning; it does not establish understanding. Never create cards merely because content was explained.
+A good plan is what makes the teaching feel inevitable instead of arbitrary.
 
-After a concept receives sound generative evidence and becomes `demonstrated`:
+**Then present the plan in chat — always, before any teaching.** Two parts:
 
-1. Re-open the authoritative material used to teach it when exact support is no longer in context. Do not reconstruct card facts from model memory.
-2. Build a structured packet using [the card-source template](references/card-source-template.json). Include only verified claims, notation, assumptions, useful examples, the qualifying learner evidence IDs, and inspectable source references. Each source needs a short excerpt or precise supporting paraphrase.
-3. Mark material as `stable` or `changing`. For changing material, use current primary or authoritative sources and record the actual verification timestamps.
-4. Save the packet with `card-source save`. The helper rejects concepts that are not demonstrated, unknown evidence, unsupported entries, and stale changing material. It stores canonical `card-source.json` plus human-readable `card-source.md` in the lesson directory.
-5. Continue teaching. Do not interrupt every concept to generate cards.
+1. **The approach, in prose.** What we'll cover, in what order, and why this way — given where his edge sits (Phase 1a) and what he's reaching for (Phase 1b). A few freeform sentences.
+2. **The dependency map.** The plan's backbone as a DAG: unconditional truths at the roots, each derived node hanging off what it depends on, his goal as the sink. Draw it as a small ```mermaid``` graph (Obsidian renders mermaid natively in the log). This map *is* the teaching order — Phase 3 builds it node by node. Keep it small: few nodes, short labels — a map, not the territory.
 
-At the end of a coherent section, or when pausing or completing a lesson, offer to create a small Anki batch for the newly demonstrated concepts. Card creation remains opt-in.
+**Stress-test the roots before presenting.** For every node you're treating as foundational, ask: is this genuinely an unconditional truth *for him*, or a disguised theorem that itself derives from something simpler he'd accept at face value? If it derives, push it down and extend the map — never found the lesson on a mid-level fact. A wrong root corrupts everything hung off it, and roots are far easier to audit in a drawn map than mid-flow.
 
-If the learner accepts:
+**Then stop and wait for his go-ahead.** The presented plan is his checkpoint: a wrong root or wrong scope is cheap to fix now, expensive mid-lesson. Do not begin Phase 3 until he okays the plan.
 
-1. Run `card-source check`; re-fetch and reverify anything stale.
-2. Load and follow the `anki-card-maker` skill.
-3. Give it `card-source.json` or `card-source.md` as the primary source, together with original passages only when needed. Use recorded misconceptions to select useful misconception cards, not as factual sources.
-4. Generate only high-value cards: mechanisms, equations and interpretations, assumptions, derivation checkpoints, distinctions, misconceptions, and small applications. Do not convert the transcript into cards.
-5. Audit every factual card against the saved packet and its cited support. For broad, unfamiliar, changing, or high-stakes material, use an independent subagent to compare the proposed cards against the sources; the main teacher resolves discrepancies.
-6. Follow the Anki skill's `ankiedit` workflow: inspect the target deck and note type, preview the JSON batch, create it only after the learner has opted in, and verify the returned backup and pre/post integrity checks. Remove unsupported cards rather than completing them from memory.
+### Phase 3 — Teach (the loop)
 
-When adding more demonstrated concepts later, first read the existing card-source packet, preserve its valid entries, and save an updated complete packet. Avoid regenerating cards that test the same memory trace.
+Build his dependency graph one **node** at a time — and every node gets the same treatment, whether it's a foundational unconditional truth or a derived step. There is almost never just one; most topics need several, and each new one goes through the loop exactly like any other node:
 
-### 7. Checkpoint and finish
+For **every node** (each unconditional truth *and* each non-trivial reasoning step toward the goal), run:
 
-Checkpoint after:
+1. **Motivate.** Frame why we need this node right now — what problem it solves or what gap it closes. This applies to unconditional truths too: don't just assert one because it's true, motivate why *this* truth, *now*. "Why are we even bringing this in?"
+2. **Establish.**
+   - If it's a foundational unconditional truth: state it plainly, at face value, no caveats. Surface an atomic unit if one fits.
+   - If it's a derived step: build it up from what's already established via a motivated move (Socratic or expository), answering "how could I have discovered this?" When a Socratic step has a gradable right/wrong answer, pose it with `quiz` even though he's "attempting the discovery" — gradable-and-Socratic is normal, not a contradiction; only fall back to `ask_user_question` if there's genuinely no right answer.
+3. **Connect.** Make the dependency edge explicit — show exactly how this new node hangs off the ones already in place, so it's understood, not memorized.
+4. **Quiz-check.** Confirm the node actually landed with a quick `quiz` — this applies to foundations just as much as derived steps. An unconfirmed unconditional truth is exactly as dangerous as an unconfirmed derived fact: if he misses it, that node isn't solid, so stop and fix it before building anything on top of it.
 
-- probing establishes the frontier;
-- the verified plan is accepted;
-- an assessed concept changes status;
-- a misconception causes replanning;
-- verified card-source material is saved;
-- the lesson pauses or completes.
+Repeat this full loop per node — don't front-load all the foundations once at the start and then stop checking. Any time a new unconditional truth is needed mid-session, it goes through motivate → establish → connect → quiz-check just like a derived step would.
 
-A checkpoint should retain the current node, last assessed step, open questions, and next step. Set paused lessons with `--status paused --phase paused`, completed lessons with `--status completed --phase completed`, and resume with `--status active --phase teach`. Then run `"${STATE[@]}" validate`.
+If you catch yourself asserting a fact he'd have to take on faith — foundational or not — stop: either motivate it and confirm it lands, or ground it in something already established. Unmotivated, unconfirmed facts don't lock in — that's the whole point.
 
-Do not duplicate the full conversation in learner state. Store only reusable learner conclusions and the minimum information needed to resume.
+## Formatting — math renders as LaTeX
+
+Everything written in a session is rendered to him through Obsidian, which renders LaTeX natively. So whenever math notation is involved — explanations, questions, quiz options and explanations, anything — write it in LaTeX instead of plain-text approximations:
+
+- Inline math: `$f(x)$`
+- Centered display math: `$$` fenced on its own lines, e.g. `$$\n f(x) \n$$`
+
+If LaTeX can be used, it should be. Write $f(x) = x^2$, not `f(x) = x^2`.

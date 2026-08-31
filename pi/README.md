@@ -76,10 +76,6 @@ Replaces Pi’s default startup resource listing with a compact, styled header s
 
 Creates and manages source-grounded Anki decks, notes, and generated cards through the globally installed `ankiedit` CLI. The skill uses structured JSON and Markdown/MathJax authoring while delegating offline detection, locking, backups, note/card bookkeeping, and pre/post integrity verification to the tool.
 
-### `skills/teach/`
-
-Provides adaptive teaching with prerequisite probing, verified Mermaid learning plans, one-step explanations, active assessment, cross-session progress, and source-grounded Anki handoff after demonstrated understanding. Its dependency-free helper stores validated private learner state under `~/.pi/agent/learner-state/`; that directory is ignored by Git. Run the helper tests with `python3 -m unittest discover -s skills/teach/tests -v`.
-
 ## Notes
 
 Extensions run with Pi’s process permissions, so review changes before enabling them. Global extensions apply to all projects; project-local extensions can be placed in a project’s `.pi/extensions/` directory.
