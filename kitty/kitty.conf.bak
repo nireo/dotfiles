@@ -1,6 +1,6 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
-macos_thicken_font 0.70
+macos_thicken_font 0.50
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -21,7 +21,7 @@ macos_thicken_font 0.70
 #: <https://sw.kovidgoyal.net/kitty/kittens/choose-fonts/#font-spec-
 #: syntax>.
 
-font_size 11
+font_size 14
 
 #: Font size (in pts).
 
@@ -148,7 +148,7 @@ font_size 11
 #
 
 modify_font cell_width 95%
-# modify_font cell_height 105%
+modify_font cell_height 105%
 #: Modify font characteristics such as the position or thickness of
 #: the underline and strikethrough. The modifications can have the
 #: suffix px for pixels or % for percentage of original value. No
@@ -3104,7 +3104,7 @@ window_padding_width 3
 #
 #
 # hide_window_decorations titlebar-and-corners
-# hide_window_decorations titlebar-only
+hide_window_decorations titlebar-only
 mouse_map cmd+left release grabbed,ungrabbed mouse_click_url
 
 # BEGIN_KITTY_FONTS
@@ -3117,5 +3117,5 @@ bold_italic_font family='SF Mono' style=Regular
 
 # BEGIN_KITTY_THEME
 # Ayaka
-include current-theme.conf
+include mono-pastel.conf
 # END_KITTY_THEME
