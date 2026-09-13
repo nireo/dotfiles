@@ -37,10 +37,6 @@
       "rev": "fe8e1de03157f8a68e9e5b819409368ce33aeb87",
       "src": "https://github.com/ray-x/go.nvim"
     },
-    "gruber-darker.nvim": {
-      "rev": "aba065c3a79b58cc3863d5c9db319255abd1258a",
-      "src": "https://github.com/blazkowolf/gruber-darker.nvim"
-    },
     "guihua.lua": {
       "rev": "fdca486468a5d94676477917872767b5e67a2b4c",
       "src": "https://github.com/ray-x/guihua.lua"
@@ -87,11 +83,6 @@
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
     },
-    "opencode.nvim": {
-      "rev": "df533d6da724109bf08446392db860fdceddbd0c",
-      "src": "https://github.com/nickjvandyke/opencode.nvim",
-      "version": "0.0.0 - 1.0.0"
-    },
     "plenary.nvim": {
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
       "src": "https://github.com/nvim-lua/plenary.nvim"
@@ -115,10 +106,6 @@
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
       "src": "https://github.com/folke/which-key.nvim"
-    },
-    "zenbones.nvim": {
-      "rev": "22b7fb75593412e0dc81b4bdefae718e9e84aa82",
-      "src": "https://github.com/zenbones-theme/zenbones.nvim"
     }
   }
 }

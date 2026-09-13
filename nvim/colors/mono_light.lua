@@ -15,9 +15,9 @@ set_hl(0, "BoldKeyword", { fg = "#3F444A", bg = "NONE", bold = true })
 set_hl(0, "Muted", { fg = "#757B83", bg = "NONE" })
 
 -- UI Elements
-set_hl(0, "LineNr", { fg = "#999EA5", bg = "#DDDCD8" })
+set_hl(0, "LineNr", { fg = "#626A72", bg = "#C3C4C0" })
 set_hl(0, "CursorLine", { bg = "#D6D5D1" })
-set_hl(0, "CursorLineNr", { fg = "#50565D", bg = "#DDDCD8", bold = true })
+set_hl(0, "CursorLineNr", { fg = "#3F444A", bg = "#B7B8B4", bold = true })
 set_hl(0, "ColorColumn", { bg = "#D8D7D3" })
 set_hl(0, "SignColumn", { bg = "#DDDCD8" })
 set_hl(0, "VertSplit", { fg = "#C3C4C0", bg = "#DDDCD8" })

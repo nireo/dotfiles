@@ -8,8 +8,6 @@ require("vim._core.ui2").enable({
 	enable = true,
 })
 
-vim.g.zenbones_transparent_background = true
-
 local function is_dark_mode()
 	if vim.fn.has("macunix") == 1 then
 		local result = vim.system({ "defaults", "read", "-g", "AppleInterfaceStyle" }, { text = true }):wait()
@@ -19,4 +17,4 @@ local function is_dark_mode()
 	return vim.o.background == "dark"
 end
 
-vim.cmd.colorscheme(is_dark_mode() and "mono" or "mono_light")
+vim.cmd.colorscheme(is_dark_mode() and "mono_blue" or "mono_light")

@@ -124,7 +124,6 @@ local function setup_main_plugins()
 	local snacks = require("snacks")
 	local which_key = require("which-key")
 	local flash = require("flash")
-	local opencode = require("opencode")
 
 	require("obsidian").setup({
 		legacy_commands = false,
@@ -269,27 +268,17 @@ local function setup_main_plugins()
 			win = {
 				border = "none",
 				style = "minimal",
-				input = {
-					keys = {
-						["<a-a>"] = { "opencode_send", mode = { "n", "i" } },
-					},
-				},
 			},
 			formatters = {
 				file = {
 					truncate = 120,
 				},
 			},
-			actions = {
-				opencode_send = function(...)
-					return opencode.snacks_picker_send(...)
-				end,
-			},
+			actions = {},
 		},
 		input = {},
 	})
 
-	vim.g.opencode_opts = {}
 	vim.o.autoread = true
 
 	map("n", "<leader>o", ":Oil<CR>")
@@ -315,27 +304,6 @@ local function setup_main_plugins()
 		which_key.show({ global = false })
 	end, { desc = "Buffer Local Keymaps (which-key)" })
 
-	map({ "n", "x" }, "<C-a>", function()
-		opencode.ask("@this: ", { submit = true })
-	end, { desc = "Ask opencode..." })
-	map({ "n", "x" }, "<C-x>", function()
-		opencode.select()
-	end, { desc = "Execute opencode action..." })
-	map({ "n", "t" }, "<C-.>", function()
-		opencode.toggle()
-	end, { desc = "Toggle opencode" })
-	map({ "n", "x" }, "go", function()
-		return opencode.operator("@this ")
-	end, { desc = "Add range to opencode", expr = true })
-	map("n", "goo", function()
-		return opencode.operator("@this ") .. "_"
-	end, { desc = "Add line to opencode", expr = true })
-	map("n", "<S-C-u>", function()
-		opencode.command("session.half.page.up")
-	end, { desc = "Scroll opencode up" })
-	map("n", "<S-C-d>", function()
-		opencode.command("session.half.page.down")
-	end, { desc = "Scroll opencode down" })
 	map("n", "+", "<C-a>", { desc = "Increment under cursor", noremap = true })
 	map("n", "-", "<C-x>", { desc = "Decrement under cursor", noremap = true })
 
@@ -452,8 +420,6 @@ local main_specs = {
 	gh("NeogitOrg/neogit"),
 	gh("esmuellert/codediff.nvim"),
 	gh("MeanderingProgrammer/render-markdown.nvim"),
-	gh("blazkowolf/gruber-darker.nvim"),
-	gh("zenbones-theme/zenbones.nvim"),
 	gh("dmtrKovalenko/fff.nvim"),
 	{
 		src = gh("obsidian-nvim/obsidian.nvim"),
@@ -461,7 +427,6 @@ local main_specs = {
 	},
 	{ src = gh("saghen/blink.cmp"), version = vim.version.range("1") },
 	{ src = gh("nvim-treesitter/nvim-treesitter"), version = "main" },
-	{ src = gh("nickjvandyke/opencode.nvim"), version = vim.version.range("0") },
 	{ src = gh("bluz71/vim-moonfly-colors"), name = "moonfly" },
 }
 
