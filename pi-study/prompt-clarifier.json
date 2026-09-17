@@ -1,0 +1,5 @@
+{
+  "model": "opencode-go/deepseek-v4-flash",
+  "thinkingLevel": "max",
+  "shortcuts": ["alt+e", "super+e"]
+}

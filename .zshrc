@@ -27,9 +27,10 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 # Grouped, descriptive completion
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
-zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'
-zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
+# Mono Pastel truecolor accents: warm descriptions, blue messages, rose warnings.
+zstyle ':completion:*:descriptions' format '%F{#C0B298}-- %d --%f'
+zstyle ':completion:*:messages' format '%F{#A8B8CC}-- %d --%f'
+zstyle ':completion:*:warnings' format '%F{#C09BA5}-- no matches found --%f'
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
@@ -66,7 +67,22 @@ pdel() {
 
 # eval "$(starship init zsh)"
 
-PROMPT='%F{magenta}%1~%f %F{blue}%%%f '
+# Minimal Git-aware prompt: ~/dotfiles main(+) ❯
+setopt prompt_subst
+_prompt_git() {
+    local branch dirty
+
+    branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) ||
+        branch=$(git rev-parse --short HEAD 2>/dev/null) ||
+        return
+
+    [[ -n $(git status --porcelain 2>/dev/null) ]] &&
+        dirty='%F{#C09BA5}(+)%f'
+
+    print -n "%F{#A8B8CC}${branch}%f${dirty}"
+}
+PROMPT='%F{#B2ABC4}%1~%f %F{#A5BCB5}❯%f '
+RPROMPT='$(_prompt_git)'
 source <(fzf --zsh)
 source <(kubectl completion zsh)
 
@@ -166,10 +182,24 @@ pi() {
   _tmux_named_command "π" pi "$@"
 }
 
+pistudy() {
+  _tmux_named_command "π study" env \
+    PI_CODING_AGENT_DIR="$HOME/.dotfiles/pi-study" \
+    pi "$@"
+}
+
 alias tn='tmux new-session -s'
 alias tl='tmux list-sessions'
 
 alias ta='tmux attach-session'
+alias vac="source /Users/eemil/.venv-vllm-metal/bin/activate"
 
 # Added by Antigravity CLI installer
 export PATH="/Users/eemil/.local/bin:$PATH"
+
+# Fuzzy terminal file navigator
+tb() {
+  local result
+  result="$(command tbnf "$@")" || return
+  [[ -n "$result" ]] && eval "$result"
+}

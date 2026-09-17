@@ -1,0 +1,17 @@
+# Secrets — copied locally from the coding profile
+/auth.json
+/openai-accounts/
+
+# Pi runtime state
+sessions/
+git/
+npm/
+trust.json
+.pi-subagents/
+run-history.jsonl
+pi-crash.log
+
+# Generated dependencies and caches
+**/node_modules/
+.DS_Store
+*.log
