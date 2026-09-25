@@ -6,3 +6,5 @@ opencode : ~/.config/opencode
 .zshrc : ~/.zshrc
 sketchybar : ~/.config/sketchybar
 pi : ~/.pi/agent
+ghostty : ~/.config/ghostty
+rift : ~/.config/rift

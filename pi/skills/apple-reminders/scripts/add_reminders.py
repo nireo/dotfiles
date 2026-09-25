@@ -284,6 +284,9 @@ SECTION_CREATE_SCRIPT = r'''
      tell process "Reminders"
        set targetButton to first UI element of first UI element of targetRow
        set titleField to UI element 2 of targetButton
+       try
+         click titleField
+       end try
        set value of titleField to temporaryTitle
        set focused of titleField to true
        delay 0.15

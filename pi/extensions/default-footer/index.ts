@@ -249,8 +249,9 @@ function renderFooter(options: {
 	const gitStatus = formatGitFooterStatus(
 		state.gitCache?.getStatusSnapshot(),
 		state.gitCache?.getPullRequestSnapshot(),
+		theme,
 	);
-	const gitInfo = [branch ? `(${branch})` : undefined, gitStatus]
+	const gitInfo = [branch ? theme.fg("dim", `(${branch})`) : undefined, gitStatus]
 		.filter((part): part is string => !!part)
 		.join(" ");
 
@@ -299,7 +300,7 @@ function renderFooter(options: {
 		theme.fg("dim", modelDisplay),
 		theme.fg("dim", directoryDisplay),
 	];
-	if (gitInfo) leftParts.push(theme.fg("dim", gitInfo));
+	if (gitInfo) leftParts.push(gitInfo);
 	leftParts.push(theme.fg("dim", statsLeft));
 
 	const extensionStatuses = footerData.getExtensionStatuses();

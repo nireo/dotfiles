@@ -1,6 +1,6 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
-macos_thicken_font 0.40
+macos_thicken_font 0.38
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
@@ -937,7 +937,7 @@ cursor_blink_interval 0
 #: refresh rate. Also, to minimize latency when there is pending input
 #: to be processed, this option is ignored.
 
-# input_delay 3
+input_delay 2
 
 #: Delay before input from the program running in the terminal is
 #: processed (in milliseconds). Note that decreasing it will increase
@@ -3106,11 +3106,13 @@ window_padding_width 3
 hide_window_decorations titlebar-only
 mouse_map cmd+left release grabbed,ungrabbed mouse_click_url
 
+
+
 # BEGIN_KITTY_FONTS
-font_family      family="JetBrains Mono NL"
-bold_font        family='JetBrains Mono NL' style=Regular
-italic_font      family='JetBrains Mono NL' style=Regular
-bold_italic_font family='JetBrains Mono NL' style=Regular
+font_family      family="DejaVuSansM Nerd Font Mono"
+bold_font        family='DejaVuSansM Nerd Font Mono' style=Regular
+italic_font      family='DejaVuSansM Nerd Font Mono' style=Regular
+bold_italic_font family='DejaVuSansM Nerd Font Mono' style=Regular
 # END_KITTY_FONTS
 
 

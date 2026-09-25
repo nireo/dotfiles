@@ -1,0 +1,49 @@
+# Follow the system appearance and use ports of the Kitty themes.
+theme = light:kitty-light,dark:kitty-dark
+window-theme = system
+
+# Cursor colors are supplied by the active theme.
+
+# Use Fantasque Sans Mono's regular face for every style variant.
+font-family = Fantasque Sans Mono
+font-family-bold = Fantasque Sans Mono
+font-style = Regular
+font-style-bold = Regular
+
+font-size = 20
+
+font-family-italic = Fantasque Sans Mono
+font-family-bold-italic = Fantasque Sans Mono
+font-style-italic = Regular
+font-style-bold-italic = Regular
+
+# macos-titlebar-style = hidden
+
+# Never synthesize bold/italic if a face is missing; bold and regular
+# are then guaranteed to render identically.
+font-synthetic-style = false
+
+# Disable contextual, standard, and discretionary ligatures.
+font-feature = -calt, -liga, -dlig, ss01
+
+# Match Kitty's 95% cell width by reducing horizontal spacing 5%.
+# adjust-cell-width = -5%
+
+# Use the strongest macOS font stroke thickening.
+font-thicken = true
+font-thicken-strength = 255
+
+# Hide the mouse cursor while typing; it reappears when the mouse moves.
+mouse-hide-while-typing = true
+
+# Close windows/tabs without a confirmation prompt; tmux sessions survive
+# regardless since only the client detaches.
+confirm-close-surface = false
+
+# Selected text immediately lands on the clipboard.
+copy-on-select = clipboard
+
+# A few pixels of breathing room, with content centered in the leftover space.
+window-padding-x = 4
+window-padding-y = 4
+window-padding-balance = true

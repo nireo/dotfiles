@@ -17,4 +17,4 @@ local function is_dark_mode()
 	return vim.o.background == "dark"
 end
 
-vim.cmd.colorscheme(is_dark_mode() and "mono_blue" or "mono_light")
+vim.cmd.colorscheme(is_dark_mode() and "mono_plus" or "mono_light")

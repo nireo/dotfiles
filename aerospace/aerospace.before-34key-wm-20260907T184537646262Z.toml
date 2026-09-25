@@ -12,7 +12,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     inner.vertical =   10
     outer.left =       10
     outer.bottom =     10
-    outer.top =        0
+    outer.top =        10
     outer.right =      10
 
 #outer.top =        [{ monitor."built-in" = 12 }, 30]
@@ -73,57 +73,6 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     alt-shift-c = 'reload-config'
 
     alt-r = 'mode resize'
-
-    # 34-key WM layer: Ctrl+Alt+Cmd; Shift sends windows or swaps positions.
-    ctrl-alt-cmd-1 = 'workspace 1'
-    ctrl-alt-cmd-shift-1 = 'move-node-to-workspace 1'
-    ctrl-alt-cmd-2 = 'workspace 2'
-    ctrl-alt-cmd-shift-2 = 'move-node-to-workspace 2'
-    ctrl-alt-cmd-3 = 'workspace 3'
-    ctrl-alt-cmd-shift-3 = 'move-node-to-workspace 3'
-    ctrl-alt-cmd-4 = 'workspace 4'
-    ctrl-alt-cmd-shift-4 = 'move-node-to-workspace 4'
-    ctrl-alt-cmd-5 = 'workspace 5'
-    ctrl-alt-cmd-shift-5 = 'move-node-to-workspace 5'
-    ctrl-alt-cmd-6 = 'workspace 6'
-    ctrl-alt-cmd-shift-6 = 'move-node-to-workspace 6'
-    ctrl-alt-cmd-7 = 'workspace 7'
-    ctrl-alt-cmd-shift-7 = 'move-node-to-workspace 7'
-    ctrl-alt-cmd-8 = 'workspace 8'
-    ctrl-alt-cmd-shift-8 = 'move-node-to-workspace 8'
-    ctrl-alt-cmd-9 = 'workspace 9'
-    ctrl-alt-cmd-shift-9 = 'move-node-to-workspace 9'
-    ctrl-alt-cmd-0 = 'workspace 10'
-    ctrl-alt-cmd-shift-0 = 'move-node-to-workspace 10'
-    ctrl-alt-cmd-a = 'resize width -50'
-    ctrl-alt-cmd-s = 'resize height -50'
-    ctrl-alt-cmd-d = 'resize height +50'
-    ctrl-alt-cmd-f = 'resize width +50'
-    ctrl-alt-cmd-g = 'balance-sizes'
-    ctrl-alt-cmd-u = 'split horizontal'
-    ctrl-alt-cmd-i = 'focus --boundaries-action wrap-around-the-workspace up'
-    ctrl-alt-cmd-o = 'split vertical'
-    ctrl-alt-cmd-p = 'layout floating tiling'
-    ctrl-alt-cmd-h = 'workspace-back-and-forth'
-    ctrl-alt-cmd-j = 'focus --boundaries-action wrap-around-the-workspace left'
-    ctrl-alt-cmd-k = 'focus --boundaries-action wrap-around-the-workspace down'
-    ctrl-alt-cmd-l = 'focus --boundaries-action wrap-around-the-workspace right'
-    ctrl-alt-cmd-semicolon = 'fullscreen'
-    ctrl-alt-cmd-n = 'layout tiles horizontal vertical'
-    ctrl-alt-cmd-m = 'layout h_accordion'
-    ctrl-alt-cmd-comma = 'layout v_accordion'
-    ctrl-alt-cmd-period = 'focus-monitor prev'
-    ctrl-alt-cmd-slash = 'focus-monitor next'
-    ctrl-alt-cmd-y = '''exec-and-forget osascript -e '
-    tell application "Kitty"
-        do script
-        activate
-    end tell'
-    '''
-    ctrl-alt-cmd-shift-j = 'swap left'
-    ctrl-alt-cmd-shift-k = 'swap down'
-    ctrl-alt-cmd-shift-i = 'swap up'
-    ctrl-alt-cmd-shift-l = 'swap right'
 
 [mode.resize.binding]
     h = 'resize width -50'

@@ -1,6 +1,8 @@
-# Pi extensions
+# Pi coding profile
 
-This directory is the global Pi configuration directory (`~/.pi/agent` is a symlink to it). Files under `extensions/` are loaded automatically for every Pi session. Run `/reload` after changing an extension.
+This directory is the default coding configuration (`~/.pi/agent` is a symlink to it). Files under `extensions/` are loaded automatically for coding sessions. Run `/reload` after changing an extension.
+
+Learning-only skills, tools, and agents live in the sibling `pi-study/` profile and are launched with `pistudy`, keeping their descriptions and tool schemas out of coding context.
 
 ## Theme
 
@@ -18,7 +20,7 @@ Adds `/context`, an interactive overlay showing estimated context-window usage a
 
 ### `extensions/default-footer/`
 
-Replaces Pi's built-in footer with a local replica of the regular statusline, including cached Git markers beside the branch and account-aware ChatGPT 5-hour/7-day limits for OpenAI Codex models. Its directory/branch/session, usage/context, model/thinking, experimental, and extension-status components are easy to customize. See `extensions/default-footer/README.md`.
+Replaces Pi's built-in footer with a local replica of the regular statusline, including cached Git line-change counts beside the branch and account-aware ChatGPT 5-hour/7-day limits for OpenAI Codex models. Its directory/branch/session, usage/context, model/thinking, experimental, and extension-status components are easy to customize. See `extensions/default-footer/README.md`.
 
 ### `extensions/discuss/`
 
@@ -72,9 +74,7 @@ Replaces Pi’s default startup resource listing with a compact, styled header s
 
 ## Skills
 
-### `skills/anki-cards/`
-
-Creates and manages source-grounded Anki decks, notes, and generated cards through the globally installed `ankiedit` CLI. The skill uses structured JSON and Markdown/MathJax authoring while delegating offline detection, locking, backups, note/card bookkeeping, and pre/post integrity verification to the tool.
+The coding profile contains document, code-review, and performance-oriented skills. Teaching, visualization, Anki, and their supporting agents/extensions are isolated in `../pi-study/`.
 
 ## Notes
 

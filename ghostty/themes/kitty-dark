@@ -1,0 +1,26 @@
+# Ported from kitty/dark-theme.auto.conf
+# Kitty's URL, border, and tab colors have no Ghostty equivalents.
+
+background = #090909
+foreground = #c8ccc8
+cursor-color = #d1d5d1
+cursor-text = #181a1b
+selection-background = #363a3b
+selection-foreground = #d8dcd8
+
+palette = 0=#252829
+palette = 1=#ad8589
+palette = 2=#8f9f8d
+palette = 3=#aaa083
+palette = 4=#8999a8
+palette = 5=#9d929f
+palette = 6=#879e9c
+palette = 7=#bcc0bc
+palette = 8=#666c6b
+palette = 9=#bf979b
+palette = 10=#a3b1a0
+palette = 11=#bbb092
+palette = 12=#9eacb8
+palette = 13=#afa4b1
+palette = 14=#9bb1ae
+palette = 15=#d8dcd8

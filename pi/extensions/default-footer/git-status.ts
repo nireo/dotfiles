@@ -8,6 +8,14 @@ export type GitStatusSnapshot = {
 	conflict: number;
 	ahead: number;
 	behind: number;
+	/** Lines added/deleted in the working tree compared with HEAD. */
+	additions?: number;
+	deletions?: number;
+};
+
+export type GitDiffSnapshot = {
+	additions: number;
+	deletions: number;
 };
 
 export type PullRequestSnapshot = {
@@ -59,6 +67,7 @@ const DEFAULT_REFRESH_INTERVAL_MS = 8_000;
 const DEFAULT_GIT_TIMEOUT_MS = 1_500;
 const DEFAULT_GH_TIMEOUT_MS = 3_000;
 export const GIT_STATUS_ARGS = ["--no-optional-locks", "status", "--porcelain=v2", "--branch"] as const;
+export const GIT_DIFF_ARGS = ["--no-optional-locks", "diff", "--no-ext-diff", "--numstat", "HEAD"] as const;
 export const GH_PR_VIEW_ARGS = ["pr", "view", "--json", "number,state,isDraft,url,title"] as const;
 
 function createEmptyGitStatus(): GitStatusSnapshot {
@@ -128,24 +137,49 @@ export function parseGitStatusPorcelainV2(output: string): GitStatusSnapshot {
 	return status;
 }
 
-export function formatGitStatusFooterSegment(status: GitStatusSnapshot | undefined): string | undefined {
-	if (!status) return undefined;
+function parseDiffCount(value: string): number {
+	return value === "-" ? 0 : positiveCount(Number.parseInt(value, 10));
+}
 
-	const parts: string[] = [];
-	const indicators: Array<[string, number]> = [
-		["!", positiveCount(status.conflict)],
-		["+", positiveCount(status.staged)],
-		["~", positiveCount(status.unstaged)],
-		["?", positiveCount(status.untracked)],
-		["↑", positiveCount(status.ahead)],
-		["↓", positiveCount(status.behind)],
-	];
+/** Parse the stable numeric columns emitted by `git diff --numstat`. */
+export function parseGitDiffNumstat(output: string): GitDiffSnapshot {
+	let additions = 0;
+	let deletions = 0;
 
-	for (const [prefix, count] of indicators) {
-		if (count > 0) parts.push(`${prefix}${count}`);
+	for (const rawLine of output.split("\n")) {
+		const line = rawLine.endsWith("\r") ? rawLine.slice(0, -1) : rawLine;
+		const match = /^(\d+|-)\s+(\d+|-)(?:\s|$)/.exec(line);
+		if (!match) continue;
+
+		additions += parseDiffCount(match[1]!);
+		deletions += parseDiffCount(match[2]!);
 	}
 
-	return parts.length > 0 ? parts.join(" ") : undefined;
+	return { additions, deletions };
+}
+
+type GitFooterTheme = {
+	fg(color: "success" | "error" | "dim", text: string): string;
+};
+
+export function formatGitStatusFooterSegment(
+	status: GitStatusSnapshot | undefined,
+	theme?: GitFooterTheme,
+): string | undefined {
+	if (!status) return undefined;
+
+	const parts: Array<[string, "success" | "error" | "dim"]> = [];
+	const hasDiffCounts = status.additions !== undefined || status.deletions !== undefined;
+	const additions = positiveCount(status.additions ?? 0);
+	const deletions = positiveCount(status.deletions ?? 0);
+	if (hasDiffCounts && (additions > 0 || deletions > 0)) {
+		parts.push([`+${additions}`, "success"], [`-${deletions}`, "error"]);
+	}
+
+	if (parts.length === 0) return undefined;
+	return parts
+		.map(([text, color]) => (theme ? theme.fg(color, text) : text))
+		.join(" ");
 }
 
 export function formatPullRequestFooterSegment(
@@ -163,12 +197,16 @@ export function formatPullRequestFooterSegment(
 export function formatGitFooterStatus(
 	status: GitStatusSnapshot | undefined,
 	pullRequest: PullRequestSnapshot | undefined,
+	theme?: GitFooterTheme,
 ): string | undefined {
+	const pullRequestSegment = formatPullRequestFooterSegment(pullRequest);
 	const parts = [
-		formatGitStatusFooterSegment(status),
-		formatPullRequestFooterSegment(pullRequest),
+		formatGitStatusFooterSegment(status, theme),
+		theme && pullRequestSegment ? theme.fg("dim", pullRequestSegment) : pullRequestSegment,
 	].filter((part): part is string => !!part);
-	return parts.length > 0 ? parts.join(STATUS_SEPARATOR) : undefined;
+	return parts.length > 0
+		? parts.join(theme ? theme.fg("dim", STATUS_SEPARATOR) : STATUS_SEPARATOR)
+		: undefined;
 }
 
 export function parsePullRequestJson(stdout: string): PullRequestSnapshot | undefined {
@@ -207,6 +245,8 @@ function gitStatusSnapshotsEqual(
 		&& left?.conflict === right?.conflict
 		&& left?.ahead === right?.ahead
 		&& left?.behind === right?.behind
+		&& (left?.additions ?? 0) === (right?.additions ?? 0)
+		&& (left?.deletions ?? 0) === (right?.deletions ?? 0)
 	);
 }
 
@@ -415,7 +455,16 @@ export class GitFooterCache {
 		const result = await this.runCommandSafely("git", GIT_STATUS_ARGS, this.gitTimeoutMs);
 		if (result.kind !== "ok") return result;
 		if (result.result.exitCode !== 0) return { kind: "not-a-repo" };
-		return { kind: "ok", status: parseGitStatusPorcelainV2(result.result.stdout) };
+
+		const status = parseGitStatusPorcelainV2(result.result.stdout);
+		const diff = await this.runCommandSafely("git", GIT_DIFF_ARGS, this.gitTimeoutMs);
+		if (diff.kind === "transient") return diff;
+		if (diff.kind !== "ok" || diff.result.exitCode !== 0) return { kind: "ok", status };
+
+		return {
+			kind: "ok",
+			status: { ...status, ...parseGitDiffNumstat(diff.result.stdout) },
+		};
 	}
 
 	private async fetchPullRequest(): Promise<

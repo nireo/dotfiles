@@ -77,11 +77,11 @@ _prompt_git() {
         return
 
     [[ -n $(git status --porcelain 2>/dev/null) ]] &&
-        dirty='%F{#C09BA5}(+)%f'
+        dirty='%F{red}(+)%f'
 
-    print -n "%F{#A8B8CC}${branch}%f${dirty}"
+    print -n "%F{blue}${branch}%f${dirty}"
 }
-PROMPT='%F{#B2ABC4}%1~%f %F{#A5BCB5}❯%f '
+PROMPT='%F{magenta}%1~%f %F{green}❯%f '
 RPROMPT='$(_prompt_git)'
 source <(fzf --zsh)
 source <(kubectl completion zsh)

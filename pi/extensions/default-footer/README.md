@@ -5,8 +5,9 @@ Pi 0.84.0. It keeps the usual directory/branch/session line, usage and
 context statistics, model/thinking information, experimental marker,
 and extension status line. The first line also shows the active OpenAI account
 name (when an OpenAI Codex account is selected) alongside the working
-directory, branch, Git markers (`!` conflicts, `+` staged, `~` unstaged,
-`?` untracked, `↑`/`↓` ahead/behind), and optional PR number. For OpenAI
+directory, branch, Git line-change counts (green `+NUM` additions and red
+`-NUM` deletions compared with `HEAD`), and optional PR number. Git status is
+polled every 8 seconds by default. For OpenAI
 Codex models, the statistics line includes the current ChatGPT 5-hour and
 7-day usage percentages (for example, `5h 12% · 7d 38%`). Windows are
 identified by their reported duration, so a plan without a 5-hour window only

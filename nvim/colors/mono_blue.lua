@@ -25,7 +25,7 @@ local c = {
   blue_muted = "#8999a8",
   cyan = "#a6c9c5",
   green = "#aec9a9",
-  comment = "#c0b298",
+  comment = "#829b86",
   magenta = "#b2abc4",
   magenta_bright = "#c3bbd0",
   yellow = "#bbb092",
@@ -39,7 +39,7 @@ set_hl(0, "Muted", { fg = c.muted, bg = "NONE" })
 set_hl(0, "Dim", { fg = c.dim, bg = "NONE" })
 
 -- The small syntax palette: bright functions, blue keywords, lavender literals,
--- sage strings, warm-gold comments, and cyan types.
+-- sage strings, muted-green comments, and cyan types.
 set_hl(0, "FunctionName", { fg = c.bright, bg = "NONE", bold = true })
 set_hl(0, "KeywordColor", { fg = c.blue, bg = "NONE", bold = true })
 set_hl(0, "TypeName", { fg = c.cyan, bg = "NONE" })

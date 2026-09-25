@@ -37,23 +37,12 @@ function compactEditorDock(tui: unknown): void {
 	visit(root);
 }
 
-const THINKING_COLORS = {
-	off: "thinkingOff",
-	minimal: "thinkingMinimal",
-	low: "thinkingLow",
-	medium: "thinkingMedium",
-	high: "thinkingHigh",
-	xhigh: "thinkingXhigh",
-	max: "thinkingMax",
-} as const satisfies Record<string, ThemeColor>;
-
 /**
- * How strongly the editor background picks up the level's accent hue. Kept
- * small so the default foreground text stays fully legible; the value grows
- * gently with reasoning effort while staying dim enough that bright accents
- * (xhigh/max) never wash out the text.
+ * The editor uses a neutral gray tint rather than the reasoning-level accent,
+ * which can make the input look brown/yellow in light themes. Reasoning effort
+ * still controls the tint strength, kept subtle so the text stays legible.
  */
-const LEVEL_TINT_ALPHA: Record<keyof typeof THINKING_COLORS, number> = {
+const LEVEL_TINT_ALPHA = {
 	off: 0.045,
 	minimal: 0.06,
 	low: 0.07,
@@ -61,7 +50,8 @@ const LEVEL_TINT_ALPHA: Record<keyof typeof THINKING_COLORS, number> = {
 	high: 0.1,
 	xhigh: 0.115,
 	max: 0.13,
-};
+} as const;
+type ThinkingLevel = keyof typeof LEVEL_TINT_ALPHA;
 
 function stripAnsi(text: string): string {
 	return text.replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, "");
@@ -176,10 +166,10 @@ const bgCache = new WeakMap<ThemeLike, Map<string, string>>();
 
 /**
  * Build the SGR sequence for the editor row background: the theme's own base
- * background mixed toward the current thinking level's accent color. Cached
- * per theme instance so runtime /theme switches pick up automatically.
+ * background mixed toward its muted gray. Cached per theme instance so runtime
+ * /theme switches pick up automatically.
  */
-function editorRowBackground(theme: ThemeLike, level: keyof typeof THINKING_COLORS): string {
+function editorRowBackground(theme: ThemeLike, level: ThinkingLevel): string {
 	let perTheme = bgCache.get(theme);
 	if (!perTheme) {
 		perTheme = new Map();
@@ -193,8 +183,8 @@ function editorRowBackground(theme: ThemeLike, level: keyof typeof THINKING_COLO
 		const base =
 			parseSgrColor(theme.getBgAnsi("userMessageBg")) ??
 			parseSgrColor(theme.getFgAnsi("text")) ?? { r: 24, g: 24, b: 24 };
-		const accent = parseSgrColor(theme.getFgAnsi(THINKING_COLORS[level])) ?? base;
-		const tinted = mixChannels(base, accent, LEVEL_TINT_ALPHA[level]);
+		const gray = parseSgrColor(theme.getFgAnsi("muted")) ?? base;
+		const tinted = mixChannels(base, gray, LEVEL_TINT_ALPHA[level]);
 		sequence =
 			theme.getColorMode() === "truecolor"
 				? `\x1b[48;2;${tinted.r};${tinted.g};${tinted.b}m`

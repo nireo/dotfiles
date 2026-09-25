@@ -9,43 +9,43 @@ vim.g.colors_name = "mono_light"
 
 vim.o.background = "light"
 
--- Base colors
-set_hl(0, "Normal", { fg = "#3F444A", bg = "#DDDCD8" })
+-- Base colors from kitty/light-theme.auto.conf
+set_hl(0, "Normal", { fg = "#3F444A", bg = "#F0F4F8" })
 set_hl(0, "BoldKeyword", { fg = "#3F444A", bg = "NONE", bold = true })
 set_hl(0, "Muted", { fg = "#757B83", bg = "NONE" })
 
 -- UI Elements
-set_hl(0, "LineNr", { fg = "#626A72", bg = "#C3C4C0" })
-set_hl(0, "CursorLine", { bg = "#D6D5D1" })
-set_hl(0, "CursorLineNr", { fg = "#3F444A", bg = "#B7B8B4", bold = true })
-set_hl(0, "ColorColumn", { bg = "#D8D7D3" })
-set_hl(0, "SignColumn", { bg = "#DDDCD8" })
-set_hl(0, "VertSplit", { fg = "#C3C4C0", bg = "#DDDCD8" })
-set_hl(0, "WinSeparator", { fg = "#C3C4C0", bg = "#DDDCD8" })
-set_hl(0, "StatusLine", { fg = "#50565D", bg = "#D0CFCC" })
-set_hl(0, "StatusLineNC", { fg = "#82878D", bg = "#DDDCD8" })
+set_hl(0, "LineNr", { fg = "#82878D", bg = "#F0F4F8" })
+set_hl(0, "CursorLine", { bg = "#E2E8EF" })
+set_hl(0, "CursorLineNr", { fg = "#3F444A", bg = "#B8BDC2", bold = true })
+set_hl(0, "ColorColumn", { bg = "#E2E8EF" })
+set_hl(0, "SignColumn", { bg = "#F0F4F8" })
+set_hl(0, "VertSplit", { fg = "#CDD1D4", bg = "#F0F4F8" })
+set_hl(0, "WinSeparator", { fg = "#CDD1D4", bg = "#F0F4F8" })
+set_hl(0, "StatusLine", { fg = "#3F444A", bg = "#E2E8EF" })
+set_hl(0, "StatusLineNC", { fg = "#82878D", bg = "#F0F4F8" })
 
 -- Selection and Search
 set_hl(0, "Visual", { bg = "#CACED3" })
-set_hl(0, "Search", { fg = "#383E45", bg = "#BCC2CA", bold = true })
-set_hl(0, "IncSearch", { fg = "#383E45", bg = "#AFB6C0", bold = true })
+set_hl(0, "Search", { fg = "#383E45", bg = "#CACED3", bold = true })
+set_hl(0, "IncSearch", { fg = "#383E45", bg = "#B8BDC2", bold = true })
 
 -- Diff
-set_hl(0, "DiffAdd", { fg = "#3F444A", bg = "#D4DDD5" })
-set_hl(0, "DiffChange", { fg = "#3F444A", bg = "#D5D8DD" })
-set_hl(0, "DiffDelete", { fg = "#6D5B60", bg = "#DACCD0" })
-set_hl(0, "DiffText", { fg = "#3F444A", bg = "#C1C8D1", bold = true })
+set_hl(0, "DiffAdd", { fg = "#617063", bg = "#E2E8EF" })
+set_hl(0, "DiffChange", { fg = "#667688", bg = "#E2E8EF" })
+set_hl(0, "DiffDelete", { fg = "#8B6D74", bg = "#E2E8EF" })
+set_hl(0, "DiffText", { fg = "#383E45", bg = "#CACED3", bold = true })
 
 -- Neogit diff (override plugin palette)
 set_hl(0, "NeogitDiffDelete", { link = "DiffDelete" })
 set_hl(0, "NeogitDiffDeleteHighlight", { link = "DiffDelete" })
 set_hl(0, "NeogitDiffDeleteCursor", { link = "DiffDelete" })
-set_hl(0, "NeogitDiffDeletions", { fg = "#6D5B60", bg = "NONE" })
+set_hl(0, "NeogitDiffDeletions", { fg = "#8B6D74", bg = "NONE" })
 
 -- --- The Only Colored Groups ---
--- Muted dusty blue for comments
-set_hl(0, "Comment", { fg = "#687682", bg = "NONE", italic = true })
-set_hl(0, "SpecialComment", { fg = "#687682", bg = "NONE", italic = true })
+-- Muted blue from the Kitty ANSI palette for comments
+set_hl(0, "Comment", { fg = "#667688", bg = "NONE", italic = true })
+set_hl(0, "SpecialComment", { fg = "#667688", bg = "NONE", italic = true })
 -- Soft sage green for strings
 set_hl(0, "String", { fg = "#617063", bg = "NONE" })
 
@@ -118,10 +118,10 @@ set_hl(0, "@punctuation.delimiter", { link = "Muted" })
 set_hl(0, "@punctuation.bracket", { link = "Muted" })
 
 -- Pop-up Menu
-set_hl(0, "Pmenu", { fg = "#50565D", bg = "#D0CFCC" })
-set_hl(0, "PmenuSel", { fg = "#383E45", bg = "#BCC2CA", bold = true })
-set_hl(0, "FloatBorder", { fg = "#B7B8B4", bg = "#DDDCD8" })
-set_hl(0, "NormalFloat", { fg = "#3F444A", bg = "#DDDCD8" })
+set_hl(0, "Pmenu", { fg = "#3F444A", bg = "#E2E8EF" })
+set_hl(0, "PmenuSel", { fg = "#383E45", bg = "#CACED3", bold = true })
+set_hl(0, "FloatBorder", { fg = "#B8BDC2", bg = "#F0F4F8" })
+set_hl(0, "NormalFloat", { fg = "#3F444A", bg = "#F0F4F8" })
 
 -- Diagnostics
 set_hl(0, "DiagnosticError", { fg = "#8B6D74" })

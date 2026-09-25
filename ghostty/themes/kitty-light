@@ -1,0 +1,25 @@
+# Ported from kitty/light-theme.auto.conf (E-Ink Color)
+
+background = #DDDCD8
+foreground = #3F444A
+cursor-color = #3F444A
+cursor-text = #DDDCD8
+selection-background = #CACED3
+selection-foreground = #383E45
+
+palette = 0=#383E45
+palette = 1=#8B6D74
+palette = 2=#617063
+palette = 3=#8A7F6D
+palette = 4=#667688
+palette = 5=#786B7C
+palette = 6=#66776B
+palette = 7=#3F444A
+palette = 8=#757B83
+palette = 9=#A07F88
+palette = 10=#7B8A7C
+palette = 11=#A09380
+palette = 12=#8091A0
+palette = 13=#96879A
+palette = 14=#829287
+palette = 15=#82878D
